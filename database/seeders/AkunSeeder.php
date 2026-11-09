@@ -37,7 +37,7 @@ class AkunSeeder extends Seeder
         $pengguna = $this->akun([
             'role' => User::ROLE_PENGGUNA,
             'nama' => 'Siti Rahmawati',
-            'email' => 'pengguna@example.com',
+            'email' => 'php artisan migrate:fresh --seed',
             'no_hp' => '081200000002',
         ]);
 

@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Kurir\KurirController;
 use App\Http\Controllers\Pengelola\PengelolaTpsController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\KurirMiddleware;
 use App\Http\Middleware\PengelolaTpsMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +30,9 @@ Route::middleware('auth')->group(function () {
         }
         if ($user?->isPengelolaTps()) {
             return redirect()->route('pengelola.dashboard');
+        }
+        if ($user?->isKurir()) {
+            return redirect()->route('kurir.dashboard');
         }
 
         return view('dashboard');
@@ -90,4 +95,31 @@ Route::prefix('pengelola')
 
         // Notifikasi
         Route::post('/notifikasi/baca', [PengelolaTpsController::class, 'bacaNotifikasi'])->name('notifikasi.baca');
+    });
+
+// Panel Kurir Penjemputan (role: kurir)
+Route::prefix('kurir')
+    ->name('kurir.')
+    ->middleware(['auth', KurirMiddleware::class])
+    ->group(function () {
+        Route::get('/', [KurirController::class, 'index'])->name('dashboard');
+
+        // Status Ketersediaan Kurir (Online / Offline)
+        Route::post('/status', [KurirController::class, 'ubahStatusKetersediaan'])->name('status');
+
+        // Operasional Tugas Penjemputan
+        Route::post('/tugas/{penjemputan}/terima', [KurirController::class, 'terimaTugas'])->name('tugas.terima');
+        Route::patch('/tugas/{penjemputan}/angkut', [KurirController::class, 'konfirmasiAngkut'])->name('tugas.angkut');
+        Route::patch('/tugas/{penjemputan}/tiba', [KurirController::class, 'konfirmasiTibaDiTps'])->name('tugas.tiba');
+        Route::patch('/tugas/{penjemputan}/batal', [KurirController::class, 'batalkanTugas'])->name('tugas.batal');
+
+        // Riwayat Pengantaran & Ulasan Warga
+        Route::get('/riwayat', [KurirController::class, 'riwayat'])->name('riwayat');
+
+        // Profil & Kendaraan Kurir
+        Route::get('/profil', [KurirController::class, 'profil'])->name('profil');
+        Route::patch('/profil', [KurirController::class, 'updateProfil'])->name('profil.update');
+
+        // Notifikasi Kurir
+        Route::post('/notifikasi/baca', [KurirController::class, 'bacaNotifikasi'])->name('notifikasi.baca');
     });
