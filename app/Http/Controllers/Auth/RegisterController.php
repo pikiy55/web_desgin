@@ -15,8 +15,14 @@ use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
-    public function create(): View
+    public function create(Request $request): View
     {
+        if (Auth::check()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
         return view('auth.register');
     }
 
@@ -76,10 +82,8 @@ class RegisterController extends Controller
         });
 
         if ($status === 'aktif') {
-            Auth::login($user);
-            $request->session()->regenerate();
-
-            return redirect()->route('dashboard');
+            return redirect()->route('login')->with('status',
+                'Pendaftaran berhasil! Silakan masuk dengan akun Anda untuk mengakses dashboard.');
         }
 
         return redirect()->route('login')->with('status',

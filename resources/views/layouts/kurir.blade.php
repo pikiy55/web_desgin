@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Pos Kurir Penjemputan') · Setoran Sampah</title>
+    <title>@yield('title', 'Pos Kurir Angkut Medis & B3') · Kemedcar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -69,21 +69,21 @@
         $menuKurir = [
             [
                 'route' => 'kurir.dashboard',
-                'label' => 'Tugas & Antrean Jemput',
+                'label' => 'Manifes & Tugas Jemput',
                 'badge' => $tugasAktifCount > 0 ? 'Aktif' : ($tugasPendingCount > 0 ? $tugasPendingCount : 0),
                 'badge_style' => $tugasAktifCount > 0 ? 'bg-[#F2C230] text-[#1F2421]' : 'bg-emerald-500 text-white',
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>',
             ],
             [
                 'route' => 'kurir.riwayat',
-                'label' => 'Riwayat Pengantaran',
+                'label' => 'Riwayat Manifes Angkut',
                 'badge' => 0,
                 'badge_style' => '',
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>',
             ],
             [
                 'route' => 'kurir.profil',
-                'label' => 'Profil & Kendaraan',
+                'label' => 'Profil & Armada B3',
                 'badge' => 0,
                 'badge_style' => '',
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>',
@@ -96,13 +96,7 @@
         {{-- Header Brand Sidebar --}}
         <div class="px-5 py-4 flex items-center justify-between border-b border-white/10">
             <a href="{{ route('kurir.dashboard') }}" class="inline-flex items-center gap-2.5 font-judul font-bold text-base tracking-tight text-white">
-                <svg class="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="1" y="3" width="15" height="13"></rect>
-                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                </svg>
-                <span>Armada Kurir</span>
+                <img src="{{ asset('images/logo-kemadwast.png') }}" alt="KemaDwast" class="h-7 w-auto max-w-[140px] shrink-0 rounded bg-white px-1.5 py-1 object-contain">
             </a>
             <span class="px-2 py-0.5 text-xs font-bold rounded bg-[#F2C230] text-[#1F2421]">KURIR</span>
         </div>
@@ -154,12 +148,12 @@
             </div>
         @endif
 
-        {{-- Navigasi Menu --}}
-        <nav aria-label="Menu Utama Kurir" class="p-3 flex lg:flex-col gap-1 overflow-x-auto">
+        {{-- Navigasi Menu (Susunan Atas ke Bawah pada Mobile & Desktop) --}}
+        <nav aria-label="Menu Utama Kurir" class="p-3 flex flex-col gap-1">
             @foreach ($menuKurir as $item)
                 @php $aktif = request()->routeIs($item['route']); @endphp
                 <a href="{{ route($item['route']) }}"
-                   class="flex items-center justify-between gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors {{ $aktif ? 'bg-[#175E54] text-white' : 'text-teal-100/85 hover:bg-white/10 hover:text-white' }}">
+                   class="w-full flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ $aktif ? 'bg-[#175E54] text-white' : 'text-teal-100/85 hover:bg-white/10 hover:text-white' }}">
                     <span class="inline-flex items-center gap-2.5">
                         <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             {!! $item['icon'] !!}
@@ -249,4 +243,3 @@
 
 </body>
 </html>
-

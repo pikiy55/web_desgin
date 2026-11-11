@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Akun & Peran')
-@section('heading', 'Akun & Verifikasi Peran')
-@section('subheading', 'Kelola akun pengguna, pengelola TPS, kurir, dan administrator.')
+@section('title', 'Akun & Verifikasi Peran')
+@section('heading', 'Akun Penghasil, Fasilitas Medis/B3 & Kurir')
+@section('subheading', 'Kelola dan verifikasi akun penghasil limbah, pengelola fasilitas berizin (1 akun = 1 fasilitas), kurir B3, dan admin.')
 
 @section('content')
 

@@ -1,8 +1,8 @@
 @extends('layouts.kurir')
 
-@section('title', 'Meja Tugas & Antrean Penjemputan')
-@section('heading', 'Pos Penjemputan Kurir')
-@section('subheading', 'Ambil pesanan penjemputan sampah warga, muat sampah, dan antarkan ke TPS tujuan.')
+@section('title', 'Manifes & Tugas Penjemputan Medis/B3')
+@section('heading', 'Pos Kurir Pengangkutan Limbah Medis & B3')
+@section('subheading', 'Ambil manifes penjemputan, pastikan kemasan Safety Box / Biohazard tersegel aman, dan serahkan ke fasilitas berizin.')
 
 @section('content')
 
@@ -217,15 +217,15 @@
 
                             <div>
                                 <div class="text-xs font-bold text-stone-700 mb-2 flex items-center justify-between">
-                                    <span>Rincian Jenis Sampah yang Dijemput:</span>
-                                    <span class="text-stone-500 angka-tabular">Estimasi Total: <strong>{{ number_format($totalEstKg, 1, ',', '.') }} kg</strong></span>
+                                    <span>Rincian Item Limbah yang Dijemput:</span>
+                                    <span class="text-stone-500 angka-tabular">Estimasi Total: <strong>{{ number_format($totalEstKg, 0, ',', '.') }} item</strong></span>
                                 </div>
                                 <div class="flex flex-wrap gap-2">
                                     @foreach ($setoran->detail as $item)
                                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white border border-stone-300 text-xs font-medium text-stone-800">
                                             <span class="font-semibold">{{ $item->jenisSampah?->nama ?? 'Sampah' }}</span>
                                             <span class="text-stone-500 uppercase text-[10px]">({{ $item->jenisSampah?->kategori }})</span>
-                                            <span class="font-bold text-[#175E54] angka-tabular">{{ number_format($item->berat_estimasi_kg, 1, ',', '.') }} kg</span>
+                                            <span class="font-bold text-[#175E54] angka-tabular">{{ number_format($item->berat_estimasi_kg, 0, ',', '.') }} item</span>
                                         </span>
                                     @endforeach
                                 </div>
@@ -427,7 +427,7 @@
                             <div class="flex items-center gap-2 flex-wrap">
                                 <span class="font-semibold text-stone-600">Muatan:</span>
                                 <span class="px-2 py-1 rounded bg-stone-100 font-bold text-[#1F2421] angka-tabular">
-                                    Est. {{ number_format($totalKgA, 1, ',', '.') }} kg
+                                    Est. {{ number_format($totalKgA, 0, ',', '.') }} item
                                 </span>
 
                                 <span class="text-stone-400">·</span>

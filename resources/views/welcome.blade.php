@@ -1,277 +1,1577 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#133A26">
+    <title>Kemedcar — Pengelolaan Medis &amp; Limbah B3</title>
+    <meta name="description" content="Sistem pengelolaan sampah medis (infeksius, benda tajam, farmasi, patologis) dan limbah B3 (Bahan Berbahaya dan Beracun) terintegrasi dengan fasilitas penampungan berizin resmi.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23133A26'/%3E%3Cpath d='M32 18 14 48h36L32 18Z' fill='none' stroke='%23F2C230' stroke-width='5' stroke-linejoin='round'/%3E%3Cpath d='M32 29v8' stroke='%23F2C230' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    @endif
 
-        <!-- Styles / Scripts -->
-        @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @else
-            <style>
-                /*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */@layer theme{:root,:host{--font-sans:'Instrument Sans',ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";--font-serif:ui-serif,Georgia,Cambria,"Times New Roman",Times,serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;--color-red-50:oklch(.971 .013 17.38);--color-red-100:oklch(.936 .032 17.717);--color-red-200:oklch(.885 .062 18.334);--color-red-300:oklch(.808 .114 19.571);--color-red-400:oklch(.704 .191 22.216);--color-red-500:oklch(.637 .237 25.331);--color-red-600:oklch(.577 .245 27.325);--color-red-700:oklch(.505 .213 27.518);--color-red-800:oklch(.444 .177 26.899);--color-red-900:oklch(.396 .141 25.723);--color-red-950:oklch(.258 .092 26.042);--color-orange-50:oklch(.98 .016 73.684);--color-orange-100:oklch(.954 .038 75.164);--color-orange-200:oklch(.901 .076 70.697);--color-orange-300:oklch(.837 .128 66.29);--color-orange-400:oklch(.75 .183 55.934);--color-orange-500:oklch(.705 .213 47.604);--color-orange-600:oklch(.646 .222 41.116);--color-orange-700:oklch(.553 .195 38.402);--color-orange-800:oklch(.47 .157 37.304);--color-orange-900:oklch(.408 .123 38.172);--color-orange-950:oklch(.266 .079 36.259);--color-amber-50:oklch(.987 .022 95.277);--color-amber-100:oklch(.962 .059 95.617);--color-amber-200:oklch(.924 .12 95.746);--color-amber-300:oklch(.879 .169 91.605);--color-amber-400:oklch(.828 .189 84.429);--color-amber-500:oklch(.769 .188 70.08);--color-amber-600:oklch(.666 .179 58.318);--color-amber-700:oklch(.555 .163 48.998);--color-amber-800:oklch(.473 .137 46.201);--color-amber-900:oklch(.414 .112 45.904);--color-amber-950:oklch(.279 .077 45.635);--color-yellow-50:oklch(.987 .026 102.212);--color-yellow-100:oklch(.973 .071 103.193);--color-yellow-200:oklch(.945 .129 101.54);--color-yellow-300:oklch(.905 .182 98.111);--color-yellow-400:oklch(.852 .199 91.936);--color-yellow-500:oklch(.795 .184 86.047);--color-yellow-600:oklch(.681 .162 75.834);--color-yellow-700:oklch(.554 .135 66.442);--color-yellow-800:oklch(.476 .114 61.907);--color-yellow-900:oklch(.421 .095 57.708);--color-yellow-950:oklch(.286 .066 53.813);--color-lime-50:oklch(.986 .031 120.757);--color-lime-100:oklch(.967 .067 122.328);--color-lime-200:oklch(.938 .127 124.321);--color-lime-300:oklch(.897 .196 126.665);--color-lime-400:oklch(.841 .238 128.85);--color-lime-500:oklch(.768 .233 130.85);--color-lime-600:oklch(.648 .2 131.684);--color-lime-700:oklch(.532 .157 131.589);--color-lime-800:oklch(.453 .124 130.933);--color-lime-900:oklch(.405 .101 131.063);--color-lime-950:oklch(.274 .072 132.109);--color-green-50:oklch(.982 .018 155.826);--color-green-100:oklch(.962 .044 156.743);--color-green-200:oklch(.925 .084 155.995);--color-green-300:oklch(.871 .15 154.449);--color-green-400:oklch(.792 .209 151.711);--color-green-500:oklch(.723 .219 149.579);--color-green-600:oklch(.627 .194 149.214);--color-green-700:oklch(.527 .154 150.069);--color-green-800:oklch(.448 .119 151.328);--color-green-900:oklch(.393 .095 152.535);--color-green-950:oklch(.266 .065 152.934);--color-emerald-50:oklch(.979 .021 166.113);--color-emerald-100:oklch(.95 .052 163.051);--color-emerald-200:oklch(.905 .093 164.15);--color-emerald-300:oklch(.845 .143 164.978);--color-emerald-400:oklch(.765 .177 163.223);--color-emerald-500:oklch(.696 .17 162.48);--color-emerald-600:oklch(.596 .145 163.225);--color-emerald-700:oklch(.508 .118 165.612);--color-emerald-800:oklch(.432 .095 166.913);--color-emerald-900:oklch(.378 .077 168.94);--color-emerald-950:oklch(.262 .051 172.552);--color-teal-50:oklch(.984 .014 180.72);--color-teal-100:oklch(.953 .051 180.801);--color-teal-200:oklch(.91 .096 180.426);--color-teal-300:oklch(.855 .138 181.071);--color-teal-400:oklch(.777 .152 181.912);--color-teal-500:oklch(.704 .14 182.503);--color-teal-600:oklch(.6 .118 184.704);--color-teal-700:oklch(.511 .096 186.391);--color-teal-800:oklch(.437 .078 188.216);--color-teal-900:oklch(.386 .063 188.416);--color-teal-950:oklch(.277 .046 192.524);--color-cyan-50:oklch(.984 .019 200.873);--color-cyan-100:oklch(.956 .045 203.388);--color-cyan-200:oklch(.917 .08 205.041);--color-cyan-300:oklch(.865 .127 207.078);--color-cyan-400:oklch(.789 .154 211.53);--color-cyan-500:oklch(.715 .143 215.221);--color-cyan-600:oklch(.609 .126 221.723);--color-cyan-700:oklch(.52 .105 223.128);--color-cyan-800:oklch(.45 .085 224.283);--color-cyan-900:oklch(.398 .07 227.392);--color-cyan-950:oklch(.302 .056 229.695);--color-sky-50:oklch(.977 .013 236.62);--color-sky-100:oklch(.951 .026 236.824);--color-sky-200:oklch(.901 .058 230.902);--color-sky-300:oklch(.828 .111 230.318);--color-sky-400:oklch(.746 .16 232.661);--color-sky-500:oklch(.685 .169 237.323);--color-sky-600:oklch(.588 .158 241.966);--color-sky-700:oklch(.5 .134 242.749);--color-sky-800:oklch(.443 .11 240.79);--color-sky-900:oklch(.391 .09 240.876);--color-sky-950:oklch(.293 .066 243.157);--color-blue-50:oklch(.97 .014 254.604);--color-blue-100:oklch(.932 .032 255.585);--color-blue-200:oklch(.882 .059 254.128);--color-blue-300:oklch(.809 .105 251.813);--color-blue-400:oklch(.707 .165 254.624);--color-blue-500:oklch(.623 .214 259.815);--color-blue-600:oklch(.546 .245 262.881);--color-blue-700:oklch(.488 .243 264.376);--color-blue-800:oklch(.424 .199 265.638);--color-blue-900:oklch(.379 .146 265.522);--color-blue-950:oklch(.282 .091 267.935);--color-indigo-50:oklch(.962 .018 272.314);--color-indigo-100:oklch(.93 .034 272.788);--color-indigo-200:oklch(.87 .065 274.039);--color-indigo-300:oklch(.785 .115 274.713);--color-indigo-400:oklch(.673 .182 276.935);--color-indigo-500:oklch(.585 .233 277.117);--color-indigo-600:oklch(.511 .262 276.966);--color-indigo-700:oklch(.457 .24 277.023);--color-indigo-800:oklch(.398 .195 277.366);--color-indigo-900:oklch(.359 .144 278.697);--color-indigo-950:oklch(.257 .09 281.288);--color-violet-50:oklch(.969 .016 293.756);--color-violet-100:oklch(.943 .029 294.588);--color-violet-200:oklch(.894 .057 293.283);--color-violet-300:oklch(.811 .111 293.571);--color-violet-400:oklch(.702 .183 293.541);--color-violet-500:oklch(.606 .25 292.717);--color-violet-600:oklch(.541 .281 293.009);--color-violet-700:oklch(.491 .27 292.581);--color-violet-800:oklch(.432 .232 292.759);--color-violet-900:oklch(.38 .189 293.745);--color-violet-950:oklch(.283 .141 291.089);--color-purple-50:oklch(.977 .014 308.299);--color-purple-100:oklch(.946 .033 307.174);--color-purple-200:oklch(.902 .063 306.703);--color-purple-300:oklch(.827 .119 306.383);--color-purple-400:oklch(.714 .203 305.504);--color-purple-500:oklch(.627 .265 303.9);--color-purple-600:oklch(.558 .288 302.321);--color-purple-700:oklch(.496 .265 301.924);--color-purple-800:oklch(.438 .218 303.724);--color-purple-900:oklch(.381 .176 304.987);--color-purple-950:oklch(.291 .149 302.717);--color-fuchsia-50:oklch(.977 .017 320.058);--color-fuchsia-100:oklch(.952 .037 318.852);--color-fuchsia-200:oklch(.903 .076 319.62);--color-fuchsia-300:oklch(.833 .145 321.434);--color-fuchsia-400:oklch(.74 .238 322.16);--color-fuchsia-500:oklch(.667 .295 322.15);--color-fuchsia-600:oklch(.591 .293 322.896);--color-fuchsia-700:oklch(.518 .253 323.949);--color-fuchsia-800:oklch(.452 .211 324.591);--color-fuchsia-900:oklch(.401 .17 325.612);--color-fuchsia-950:oklch(.293 .136 325.661);--color-pink-50:oklch(.971 .014 343.198);--color-pink-100:oklch(.948 .028 342.258);--color-pink-200:oklch(.899 .061 343.231);--color-pink-300:oklch(.823 .12 346.018);--color-pink-400:oklch(.718 .202 349.761);--color-pink-500:oklch(.656 .241 354.308);--color-pink-600:oklch(.592 .249 .584);--color-pink-700:oklch(.525 .223 3.958);--color-pink-800:oklch(.459 .187 3.815);--color-pink-900:oklch(.408 .153 2.432);--color-pink-950:oklch(.284 .109 3.907);--color-rose-50:oklch(.969 .015 12.422);--color-rose-100:oklch(.941 .03 12.58);--color-rose-200:oklch(.892 .058 10.001);--color-rose-300:oklch(.81 .117 11.638);--color-rose-400:oklch(.712 .194 13.428);--color-rose-500:oklch(.645 .246 16.439);--color-rose-600:oklch(.586 .253 17.585);--color-rose-700:oklch(.514 .222 16.935);--color-rose-800:oklch(.455 .188 13.697);--color-rose-900:oklch(.41 .159 10.272);--color-rose-950:oklch(.271 .105 12.094);--color-slate-50:oklch(.984 .003 247.858);--color-slate-100:oklch(.968 .007 247.896);--color-slate-200:oklch(.929 .013 255.508);--color-slate-300:oklch(.869 .022 252.894);--color-slate-400:oklch(.704 .04 256.788);--color-slate-500:oklch(.554 .046 257.417);--color-slate-600:oklch(.446 .043 257.281);--color-slate-700:oklch(.372 .044 257.287);--color-slate-800:oklch(.279 .041 260.031);--color-slate-900:oklch(.208 .042 265.755);--color-slate-950:oklch(.129 .042 264.695);--color-gray-50:oklch(.985 .002 247.839);--color-gray-100:oklch(.967 .003 264.542);--color-gray-200:oklch(.928 .006 264.531);--color-gray-300:oklch(.872 .01 258.338);--color-gray-400:oklch(.707 .022 261.325);--color-gray-500:oklch(.551 .027 264.364);--color-gray-600:oklch(.446 .03 256.802);--color-gray-700:oklch(.373 .034 259.733);--color-gray-800:oklch(.278 .033 256.848);--color-gray-900:oklch(.21 .034 264.665);--color-gray-950:oklch(.13 .028 261.692);--color-zinc-50:oklch(.985 0 0);--color-zinc-100:oklch(.967 .001 286.375);--color-zinc-200:oklch(.92 .004 286.32);--color-zinc-300:oklch(.871 .006 286.286);--color-zinc-400:oklch(.705 .015 286.067);--color-zinc-500:oklch(.552 .016 285.938);--color-zinc-600:oklch(.442 .017 285.786);--color-zinc-700:oklch(.37 .013 285.805);--color-zinc-800:oklch(.274 .006 286.033);--color-zinc-900:oklch(.21 .006 285.885);--color-zinc-950:oklch(.141 .005 285.823);--color-neutral-50:oklch(.985 0 0);--color-neutral-100:oklch(.97 0 0);--color-neutral-200:oklch(.922 0 0);--color-neutral-300:oklch(.87 0 0);--color-neutral-400:oklch(.708 0 0);--color-neutral-500:oklch(.556 0 0);--color-neutral-600:oklch(.439 0 0);--color-neutral-700:oklch(.371 0 0);--color-neutral-800:oklch(.269 0 0);--color-neutral-900:oklch(.205 0 0);--color-neutral-950:oklch(.145 0 0);--color-stone-50:oklch(.985 .001 106.423);--color-stone-100:oklch(.97 .001 106.424);--color-stone-200:oklch(.923 .003 48.717);--color-stone-300:oklch(.869 .005 56.366);--color-stone-400:oklch(.709 .01 56.259);--color-stone-500:oklch(.553 .013 58.071);--color-stone-600:oklch(.444 .011 73.639);--color-stone-700:oklch(.374 .01 67.558);--color-stone-800:oklch(.268 .007 34.298);--color-stone-900:oklch(.216 .006 56.043);--color-stone-950:oklch(.147 .004 49.25);--color-black:#000;--color-white:#fff;--spacing:.25rem;--breakpoint-sm:40rem;--breakpoint-md:48rem;--breakpoint-lg:64rem;--breakpoint-xl:80rem;--breakpoint-2xl:96rem;--container-3xs:16rem;--container-2xs:18rem;--container-xs:20rem;--container-sm:24rem;--container-md:28rem;--container-lg:32rem;--container-xl:36rem;--container-2xl:42rem;--container-3xl:48rem;--container-4xl:56rem;--container-5xl:64rem;--container-6xl:72rem;--container-7xl:80rem;--text-xs:.75rem;--text-xs--line-height:calc(1/.75);--text-sm:.875rem;--text-sm--line-height:calc(1.25/.875);--text-base:1rem;--text-base--line-height: 1.5 ;--text-lg:1.125rem;--text-lg--line-height:calc(1.75/1.125);--text-xl:1.25rem;--text-xl--line-height:calc(1.75/1.25);--text-2xl:1.5rem;--text-2xl--line-height:calc(2/1.5);--text-3xl:1.875rem;--text-3xl--line-height: 1.2 ;--text-4xl:2.25rem;--text-4xl--line-height:calc(2.5/2.25);--text-5xl:3rem;--text-5xl--line-height:1;--text-6xl:3.75rem;--text-6xl--line-height:1;--text-7xl:4.5rem;--text-7xl--line-height:1;--text-8xl:6rem;--text-8xl--line-height:1;--text-9xl:8rem;--text-9xl--line-height:1;--font-weight-thin:100;--font-weight-extralight:200;--font-weight-light:300;--font-weight-normal:400;--font-weight-medium:500;--font-weight-semibold:600;--font-weight-bold:700;--font-weight-extrabold:800;--font-weight-black:900;--tracking-tighter:-.05em;--tracking-tight:-.025em;--tracking-normal:0em;--tracking-wide:.025em;--tracking-wider:.05em;--tracking-widest:.1em;--leading-tight:1.25;--leading-snug:1.375;--leading-normal:1.5;--leading-relaxed:1.625;--leading-loose:2;--radius-xs:.125rem;--radius-sm:.25rem;--radius-md:.375rem;--radius-lg:.5rem;--radius-xl:.75rem;--radius-2xl:1rem;--radius-3xl:1.5rem;--radius-4xl:2rem;--shadow-2xs:0 1px #0000000d;--shadow-xs:0 1px 2px 0 #0000000d;--shadow-sm:0 1px 3px 0 #0000001a,0 1px 2px -1px #0000001a;--shadow-md:0 4px 6px -1px #0000001a,0 2px 4px -2px #0000001a;--shadow-lg:0 10px 15px -3px #0000001a,0 4px 6px -4px #0000001a;--shadow-xl:0 20px 25px -5px #0000001a,0 8px 10px -6px #0000001a;--shadow-2xl:0 25px 50px -12px #00000040;--inset-shadow-2xs:inset 0 1px #0000000d;--inset-shadow-xs:inset 0 1px 1px #0000000d;--inset-shadow-sm:inset 0 2px 4px #0000000d;--drop-shadow-xs:0 1px 1px #0000000d;--drop-shadow-sm:0 1px 2px #00000026;--drop-shadow-md:0 3px 3px #0000001f;--drop-shadow-lg:0 4px 4px #00000026;--drop-shadow-xl:0 9px 7px #0000001a;--drop-shadow-2xl:0 25px 25px #00000026;--ease-in:cubic-bezier(.4,0,1,1);--ease-out:cubic-bezier(0,0,.2,1);--ease-in-out:cubic-bezier(.4,0,.2,1);--animate-spin:spin 1s linear infinite;--animate-ping:ping 1s cubic-bezier(0,0,.2,1)infinite;--animate-pulse:pulse 2s cubic-bezier(.4,0,.6,1)infinite;--animate-bounce:bounce 1s infinite;--blur-xs:4px;--blur-sm:8px;--blur-md:12px;--blur-lg:16px;--blur-xl:24px;--blur-2xl:40px;--blur-3xl:64px;--perspective-dramatic:100px;--perspective-near:300px;--perspective-normal:500px;--perspective-midrange:800px;--perspective-distant:1200px;--aspect-video:16/9;--default-transition-duration:.15s;--default-transition-timing-function:cubic-bezier(.4,0,.2,1);--default-font-family:var(--font-sans);--default-font-feature-settings:var(--font-sans--font-feature-settings);--default-font-variation-settings:var(--font-sans--font-variation-settings);--default-mono-font-family:var(--font-mono);--default-mono-font-feature-settings:var(--font-mono--font-feature-settings);--default-mono-font-variation-settings:var(--font-mono--font-variation-settings)}}@layer base{*,:after,:before,::backdrop{box-sizing:border-box;border:0 solid;margin:0;padding:0}::file-selector-button{box-sizing:border-box;border:0 solid;margin:0;padding:0}html,:host{-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;line-height:1.5;font-family:var(--default-font-family,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji");font-feature-settings:var(--default-font-feature-settings,normal);font-variation-settings:var(--default-font-variation-settings,normal);-webkit-tap-highlight-color:transparent}body{line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;-webkit-text-decoration:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:var(--default-mono-font-family,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace);font-feature-settings:var(--default-mono-font-feature-settings,normal);font-variation-settings:var(--default-mono-font-variation-settings,normal);font-size:1em}small{font-size:80%}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}:-moz-focusring{outline:auto}progress{vertical-align:baseline}summary{display:list-item}ol,ul,menu{list-style:none}img,svg,video,canvas,audio,iframe,embed,object{vertical-align:middle;display:block}img,video{max-width:100%;height:auto}button,input,select,optgroup,textarea{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}::file-selector-button{font:inherit;font-feature-settings:inherit;font-variation-settings:inherit;letter-spacing:inherit;color:inherit;opacity:1;background-color:#0000;border-radius:0}:where(select:is([multiple],[size])) optgroup{font-weight:bolder}:where(select:is([multiple],[size])) optgroup option{padding-inline-start:20px}::file-selector-button{margin-inline-end:4px}::placeholder{opacity:1;color:color-mix(in oklab,currentColor 50%,transparent)}textarea{resize:vertical}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-date-and-time-value{min-height:1lh;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-datetime-edit{padding-block:0}::-webkit-datetime-edit-year-field{padding-block:0}::-webkit-datetime-edit-month-field{padding-block:0}::-webkit-datetime-edit-day-field{padding-block:0}::-webkit-datetime-edit-hour-field{padding-block:0}::-webkit-datetime-edit-minute-field{padding-block:0}::-webkit-datetime-edit-second-field{padding-block:0}::-webkit-datetime-edit-millisecond-field{padding-block:0}::-webkit-datetime-edit-meridiem-field{padding-block:0}:-moz-ui-invalid{box-shadow:none}button,input:where([type=button],[type=reset],[type=submit]){-webkit-appearance:button;-moz-appearance:button;appearance:button}::file-selector-button{-webkit-appearance:button;-moz-appearance:button;appearance:button}::-webkit-inner-spin-button{height:auto}::-webkit-outer-spin-button{height:auto}[hidden]:where(:not([hidden=until-found])){display:none!important}}@layer components;@layer utilities{.absolute{position:absolute}.relative{position:relative}.static{position:static}.inset-0{inset:calc(var(--spacing)*0)}.-mt-\[4\.9rem\]{margin-top:-4.9rem}.-mb-px{margin-bottom:-1px}.mb-1{margin-bottom:calc(var(--spacing)*1)}.mb-2{margin-bottom:calc(var(--spacing)*2)}.mb-4{margin-bottom:calc(var(--spacing)*4)}.mb-6{margin-bottom:calc(var(--spacing)*6)}.-ml-8{margin-left:calc(var(--spacing)*-8)}.flex{display:flex}.hidden{display:none}.inline-block{display:inline-block}.inline-flex{display:inline-flex}.table{display:table}.aspect-\[335\/376\]{aspect-ratio:335/376}.h-1{height:calc(var(--spacing)*1)}.h-1\.5{height:calc(var(--spacing)*1.5)}.h-2{height:calc(var(--spacing)*2)}.h-2\.5{height:calc(var(--spacing)*2.5)}.h-3{height:calc(var(--spacing)*3)}.h-3\.5{height:calc(var(--spacing)*3.5)}.h-14{height:calc(var(--spacing)*14)}.h-14\.5{height:calc(var(--spacing)*14.5)}.min-h-screen{min-height:100vh}.w-1{width:calc(var(--spacing)*1)}.w-1\.5{width:calc(var(--spacing)*1.5)}.w-2{width:calc(var(--spacing)*2)}.w-2\.5{width:calc(var(--spacing)*2.5)}.w-3{width:calc(var(--spacing)*3)}.w-3\.5{width:calc(var(--spacing)*3.5)}.w-\[448px\]{width:448px}.w-full{width:100%}.max-w-\[335px\]{max-width:335px}.max-w-none{max-width:none}.flex-1{flex:1}.shrink-0{flex-shrink:0}.translate-y-0{--tw-translate-y:calc(var(--spacing)*0);translate:var(--tw-translate-x)var(--tw-translate-y)}.transform{transform:var(--tw-rotate-x)var(--tw-rotate-y)var(--tw-rotate-z)var(--tw-skew-x)var(--tw-skew-y)}.flex-col{flex-direction:column}.flex-col-reverse{flex-direction:column-reverse}.items-center{align-items:center}.justify-center{justify-content:center}.justify-end{justify-content:flex-end}.gap-3{gap:calc(var(--spacing)*3)}.gap-4{gap:calc(var(--spacing)*4)}:where(.space-x-1>:not(:last-child)){--tw-space-x-reverse:0;margin-inline-start:calc(calc(var(--spacing)*1)*var(--tw-space-x-reverse));margin-inline-end:calc(calc(var(--spacing)*1)*calc(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.rounded-full{border-radius:3.40282e38px}.rounded-sm{border-radius:var(--radius-sm)}.rounded-t-lg{border-top-left-radius:var(--radius-lg);border-top-right-radius:var(--radius-lg)}.rounded-br-lg{border-bottom-right-radius:var(--radius-lg)}.rounded-bl-lg{border-bottom-left-radius:var(--radius-lg)}.border{border-style:var(--tw-border-style);border-width:1px}.border-\[\#19140035\]{border-color:#19140035}.border-\[\#e3e3e0\]{border-color:#e3e3e0}.border-black{border-color:var(--color-black)}.border-transparent{border-color:#0000}.bg-\[\#1b1b18\]{background-color:#1b1b18}.bg-\[\#FDFDFC\]{background-color:#fdfdfc}.bg-\[\#dbdbd7\]{background-color:#dbdbd7}.bg-\[\#fff2f2\]{background-color:#fff2f2}.bg-white{background-color:var(--color-white)}.p-6{padding:calc(var(--spacing)*6)}.px-5{padding-inline:calc(var(--spacing)*5)}.py-1{padding-block:calc(var(--spacing)*1)}.py-1\.5{padding-block:calc(var(--spacing)*1.5)}.py-2{padding-block:calc(var(--spacing)*2)}.pb-12{padding-bottom:calc(var(--spacing)*12)}.text-sm{font-size:var(--text-sm);line-height:var(--tw-leading,var(--text-sm--line-height))}.text-\[13px\]{font-size:13px}.leading-\[20px\]{--tw-leading:20px;line-height:20px}.leading-normal{--tw-leading:var(--leading-normal);line-height:var(--leading-normal)}.font-medium{--tw-font-weight:var(--font-weight-medium);font-weight:var(--font-weight-medium)}.text-\[\#1b1b18\]{color:#1b1b18}.text-\[\#706f6c\]{color:#706f6c}.text-\[\#F53003\],.text-\[\#f53003\]{color:#f53003}.text-white{color:var(--color-white)}.underline{text-decoration-line:underline}.underline-offset-4{text-underline-offset:4px}.opacity-100{opacity:1}.shadow-\[0px_0px_1px_0px_rgba\(0\,0\,0\,0\.03\)\,0px_1px_2px_0px_rgba\(0\,0\,0\,0\.06\)\]{--tw-shadow:0px 0px 1px 0px var(--tw-shadow-color,#00000008),0px 1px 2px 0px var(--tw-shadow-color,#0000000f);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.shadow-\[inset_0px_0px_0px_1px_rgba\(26\,26\,0\,0\.16\)\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#1a1a0029);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.\!filter{filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)!important}.filter{filter:var(--tw-blur,)var(--tw-brightness,)var(--tw-contrast,)var(--tw-grayscale,)var(--tw-hue-rotate,)var(--tw-invert,)var(--tw-saturate,)var(--tw-sepia,)var(--tw-drop-shadow,)}.transition-all{transition-property:all;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.transition-opacity{transition-property:opacity;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}.delay-300{transition-delay:.3s}.duration-750{--tw-duration:.75s;transition-duration:.75s}.not-has-\[nav\]\:hidden:not(:has(:is(nav))){display:none}.before\:absolute:before{content:var(--tw-content);position:absolute}.before\:top-0:before{content:var(--tw-content);top:calc(var(--spacing)*0)}.before\:top-1\/2:before{content:var(--tw-content);top:50%}.before\:bottom-0:before{content:var(--tw-content);bottom:calc(var(--spacing)*0)}.before\:bottom-1\/2:before{content:var(--tw-content);bottom:50%}.before\:left-\[0\.4rem\]:before{content:var(--tw-content);left:.4rem}.before\:border-l:before{content:var(--tw-content);border-left-style:var(--tw-border-style);border-left-width:1px}.before\:border-\[\#e3e3e0\]:before{content:var(--tw-content);border-color:#e3e3e0}@media (hover:hover){.hover\:border-\[\#1915014a\]:hover{border-color:#1915014a}.hover\:border-\[\#19140035\]:hover{border-color:#19140035}.hover\:border-black:hover{border-color:var(--color-black)}.hover\:bg-black:hover{background-color:var(--color-black)}}@media (width>=64rem){.lg\:-mt-\[6\.6rem\]{margin-top:-6.6rem}.lg\:mb-0{margin-bottom:calc(var(--spacing)*0)}.lg\:mb-6{margin-bottom:calc(var(--spacing)*6)}.lg\:-ml-px{margin-left:-1px}.lg\:ml-0{margin-left:calc(var(--spacing)*0)}.lg\:block{display:block}.lg\:aspect-auto{aspect-ratio:auto}.lg\:w-\[438px\]{width:438px}.lg\:max-w-4xl{max-width:var(--container-4xl)}.lg\:grow{flex-grow:1}.lg\:flex-row{flex-direction:row}.lg\:justify-center{justify-content:center}.lg\:rounded-t-none{border-top-left-radius:0;border-top-right-radius:0}.lg\:rounded-tl-lg{border-top-left-radius:var(--radius-lg)}.lg\:rounded-r-lg{border-top-right-radius:var(--radius-lg);border-bottom-right-radius:var(--radius-lg)}.lg\:rounded-br-none{border-bottom-right-radius:0}.lg\:p-8{padding:calc(var(--spacing)*8)}.lg\:p-20{padding:calc(var(--spacing)*20)}}@media (prefers-color-scheme:dark){.dark\:block{display:block}.dark\:hidden{display:none}.dark\:border-\[\#3E3E3A\]{border-color:#3e3e3a}.dark\:border-\[\#eeeeec\]{border-color:#eeeeec}.dark\:bg-\[\#0a0a0a\]{background-color:#0a0a0a}.dark\:bg-\[\#1D0002\]{background-color:#1d0002}.dark\:bg-\[\#3E3E3A\]{background-color:#3e3e3a}.dark\:bg-\[\#161615\]{background-color:#161615}.dark\:bg-\[\#eeeeec\]{background-color:#eeeeec}.dark\:text-\[\#1C1C1A\]{color:#1c1c1a}.dark\:text-\[\#A1A09A\]{color:#a1a09a}.dark\:text-\[\#EDEDEC\]{color:#ededec}.dark\:text-\[\#F61500\]{color:#f61500}.dark\:text-\[\#FF4433\]{color:#f43}.dark\:shadow-\[inset_0px_0px_0px_1px_\#fffaed2d\]{--tw-shadow:inset 0px 0px 0px 1px var(--tw-shadow-color,#fffaed2d);box-shadow:var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow)}.dark\:before\:border-\[\#3E3E3A\]:before{content:var(--tw-content);border-color:#3e3e3a}@media (hover:hover){.dark\:hover\:border-\[\#3E3E3A\]:hover{border-color:#3e3e3a}.dark\:hover\:border-\[\#62605b\]:hover{border-color:#62605b}.dark\:hover\:border-white:hover{border-color:var(--color-white)}.dark\:hover\:bg-white:hover{background-color:var(--color-white)}}}@starting-style{.starting\:translate-y-4{--tw-translate-y:calc(var(--spacing)*4);translate:var(--tw-translate-x)var(--tw-translate-y)}}@starting-style{.starting\:translate-y-6{--tw-translate-y:calc(var(--spacing)*6);translate:var(--tw-translate-x)var(--tw-translate-y)}}@starting-style{.starting\:opacity-0{opacity:0}}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes ping{75%,to{opacity:0;transform:scale(2)}}@keyframes pulse{50%{opacity:.5}}@keyframes bounce{0%,to{animation-timing-function:cubic-bezier(.8,0,1,1);transform:translateY(-25%)}50%{animation-timing-function:cubic-bezier(0,0,.2,1);transform:none}}@property --tw-translate-x{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-y{syntax:"*";inherits:false;initial-value:0}@property --tw-translate-z{syntax:"*";inherits:false;initial-value:0}@property --tw-rotate-x{syntax:"*";inherits:false;initial-value:rotateX(0)}@property --tw-rotate-y{syntax:"*";inherits:false;initial-value:rotateY(0)}@property --tw-rotate-z{syntax:"*";inherits:false;initial-value:rotateZ(0)}@property --tw-skew-x{syntax:"*";inherits:false;initial-value:skewX(0)}@property --tw-skew-y{syntax:"*";inherits:false;initial-value:skewY(0)}@property --tw-space-x-reverse{syntax:"*";inherits:false;initial-value:0}@property --tw-border-style{syntax:"*";inherits:false;initial-value:solid}@property --tw-leading{syntax:"*";inherits:false}@property --tw-font-weight{syntax:"*";inherits:false}@property --tw-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-shadow-color{syntax:"*";inherits:false}@property --tw-inset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-shadow-color{syntax:"*";inherits:false}@property --tw-ring-color{syntax:"*";inherits:false}@property --tw-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-inset-ring-color{syntax:"*";inherits:false}@property --tw-inset-ring-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-ring-inset{syntax:"*";inherits:false}@property --tw-ring-offset-width{syntax:"<length>";inherits:false;initial-value:0}@property --tw-ring-offset-color{syntax:"*";inherits:false;initial-value:#fff}@property --tw-ring-offset-shadow{syntax:"*";inherits:false;initial-value:0 0 #0000}@property --tw-blur{syntax:"*";inherits:false}@property --tw-brightness{syntax:"*";inherits:false}@property --tw-contrast{syntax:"*";inherits:false}@property --tw-grayscale{syntax:"*";inherits:false}@property --tw-hue-rotate{syntax:"*";inherits:false}@property --tw-invert{syntax:"*";inherits:false}@property --tw-opacity{syntax:"*";inherits:false}@property --tw-saturate{syntax:"*";inherits:false}@property --tw-sepia{syntax:"*";inherits:false}@property --tw-drop-shadow{syntax:"*";inherits:false}@property --tw-duration{syntax:"*";inherits:false}@property --tw-content{syntax:"*";inherits:false;initial-value:""}
-            </style>
-        @endif
-    </head>
-    <body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-        <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-            @if (Route::has('login'))
-                <nav class="flex items-center justify-end gap-4">
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal"
-                        >
-                            Dashboard
-                        </a>
-                    @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal"
-                        >
-                            Log in
-                        </a>
+    @if($kontenEdukasi->isNotEmpty())
+        {{-- StPageFlip (pembalik halaman buku). Alternatif: npm i page-flip lalu import di resources/js/app.js --}}
+        <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js" defer></script>
+    @endif
 
-                        @if (Route::has('register'))
-                            <a
-                                href="{{ route('register') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </nav>
-            @endif
-        </header>
-        <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
-            <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                <div class="text-[13px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-bl-lg rounded-br-lg lg:rounded-tl-lg lg:rounded-br-none">
-                    <h1 class="mb-1 font-medium">Let's get started</h1>
-                    <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">Laravel has an incredibly rich ecosystem. <br>We suggest starting with the following.</p>
-                    <ul class="flex flex-col mb-4 lg:mb-6">
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:top-1/2 before:bottom-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Read the
-                                <a href="https://laravel.com/docs" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Documentation</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                        <li class="flex items-center gap-4 py-2 relative before:border-l before:border-[#e3e3e0] dark:before:border-[#3E3E3A] before:bottom-1/2 before:top-0 before:left-[0.4rem] before:absolute">
-                            <span class="relative py-1 bg-white dark:bg-[#161615]">
-                                <span class="flex items-center justify-center rounded-full bg-[#FDFDFC] dark:bg-[#161615] shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] w-3.5 h-3.5 border dark:border-[#3E3E3A] border-[#e3e3e0]">
-                                    <span class="rounded-full bg-[#dbdbd7] dark:bg-[#3E3E3A] w-1.5 h-1.5"></span>
-                                </span>
-                            </span>
-                            <span>
-                                Watch video tutorials at
-                                <a href="https://laracasts.com" target="_blank" class="inline-flex items-center space-x-1 font-medium underline underline-offset-4 text-[#f53003] dark:text-[#FF4433] ml-1">
-                                    <span>Laracasts</span>
-                                    <svg
-                                        width="10"
-                                        height="11"
-                                        viewBox="0 0 10 11"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="w-2.5 h-2.5"
-                                    >
-                                        <path
-                                            d="M7.70833 6.95834V2.79167H3.54167M2.5 8L7.5 3.00001"
-                                            stroke="currentColor"
-                                            stroke-linecap="square"
-                                        />
-                                    </svg>
-                                </a>
-                            </span>
-                        </li>
-                    </ul>
-                    <ul class="flex gap-3 text-sm leading-normal">
-                        <li>
-                            <a href="https://cloud.laravel.com" target="_blank" class="inline-block dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal">
-                                Deploy now
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ml-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
-                    {{-- Laravel Logo --}}
-                    <svg class="w-full text-[#F53003] dark:text-[#F61500] transition-all translate-y-0 opacity-100 max-w-none duration-750 starting:opacity-0 starting:translate-y-6" viewBox="0 0 438 104" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.2036 -3H0V102.197H49.5189V86.7187H17.2036V-3Z" fill="currentColor" />
-                        <path d="M110.256 41.6337C108.061 38.1275 104.945 35.3731 100.905 33.3681C96.8667 31.3647 92.8016 30.3618 88.7131 30.3618C83.4247 30.3618 78.5885 31.3389 74.201 33.2923C69.8111 35.2456 66.0474 37.928 62.9059 41.3333C59.7643 44.7401 57.3198 48.6726 55.5754 53.1293C53.8287 57.589 52.9572 62.274 52.9572 67.1813C52.9572 72.1925 53.8287 76.8995 55.5754 81.3069C57.3191 85.7173 59.7636 89.6241 62.9059 93.0293C66.0474 96.4361 69.8119 99.1155 74.201 101.069C78.5885 103.022 83.4247 103.999 88.7131 103.999C92.8016 103.999 96.8667 102.997 100.905 100.994C104.945 98.9911 108.061 96.2359 110.256 92.7282V102.195H126.563V32.1642H110.256V41.6337ZM108.76 75.7472C107.762 78.4531 106.366 80.8078 104.572 82.8112C102.776 84.8161 100.606 86.4183 98.0637 87.6206C95.5202 88.823 92.7004 89.4238 89.6103 89.4238C86.5178 89.4238 83.7252 88.823 81.2324 87.6206C78.7388 86.4183 76.5949 84.8161 74.7998 82.8112C73.004 80.8078 71.6319 78.4531 70.6856 75.7472C69.7356 73.0421 69.2644 70.1868 69.2644 67.1821C69.2644 64.1758 69.7356 61.3205 70.6856 58.6154C71.6319 55.9102 73.004 53.5571 74.7998 51.5522C76.5949 49.5495 78.738 47.9451 81.2324 46.7427C83.7252 45.5404 86.5178 44.9396 89.6103 44.9396C92.7012 44.9396 95.5202 45.5404 98.0637 46.7427C100.606 47.9451 102.776 49.5487 104.572 51.5522C106.367 53.5571 107.762 55.9102 108.76 58.6154C109.756 61.3205 110.256 64.1758 110.256 67.1821C110.256 70.1868 109.756 73.0421 108.76 75.7472Z" fill="currentColor" />
-                        <path d="M242.805 41.6337C240.611 38.1275 237.494 35.3731 233.455 33.3681C229.416 31.3647 225.351 30.3618 221.262 30.3618C215.974 30.3618 211.138 31.3389 206.75 33.2923C202.36 35.2456 198.597 37.928 195.455 41.3333C192.314 44.7401 189.869 48.6726 188.125 53.1293C186.378 57.589 185.507 62.274 185.507 67.1813C185.507 72.1925 186.378 76.8995 188.125 81.3069C189.868 85.7173 192.313 89.6241 195.455 93.0293C198.597 96.4361 202.361 99.1155 206.75 101.069C211.138 103.022 215.974 103.999 221.262 103.999C225.351 103.999 229.416 102.997 233.455 100.994C237.494 98.9911 240.611 96.2359 242.805 92.7282V102.195H259.112V32.1642H242.805V41.6337ZM241.31 75.7472C240.312 78.4531 238.916 80.8078 237.122 82.8112C235.326 84.8161 233.156 86.4183 230.614 87.6206C228.07 88.823 225.251 89.4238 222.16 89.4238C219.068 89.4238 216.275 88.823 213.782 87.6206C211.289 86.4183 209.145 84.8161 207.35 82.8112C205.554 80.8078 204.182 78.4531 203.236 75.7472C202.286 73.0421 201.814 70.1868 201.814 67.1821C201.814 64.1758 202.286 61.3205 203.236 58.6154C204.182 55.9102 205.554 53.5571 207.35 51.5522C209.145 49.5495 211.288 47.9451 213.782 46.7427C216.275 45.5404 219.068 44.9396 222.16 44.9396C225.251 44.9396 228.07 45.5404 230.614 46.7427C233.156 47.9451 235.326 49.5487 237.122 51.5522C238.917 53.5571 240.312 55.9102 241.31 58.6154C242.306 61.3205 242.806 64.1758 242.806 67.1821C242.805 70.1868 242.305 73.0421 241.31 75.7472Z" fill="currentColor" />
-                        <path d="M438 -3H421.694V102.197H438V-3Z" fill="currentColor" />
-                        <path d="M139.43 102.197H155.735V48.2834H183.712V32.1665H139.43V102.197Z" fill="currentColor" />
-                        <path d="M324.49 32.1665L303.995 85.794L283.498 32.1665H266.983L293.748 102.197H314.242L341.006 32.1665H324.49Z" fill="currentColor" />
-                        <path d="M376.571 30.3656C356.603 30.3656 340.797 46.8497 340.797 67.1828C340.797 89.6597 356.094 104 378.661 104C391.29 104 399.354 99.1488 409.206 88.5848L398.189 80.0226C398.183 80.031 389.874 90.9895 377.468 90.9895C363.048 90.9895 356.977 79.3111 356.977 73.269H411.075C413.917 50.1328 398.775 30.3656 376.571 30.3656ZM357.02 61.0967C357.145 59.7487 359.023 43.3761 376.442 43.3761C393.861 43.3761 395.978 59.7464 396.099 61.0967H357.02Z" fill="currentColor" />
-                    </svg>
+    {{--
+        Aturan konsistensi visual:
+        - Kartu / panel besar : rounded-2xl
+        - Tombol & input      : rounded-xl
+        - Badge & label       : rounded-lg
+        - Panel bersarang di dalam kartu : rounded-xl
+        Ukuran teks minimum 12px (text-xs); teks bacaan 14px ke atas.
+    --}}
+    <style>
+        :root {
+            --aspal: #1F2421;
+            --beton: #F3F5F2;
+            --hijau-tua: #133A26;
+            --hijau-klinis: #1D6B45;
+            --kuning-hazard: #F2C230;
+            --merah-medis: #B3261E;
+        }
+        body {
+            font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+            background-color: #F3F5F2;
+            color: #1F2421;
+        }
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Archivo', system-ui, -apple-system, sans-serif;
+            letter-spacing: -0.02em;
+        }
+        .angka-tabular { font-variant-numeric: tabular-nums; }
 
-                    {{-- Light Mode 12 SVG --}}
-                    <svg class="w-[448px] max-w-none relative -mt-[4.9rem] -ml-8 lg:ml-0 lg:-mt-[6.6rem] dark:hidden" viewBox="0 0 440 376" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" fill="black" />
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" fill="black" />
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" fill="#F8B803" />
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" fill="#F8B803" />
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                        <g style="mix-blend-mode: hard-light" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" fill="#F0ACB8" />
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" fill="#F0ACB8" />
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                        <g style="mix-blend-mode: plus-darker" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M230.951 281.792L231.282 281.793C238.128 274.907 248.453 265.823 262.256 254.539C275.617 243.256 285.666 234.267 292.402 227.573C299.027 220.688 303.554 213.421 305.983 205.771C308.412 198.12 307.253 190.183 302.504 181.959C297.203 172.778 289.749 165.415 280.142 159.868C270.645 154.13 260.596 151.26 249.995 151.26C239.615 151.26 232.823 154.033 229.621 159.579C226.309 164.934 227.413 172.393 232.935 181.956L168.335 181.954C159.058 165.888 155.082 151.543 156.407 138.92C157.953 126.298 164.247 116.544 175.289 109.659C186.442 102.583 201.294 99.045 219.846 99.0457C239.281 99.0464 258.551 102.585 277.655 109.663C296.649 116.549 313.986 126.303 329.667 138.927C345.349 151.551 357.827 165.895 367.104 181.961C375.718 196.88 379.528 209.981 378.535 221.265C377.762 232.549 374.063 242.399 367.438 250.814C361.033 259.229 351.095 269.557 337.624 281.796L419.782 281.8L448.605 331.719L259.774 331.712L230.951 281.792Z" fill="#F3BEC7" />
-                            <path d="M51.8063 152.402L28.9479 152.401L-0.0411453 102.195L85.7608 102.198L218.282 331.711L155.339 331.709L51.8063 152.402Z" fill="#F3BEC7" />
-                            <path d="M230.951 281.792L231.282 281.793C238.128 274.907 248.453 265.823 262.256 254.539C275.617 243.256 285.666 234.267 292.402 227.573C299.027 220.688 303.554 213.421 305.983 205.771C308.412 198.12 307.253 190.183 302.504 181.959C297.203 172.778 289.749 165.415 280.142 159.868C270.645 154.13 260.596 151.26 249.995 151.26C239.615 151.26 232.823 154.033 229.621 159.579C226.309 164.934 227.413 172.393 232.935 181.956L168.335 181.954C159.058 165.888 155.082 151.543 156.407 138.92C157.953 126.298 164.247 116.544 175.289 109.659C186.442 102.583 201.294 99.045 219.846 99.0457C239.281 99.0464 258.551 102.585 277.655 109.663C296.649 116.549 313.986 126.303 329.667 138.927C345.349 151.551 357.827 165.895 367.104 181.961C375.718 196.88 379.528 209.981 378.535 221.265C377.762 232.549 374.063 242.399 367.438 250.814C361.033 259.229 351.095 269.557 337.624 281.796L419.782 281.8L448.605 331.719L259.774 331.712L230.951 281.792Z" stroke="#1B1B18" stroke-width="1" />
-                            <path d="M51.8063 152.402L28.9479 152.401L-0.0411453 102.195L85.7608 102.198L218.282 331.711L155.339 331.709L51.8063 152.402Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.467 355.363L188.798 355.363C195.644 348.478 205.969 339.393 219.772 328.11C233.133 316.826 243.181 307.837 249.917 301.144C253.696 297.217 256.792 293.166 259.205 288.991C261.024 285.845 262.455 282.628 263.499 279.341C265.928 271.691 264.768 263.753 260.02 255.529C254.719 246.349 247.265 238.985 237.657 233.438C228.16 227.7 218.111 224.831 207.51 224.83C197.13 224.83 190.339 227.603 187.137 233.149C183.824 238.504 184.929 245.963 190.45 255.527L125.851 255.524C116.574 239.458 112.598 225.114 113.923 212.491C114.615 206.836 116.261 201.756 118.859 197.253C122.061 191.704 126.709 187.03 132.805 183.229C143.958 176.153 158.81 172.615 177.362 172.616C196.797 172.617 216.067 176.156 235.171 183.233C254.164 190.119 271.502 199.874 287.183 212.497C302.864 225.121 315.343 239.466 324.62 255.532C333.233 270.45 337.044 283.551 336.05 294.835C335.46 303.459 333.16 311.245 329.151 318.194C327.915 320.337 326.515 322.4 324.953 324.384C318.549 332.799 308.611 343.127 295.139 355.367L377.297 355.37L406.121 405.289L217.29 405.282L188.467 355.363Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M9.32197 225.972L-13.5365 225.971L-42.5255 175.765L43.2765 175.768L175.798 405.282L112.854 405.279L9.32197 225.972Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M345.247 111.915C329.566 99.2919 312.229 89.5371 293.235 82.6512L235.167 183.228C254.161 190.114 271.498 199.869 287.179 212.492L345.247 111.915Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M382.686 154.964C373.41 138.898 360.931 124.553 345.25 111.93L287.182 212.506C302.863 225.13 315.342 239.475 324.618 255.541L382.686 154.964Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M293.243 82.6472C274.139 75.57 254.869 72.031 235.434 72.0303L177.366 172.607C196.801 172.608 216.071 176.147 235.175 183.224L293.243 82.6472Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M394.118 194.257C395.112 182.973 391.301 169.872 382.688 154.953L324.619 255.53C333.233 270.448 337.044 283.55 336.05 294.834L394.118 194.257Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M235.432 72.0311C216.88 72.0304 202.027 75.5681 190.875 82.6442L132.806 183.221C143.959 176.145 158.812 172.607 177.363 172.608L235.432 72.0311Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M265.59 124.25C276.191 124.251 286.24 127.12 295.737 132.858L237.669 233.435C228.172 227.697 218.123 224.828 207.522 224.827L265.59 124.25Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M295.719 132.859C305.326 138.406 312.78 145.77 318.081 154.95L260.013 255.527C254.712 246.347 247.258 238.983 237.651 233.436L295.719 132.859Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M387.218 217.608C391.227 210.66 393.527 202.874 394.117 194.25L336.049 294.827C335.459 303.451 333.159 311.237 329.15 318.185L387.218 217.608Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M245.211 132.577C248.413 127.03 255.204 124.257 265.584 124.258L207.516 224.835C197.136 224.834 190.345 227.607 187.143 233.154L245.211 132.577Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M318.094 154.945C322.842 163.17 324.002 171.107 321.573 178.757L263.505 279.334C265.934 271.684 264.774 263.746 260.026 255.522L318.094 154.945Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M176.925 96.6737C180.127 91.1249 184.776 86.4503 190.871 82.6499L132.803 183.227C126.708 187.027 122.059 191.702 118.857 197.25L176.925 96.6737Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M387.226 217.606C385.989 219.749 384.59 221.813 383.028 223.797L324.96 324.373C326.522 322.39 327.921 320.326 329.157 318.183L387.226 217.606Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M317.269 188.408C319.087 185.262 320.519 182.045 321.562 178.758L263.494 279.335C262.451 282.622 261.019 285.839 259.201 288.985L317.269 188.408Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M245.208 132.573C241.895 137.928 243 145.387 248.522 154.95L190.454 255.527C184.932 245.964 183.827 238.505 187.14 233.15L245.208 132.573Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M176.93 96.6719C174.331 101.175 172.686 106.255 171.993 111.91L113.925 212.487C114.618 206.831 116.263 201.752 118.862 197.249L176.93 96.6719Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M317.266 188.413C314.853 192.589 311.757 196.64 307.978 200.566L249.91 301.143C253.689 297.216 256.785 293.166 259.198 288.99L317.266 188.413Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M464.198 304.708L435.375 254.789L377.307 355.366L406.13 405.285L464.198 304.708Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M353.209 254.787C366.68 242.548 376.618 232.22 383.023 223.805L324.955 324.382C318.55 332.797 308.612 343.124 295.141 355.364L353.209 254.787Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M435.37 254.787L353.212 254.784L295.144 355.361L377.302 355.364L435.37 254.787Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M183.921 154.947L248.521 154.95L190.453 255.527L125.853 255.524L183.921 154.947Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M171.992 111.914C170.668 124.537 174.643 138.881 183.92 154.947L125.852 255.524C116.575 239.458 112.599 225.114 113.924 212.491L171.992 111.914Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M307.987 200.562C301.251 207.256 291.203 216.244 277.842 227.528L219.774 328.105C233.135 316.821 243.183 307.832 249.919 301.139L307.987 200.562Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M15.5469 75.1797L44.5359 125.386L-13.5321 225.963L-42.5212 175.756L15.5469 75.1797Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M277.836 227.536C264.033 238.82 253.708 247.904 246.862 254.789L188.794 355.366C195.64 348.481 205.965 339.397 219.768 328.113L277.836 227.536Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M275.358 304.706L464.189 304.713L406.12 405.29L217.29 405.283L275.358 304.706Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M44.5279 125.39L67.3864 125.39L9.31834 225.967L-13.5401 225.966L44.5279 125.39Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M101.341 75.1911L233.863 304.705L175.795 405.282L43.2733 175.768L101.341 75.1911ZM15.5431 75.19L-42.525 175.767L43.277 175.77L101.345 75.1932L15.5431 75.19Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M246.866 254.784L246.534 254.784L188.466 355.361L188.798 355.361L246.866 254.784Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M246.539 254.781L275.362 304.701L217.294 405.277L188.471 355.358L246.539 254.781Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M67.3906 125.391L170.923 304.698L112.855 405.275L9.32257 225.967L67.3906 125.391Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                            <path d="M170.921 304.699L233.865 304.701L175.797 405.278L112.853 405.276L170.921 304.699Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="bevel" />
-                        </g>
-                        <g style="mix-blend-mode: hard-light" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" fill="#F0ACB8" />
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" stroke="#1B1B18" stroke-width="1" stroke-linejoin="round" />
-                        </g>
-                        <g style="mix-blend-mode: hard-light" class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" fill="#F0ACB8" />
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" stroke="#1B1B18" stroke-width="1" />
-                        </g>
-                    </svg>
+        /* Indikator fokus yang konsisten untuk semua elemen interaktif */
+        a:focus-visible, button:focus-visible, summary:focus-visible, [tabindex]:focus-visible {
+            outline: 3px solid #1D6B45;
+            outline-offset: 2px;
+        }
+        .on-dark a:focus-visible, .on-dark button:focus-visible, .on-dark summary:focus-visible,
+        .on-dark [tabindex]:focus-visible, a.on-dark:focus-visible, button.on-dark:focus-visible {
+            outline-color: #F2C230;
+        }
 
-                    {{-- Dark Mode 12 SVG --}}
-                    <svg class="w-[448px] max-w-none relative -mt-[4.9rem] -ml-8 lg:ml-0 lg:-mt-[6.6rem] hidden dark:block" viewBox="0 0 440 376" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" fill="black"/>
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" fill="black"/>
-                            <path d="M188.263 355.73L188.595 355.73C195.441 348.845 205.766 339.761 219.569 328.477C232.93 317.193 242.978 308.205 249.714 301.511C256.34 294.626 260.867 287.358 263.296 279.708C265.725 272.058 264.565 264.121 259.816 255.896C254.516 246.716 247.062 239.352 237.454 233.805C227.957 228.067 217.908 225.198 207.307 225.198C196.927 225.197 190.136 227.97 186.934 233.516C183.621 238.872 184.726 246.331 190.247 255.894L125.647 255.891C116.371 239.825 112.395 225.481 113.72 212.858C115.265 200.235 121.559 190.481 132.602 183.596C143.754 176.52 158.607 172.982 177.159 172.983C196.594 172.984 215.863 176.523 234.968 183.6C253.961 190.486 271.299 200.241 286.98 212.864C302.661 225.488 315.14 239.833 324.416 255.899C333.03 270.817 336.841 283.918 335.847 295.203C335.075 306.487 331.376 316.336 324.75 324.751C318.346 333.167 308.408 343.494 294.936 355.734L377.094 355.737L405.917 405.656L217.087 405.649L188.263 355.73Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M9.11884 226.339L-13.7396 226.338L-42.7286 176.132L43.0733 176.135L175.595 405.649L112.651 405.647L9.11884 226.339Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" fill="#391800"/>
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" fill="#391800"/>
-                            <path d="M204.592 327.449L204.923 327.449C211.769 320.564 222.094 311.479 235.897 300.196C249.258 288.912 259.306 279.923 266.042 273.23C272.668 266.345 277.195 259.077 279.624 251.427C282.053 243.777 280.893 235.839 276.145 227.615C270.844 218.435 263.39 211.071 253.782 205.524C244.285 199.786 234.236 196.917 223.635 196.916C213.255 196.916 206.464 199.689 203.262 205.235C199.949 210.59 201.054 218.049 206.575 227.612L141.975 227.61C132.699 211.544 128.723 197.2 130.048 184.577C131.593 171.954 137.887 162.2 148.93 155.315C160.083 148.239 174.935 144.701 193.487 144.702C212.922 144.703 232.192 148.242 251.296 155.319C270.289 162.205 287.627 171.96 303.308 184.583C318.989 197.207 331.468 211.552 340.745 227.618C349.358 242.536 353.169 255.637 352.175 266.921C351.403 278.205 347.704 288.055 341.078 296.47C334.674 304.885 324.736 315.213 311.264 327.453L393.422 327.456L422.246 377.375L233.415 377.368L204.592 327.449Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M25.447 198.058L2.58852 198.057L-26.4005 147.851L59.4015 147.854L191.923 377.368L128.979 377.365L25.447 198.058Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4" style="mix-blend-mode:hard-light">
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" fill="#733000"/>
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" fill="#733000"/>
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.725 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M217.342 305.363L217.673 305.363C224.519 298.478 234.844 289.393 248.647 278.11C262.008 266.826 272.056 257.837 278.792 251.144C285.418 244.259 289.945 236.991 292.374 229.341C294.803 221.691 293.643 213.753 288.895 205.529C283.594 196.349 276.14 188.985 266.532 183.438C257.035 177.7 246.986 174.831 236.385 174.83C226.005 174.83 219.214 177.603 216.012 183.149C212.699 188.504 213.804 195.963 219.325 205.527L154.726 205.524C145.449 189.458 141.473 175.114 142.798 162.491C144.343 149.868 150.637 140.114 161.68 133.229C172.833 126.153 187.685 122.615 206.237 122.616C225.672 122.617 244.942 126.156 264.046 133.233C283.039 140.119 300.377 149.874 316.058 162.497C331.739 175.121 344.218 189.466 353.495 205.532C362.108 220.45 365.919 233.551 364.925 244.835C364.153 256.12 360.454 265.969 353.828 274.384C347.424 282.799 337.486 293.127 324.014 305.367L406.172 305.37L434.996 355.289L246.165 355.282L217.342 305.363Z" stroke="#FF750F" stroke-width="1"/>
-                            <path d="M38.197 175.972L15.3385 175.971L-13.6505 125.765L72.1515 125.768L204.673 355.282L141.729 355.279L38.197 175.972Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                            <path d="M188.467 355.363L188.798 355.363C195.644 348.478 205.969 339.393 219.772 328.11C233.133 316.826 243.181 307.837 249.917 301.144C253.696 297.217 256.792 293.166 259.205 288.991C261.024 285.845 262.455 282.628 263.499 279.341C265.928 271.691 264.768 263.753 260.02 255.529C254.719 246.349 247.265 238.985 237.657 233.438C228.16 227.7 218.111 224.831 207.51 224.83C197.13 224.83 190.339 227.603 187.137 233.149C183.824 238.504 184.929 245.963 190.45 255.527L125.851 255.524C116.574 239.458 112.598 225.114 113.923 212.491C114.615 206.836 116.261 201.756 118.859 197.253C122.061 191.704 126.709 187.03 132.805 183.229C143.958 176.153 158.81 172.615 177.362 172.616C196.797 172.617 216.067 176.156 235.171 183.233C254.164 190.119 271.502 199.874 287.183 212.497C302.864 225.121 315.343 239.466 324.62 255.532C333.233 270.45 337.044 283.551 336.05 294.835C335.46 303.459 333.16 311.245 329.151 318.194C327.915 320.337 326.515 322.4 324.953 324.384C318.549 332.799 308.611 343.127 295.139 355.367L377.297 355.37L406.121 405.289L217.29 405.282L188.467 355.363Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M9.32197 225.972L-13.5365 225.971L-42.5255 175.765L43.2765 175.768L175.798 405.282L112.854 405.279L9.32197 225.972Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M345.247 111.915C329.566 99.2919 312.229 89.5371 293.235 82.6512L235.167 183.228C254.161 190.114 271.498 199.869 287.179 212.492L345.247 111.915Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M382.686 154.964C373.41 138.898 360.931 124.553 345.25 111.93L287.182 212.506C302.863 225.13 315.342 239.475 324.618 255.541L382.686 154.964Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M293.243 82.6472C274.139 75.57 254.869 72.031 235.434 72.0303L177.366 172.607C196.801 172.608 216.071 176.147 235.175 183.224L293.243 82.6472Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M394.118 194.257C395.112 182.973 391.301 169.872 382.688 154.953L324.619 255.53C333.233 270.448 337.044 283.55 336.05 294.834L394.118 194.257Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M235.432 72.0311C216.88 72.0304 202.027 75.5681 190.875 82.6442L132.806 183.221C143.959 176.145 158.812 172.607 177.363 172.608L235.432 72.0311Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M265.59 124.25C276.191 124.251 286.24 127.12 295.737 132.858L237.669 233.435C228.172 227.697 218.123 224.828 207.522 224.827L265.59 124.25Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M295.719 132.859C305.326 138.406 312.78 145.77 318.081 154.95L260.013 255.527C254.712 246.347 247.258 238.983 237.651 233.436L295.719 132.859Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M387.218 217.608C391.227 210.66 393.527 202.874 394.117 194.25L336.049 294.827C335.459 303.451 333.159 311.237 329.15 318.185L387.218 217.608Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M245.211 132.577C248.413 127.03 255.204 124.257 265.584 124.258L207.516 224.835C197.136 224.834 190.345 227.607 187.143 233.154L245.211 132.577Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M318.094 154.945C322.842 163.17 324.002 171.107 321.573 178.757L263.505 279.334C265.934 271.684 264.774 263.746 260.026 255.522L318.094 154.945Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M176.925 96.6737C180.127 91.1249 184.776 86.4503 190.871 82.6499L132.803 183.227C126.708 187.027 122.059 191.702 118.857 197.25L176.925 96.6737Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M387.226 217.606C385.989 219.749 384.59 221.813 383.028 223.797L324.96 324.373C326.522 322.39 327.921 320.326 329.157 318.183L387.226 217.606Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M317.269 188.408C319.087 185.262 320.519 182.045 321.562 178.758L263.494 279.335C262.451 282.622 261.019 285.839 259.201 288.985L317.269 188.408Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M245.208 132.573C241.895 137.928 243 145.387 248.522 154.95L190.454 255.527C184.932 245.964 183.827 238.505 187.14 233.15L245.208 132.573Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M176.93 96.6719C174.331 101.175 172.686 106.255 171.993 111.91L113.925 212.487C114.618 206.831 116.263 201.752 118.862 197.249L176.93 96.6719Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M317.266 188.413C314.853 192.589 311.757 196.64 307.978 200.566L249.91 301.143C253.689 297.216 256.785 293.166 259.198 288.99L317.266 188.413Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M464.198 304.708L435.375 254.789L377.307 355.366L406.13 405.285L464.198 304.708Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M353.209 254.787C366.68 242.548 376.618 232.22 383.023 223.805L324.955 324.382C318.55 332.797 308.612 343.124 295.141 355.364L353.209 254.787Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M435.37 254.787L353.212 254.784L295.144 355.361L377.302 355.364L435.37 254.787Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M183.921 154.947L248.521 154.95L190.453 255.527L125.853 255.524L183.921 154.947Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M171.992 111.914C170.668 124.537 174.643 138.881 183.92 154.947L125.852 255.524C116.575 239.458 112.599 225.114 113.924 212.491L171.992 111.914Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M307.987 200.562C301.251 207.256 291.203 216.244 277.842 227.528L219.774 328.105C233.135 316.821 243.183 307.832 249.919 301.139L307.987 200.562Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M15.5469 75.1797L44.5359 125.386L-13.5321 225.963L-42.5212 175.756L15.5469 75.1797Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M277.836 227.536C264.033 238.82 253.708 247.904 246.862 254.789L188.794 355.366C195.64 348.481 205.965 339.397 219.768 328.113L277.836 227.536Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M275.358 304.706L464.189 304.713L406.12 405.29L217.29 405.283L275.358 304.706Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M44.5279 125.39L67.3864 125.39L9.31834 225.967L-13.5401 225.966L44.5279 125.39Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M101.341 75.1911L233.863 304.705L175.795 405.282L43.2733 175.768L101.341 75.1911ZM15.5431 75.19L-42.525 175.767L43.277 175.77L101.345 75.1932L15.5431 75.19Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M246.866 254.784L246.534 254.784L188.466 355.361L188.798 355.361L246.866 254.784Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M246.539 254.781L275.362 304.701L217.294 405.277L188.471 355.358L246.539 254.781Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M67.3906 125.391L170.923 304.698L112.855 405.275L9.32257 225.967L67.3906 125.391Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                            <path d="M170.921 304.699L233.865 304.701L175.797 405.278L112.853 405.276L170.921 304.699Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="bevel"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4" style="mix-blend-mode:hard-light">
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" fill="#4B0600"/>
-                            <path d="M246.544 254.79L246.875 254.79C253.722 247.905 264.046 238.82 277.849 227.537C291.21 216.253 301.259 207.264 307.995 200.57C314.62 193.685 319.147 186.418 321.577 178.768C324.006 171.117 322.846 163.18 318.097 154.956C312.796 145.775 305.342 138.412 295.735 132.865C286.238 127.127 276.189 124.258 265.588 124.257C255.208 124.257 248.416 127.03 245.214 132.576C241.902 137.931 243.006 145.39 248.528 154.953L183.928 154.951C174.652 138.885 170.676 124.541 172 111.918C173.546 99.2946 179.84 89.5408 190.882 82.6559C202.035 75.5798 216.887 72.0421 235.439 72.0428C254.874 72.0435 274.144 75.5825 293.248 82.6598C312.242 89.5457 329.579 99.3005 345.261 111.924C360.942 124.548 373.421 138.892 382.697 154.958C391.311 169.877 395.121 182.978 394.128 194.262C393.355 205.546 389.656 215.396 383.031 223.811C376.627 232.226 366.688 242.554 353.217 254.794L435.375 254.797L464.198 304.716L275.367 304.709L246.544 254.79Z" stroke="#FF750F" stroke-width="1" stroke-linejoin="round"/>
-                        </g>
-                        <g class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4" style="mix-blend-mode:hard-light">
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" fill="#4B0600"/>
-                            <path d="M67.41 125.402L44.5515 125.401L15.5625 75.1953L101.364 75.1985L233.886 304.712L170.942 304.71L67.41 125.402Z" stroke="#FF750F" stroke-width="1"/>
-                        </g>
-                    </svg>
-                    <div class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-r-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]"></div>
-                </div>
-            </main>
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .ikon-buka { transform: rotate(180deg); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* ---------- Buku panduan K3 (StPageFlip) & Reader Design ---------- */
+        [data-edukasi-idx][aria-expanded="true"] {
+            border-color: #1D6B45;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(29, 107, 69, 0.25);
+        }
+        #ruang-buku {
+            transition: all 0.3s ease-in-out;
+            background: radial-gradient(120% 120% at 50% 0%, #17422C 0%, #0D281A 60%, #081C11 100%);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        .halaman-buku {
+            background-color: #FDFBF7;
+            color: #1F2421;
+            overflow: hidden;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .halaman-isi {
+            position: relative;
+            height: 100%;
+            padding: 22px 20px 24px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        /* Header halaman buku */
+        .halaman-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E8EDE9;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6C7A72;
+        }
+        .halaman-header .header-kanan {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 55%;
+            font-weight: 500;
+            color: #8C9991;
+        }
+        /* Konten halaman & pembagi teks */
+        .teks-buku, .ukur-buku {
+            font-family: 'Public Sans', system-ui, -apple-system, sans-serif;
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: #242B26;
+            flex: 1 1 auto;
+            margin-top: 8px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+        }
+        .ukur-buku {
+            overflow: hidden;
+        }
+        @media (min-width: 640px) {
+            .halaman-isi {
+                padding: 24px 22px 28px;
+            }
+            .teks-buku, .ukur-buku {
+                font-size: 14.5px;
+                line-height: 1.72;
+                margin-top: 10px;
+            }
+        }
+        .teks-buku p, .ukur-buku p {
+            margin: 0 0 0.8em;
+            overflow-wrap: anywhere;
+        }
+        .teks-buku p:last-child, .ukur-buku p:last-child {
+            margin-bottom: 0;
+        }
+        /* Kotak ringkasan SOP */
+        .ringkasan-buku {
+            margin: 0 0 0.9em;
+            padding: 10px 12px;
+            border-left: 4px solid #1D6B45;
+            border-radius: 10px;
+            background: #EDF5F0;
+            color: #17422C;
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.55;
+        }
+        /* Footer halaman buku */
+        .halaman-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 8px;
+            border-top: 1px solid #E8EDE9;
+            font-size: 11px;
+            color: #6C7A72;
+            font-variant-numeric: tabular-nums;
+        }
+        .halaman-footer .footer-nomor {
+            font-weight: 700;
+            color: #1F2421;
+        }
+        /* Efek lipatan punggung buku (spine crease shadow) */
+        .stf__item.--left .halaman-isi {
+            box-shadow: inset -12px 0 16px -8px rgba(0, 0, 0, 0.12);
+        }
+        .stf__item.--right .halaman-isi {
+            box-shadow: inset 12px 0 16px -8px rgba(0, 0, 0, 0.12);
+        }
+        /* Sampul Buku Hardcover */
+        .sampul-depan, .sampul-belakang {
+            background: #0F2F1E;
+            color: #FFFFFF;
+        }
+        .sampul-depan {
+            background: linear-gradient(135deg, #0A2215 0%, #133A26 50%, #0C2819 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sampul-belakang {
+            background: linear-gradient(225deg, #0A2215 0%, #133A26 50%, #0C2819 100%);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .sampul-isi {
+            height: 100%;
+            padding: 24px 20px 22px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+        @media (min-width: 640px) {
+            .sampul-isi {
+                padding: 28px 24px 24px;
+            }
+        }
+        .sampul-depan .sampul-isi {
+            border-left: 10px solid #081B11;
+            box-shadow: inset 8px 0 12px -4px rgba(0,0,0,0.6);
+        }
+        .sampul-belakang .sampul-isi {
+            border-right: 10px solid #081B11;
+            box-shadow: inset -8px 0 12px -4px rgba(0,0,0,0.6);
+        }
+        .sampul-badge {
+            align-self: flex-start;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: #F2C230;
+            color: #1F2421;
+            font-family: 'Archivo', system-ui, sans-serif;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .sampul-judul {
+            margin: 10px 0 6px;
+            font-family: 'Archivo', system-ui, sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: #FFFFFF;
+            overflow-wrap: anywhere;
+        }
+        @media (min-width: 640px) {
+            .sampul-judul { font-size: 25px; }
+        }
+        .sampul-sub {
+            font-size: 12px;
+            color: #A3BFB0;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .sampul-tanggal {
+            font-size: 12px;
+            color: #D5E6DB;
+            font-variant-numeric: tabular-nums;
+        }
+        .sampul-garis {
+            height: 10px;
+            border-radius: 4px;
+            background: repeating-linear-gradient(-45deg, #F2C230 0 10px, #1F2421 10px 20px);
+            margin: 10px 0;
+        }
+        .sampul-merek {
+            margin: 0;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            color: #D5E6DB;
+            text-transform: uppercase;
+        }
+        .stf__parent {
+            position: relative !important;
+            margin: 0 auto !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#1D6B45] selection:text-white">
+
+    <a href="#konten-utama" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:rounded-xl focus:bg-white focus:text-[#1F2421] focus:font-semibold">
+        Lewati ke konten utama
+    </a>
+
+    {{-- Pita Status Pengawasan Limbah Medis & B3 --}}
+    <div class="on-dark bg-[#133A26] text-[#E6EFE9] text-xs border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-[#F2C230]" aria-hidden="true"></span>
+                <span>Pengawasan terpadu limbah medis &amp; limbah B3</span>
+            </div>
+            <div class="flex items-center gap-3 angka-tabular text-[#D5E6DB]">
+                <span><strong>{{ $ringkasan['total_tps_medis'] ?? 1 }}</strong> fasilitas berizin medis</span>
+                <span aria-hidden="true" class="hidden sm:inline">·</span>
+                <span class="hidden sm:inline">Tertangani: <strong>{{ number_format((float) ($ringkasan['total_berat_selesai_kg'] ?? 0), 2, ',', '.') }} kg</strong></span>
+            </div>
+        </div>
+    </div>
+
+    {{-- Navigasi Utama --}}
+    <header class="sticky top-0 z-40 bg-[#F3F5F2]/95 backdrop-blur-md border-b border-[#D6DDD7]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+            <a href="{{ url('/') }}" class="inline-flex items-center text-[#1F2421] rounded-xl py-1">
+                <img src="{{ asset('images/logo-kemadwast.png') }}" alt="KemaDwast" class="w-32 sm:w-44 md:w-48 h-auto">
+            </a>
+
+            {{-- Menu desktop --}}
+            <nav aria-label="Navigasi bagian halaman" class="hidden md:flex items-center gap-6 text-sm font-medium text-[#37413B]">
+                <a href="#standar-kemasan" class="hover:text-[#1D6B45] transition-colors py-1">SOP Kemasan</a>
+                <a href="#katalog-limbah" class="hover:text-[#1D6B45] transition-colors py-1">Jenis Limbah</a>
+                <a href="#fasilitas-berizin" class="hover:text-[#1D6B45] transition-colors py-1">Fasilitas Berizin</a>
+                <a href="#data-nasional" class="hover:text-[#1D6B45] transition-colors py-1">Data Nasional</a>
+                <a href="{{ route('game.pilah') }}" class="hover:text-[#1D6B45] transition-colors py-1">Game Pilah</a>
+                @if($kontenEdukasi->isNotEmpty())
+                    <a href="#edukasi" class="hover:text-[#1D6B45] transition-colors py-1">Panduan K3</a>
+                @endif
+            </nav>
+
+            <div class="flex items-center gap-2">
+                <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center px-3.5 py-2 rounded-xl text-sm font-semibold text-[#1F2421] hover:bg-[#E4EAE5] transition-colors">
+                    Masuk
+                </a>
+                <a href="{{ route('register') }}" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#1D6B45] hover:bg-[#155235] text-white text-sm font-semibold transition-colors">
+                    <span class="sm:hidden">Daftar</span><span class="hidden sm:inline">Daftar Akun</span>
+                </a>
+
+                {{-- Tombol hamburger (mobile) --}}
+                <button type="button" id="tombol-menu"
+                        class="md:hidden w-10 h-10 rounded-xl border border-[#C6D1C9] bg-white text-[#1F2421] flex items-center justify-center"
+                        aria-expanded="false" aria-controls="menu-mobile" aria-label="Buka menu navigasi">
+                    <svg id="ikon-menu-buka" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                    <svg id="ikon-menu-tutup" class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
         </div>
 
-        @if (Route::has('login'))
-            <div class="h-14.5 hidden lg:block"></div>
+        {{-- Panel menu mobile --}}
+        <nav id="menu-mobile" aria-label="Navigasi bagian halaman (ponsel)" class="hidden md:hidden border-t border-[#D6DDD7] bg-[#F3F5F2]">
+            <ul class="max-w-7xl mx-auto px-4 sm:px-6 py-2 text-base font-medium text-[#1F2421]">
+                <li><a href="#standar-kemasan" class="block py-3 border-b border-[#E2E8E4]">SOP Kemasan</a></li>
+                <li><a href="#katalog-limbah" class="block py-3 border-b border-[#E2E8E4]">Jenis Limbah</a></li>
+                <li><a href="#fasilitas-berizin" class="block py-3 border-b border-[#E2E8E4]">Fasilitas Berizin</a></li>
+                <li><a href="#data-nasional" class="block py-3 border-b border-[#E2E8E4]">Data Nasional</a></li>
+                <li><a href="{{ route('game.pilah') }}" class="block py-3 border-b border-[#E2E8E4]">Game Pilah Sampah</a></li>
+                @if($kontenEdukasi->isNotEmpty())
+                    <li><a href="#edukasi" class="block py-3 border-b border-[#E2E8E4]">Panduan K3</a></li>
+                @endif
+                <li class="sm:hidden"><a href="{{ route('login') }}" class="block py-3 font-semibold text-[#1D6B45]">Masuk ke akun</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="konten-utama" class="flex-1">
+        {{-- HERO --}}
+        <section class="relative overflow-hidden border-b border-[#D6DDD7] bg-gradient-to-b from-[#EBF0EC] to-[#F3F5F2] py-10 sm:py-14 lg:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-lg bg-[#FCE8E6] border border-[#F2B8B5] text-[#B3261E] text-xs font-bold">
+                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/>
+                            </svg>
+                            <span>Wajib diserahkan ke fasilitas berizin limbah medis &amp; B3</span>
+                        </div>
+
+                        <h1 class="font-display text-3xl sm:text-4xl lg:text-[2.7rem] font-extrabold text-[#1F2421] leading-[1.12]">
+                            Kelola sampah medis &amp; limbah B3 secara aman, terlacak, dan tersertifikasi.
+                        </h1>
+
+                        <p class="text-base sm:text-lg text-[#454F49] leading-relaxed max-w-2xl">
+                            Jangan buang jarum suntik, masker infeksius, obat kedaluwarsa, baterai litium, atau lampu merkuri ke tempat sampah biasa. Salurkan ke <strong>fasilitas penampungan berizin</strong> lewat penjemputan kurir khusus atau antar sendiri, lengkap dengan manifes timbangan digital dan pelacakan status pemusnahan.
+                        </p>
+
+                        <div class="flex flex-wrap items-center gap-3 pt-1">
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#1D6B45] hover:bg-[#155235] text-white font-semibold text-base shadow-sm transition-colors">
+                                <span>Masuk ke Dashboard</span>
+                                <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                            <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white hover:bg-[#E4EAE5] text-[#1F2421] border border-[#C6D1C9] font-semibold text-base transition-colors">
+                                Daftar Akun Baru
+                            </a>
+                            <a href="{{ route('game.pilah') }}" class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl text-[#1D6B45] hover:bg-[#E4EAE5] border border-[#A9D4BB] font-semibold text-base transition-colors">
+                                Coba Game Pilah
+                            </a>
+                        </div>
+                    </div>
+
+                    {{-- Ilustrasi wadah berkode warna --}}
+                    <div class="lg:col-span-5">
+                        <div class="bg-white rounded-2xl border border-[#D6DDD7] p-5 sm:p-6 shadow-sm">
+                            <p class="text-xs font-bold uppercase tracking-wider text-[#4A554E] mb-4">Wadah yang benar untuk tiap limbah</p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <figure class="rounded-xl bg-[#FFF8DB] border border-[#F2C230] p-4 text-center">
+                                    <svg viewBox="0 0 64 64" class="w-16 h-16 mx-auto" aria-hidden="true">
+                                        <path d="M18 22c0-4 4-6 14-6s14 2 14 6l4 28c.4 3-2 6-5 6H19c-3 0-5.4-3-5-6l4-28Z" fill="#F2C230" stroke="#8A6A00" stroke-width="2"/>
+                                        <path d="M24 16c0-5 3-9 8-9s8 4 8 9" fill="none" stroke="#8A6A00" stroke-width="3" stroke-linecap="round"/>
+                                        <circle cx="32" cy="38" r="7" fill="none" stroke="#1F2421" stroke-width="2.5"/>
+                                        <path d="M32 31v14M26 35l12 6M38 35l-12 6" stroke="#1F2421" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <figcaption class="mt-2 text-sm font-bold text-[#1F2421]">Kantong kuning</figcaption>
+                                    <span class="text-xs text-[#4A554E]">Limbah infeksius</span>
+                                </figure>
+                                <figure class="rounded-xl bg-[#ECEEED] border border-[#B9C0BB] p-4 text-center">
+                                    <svg viewBox="0 0 64 64" class="w-16 h-16 mx-auto" aria-hidden="true">
+                                        <rect x="12" y="18" width="40" height="38" rx="5" fill="#F2C230" stroke="#8A6A00" stroke-width="2"/>
+                                        <rect x="12" y="10" width="40" height="11" rx="3" fill="#1F2421"/>
+                                        <rect x="24" y="14" width="16" height="3" rx="1.5" fill="#F2C230"/>
+                                        <path d="M32 28v16" stroke="#1F2421" stroke-width="3" stroke-linecap="round"/>
+                                        <path d="M32 48l-3-5h6l-3 5Z" fill="#1F2421"/>
+                                    </svg>
+                                    <figcaption class="mt-2 text-sm font-bold text-[#1F2421]">Safety box</figcaption>
+                                    <span class="text-xs text-[#4A554E]">Jarum &amp; benda tajam</span>
+                                </figure>
+                                <figure class="rounded-xl bg-[#F6EBDD] border border-[#D9B98F] p-4 text-center">
+                                    <svg viewBox="0 0 64 64" class="w-16 h-16 mx-auto" aria-hidden="true">
+                                        <rect x="22" y="8" width="20" height="8" rx="2" fill="#6B4423"/>
+                                        <path d="M24 16h16v6c4 3 8 6 8 14v14c0 4-3 6-6 6H22c-3 0-6-2-6-6V36c0-8 4-11 8-14v-6Z" fill="#9A6A3A"/>
+                                        <rect x="24" y="32" width="16" height="12" rx="2" fill="#F6EBDD"/>
+                                        <path d="M30 35v6M27 38h6" stroke="#6B4423" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <figcaption class="mt-2 text-sm font-bold text-[#1F2421]">Kemasan cokelat</figcaption>
+                                    <span class="text-xs text-[#4A554E]">Obat &amp; bahan kimia</span>
+                                </figure>
+                                <figure class="rounded-xl bg-[#E6F4EC] border border-[#A9D4BB] p-4 text-center">
+                                    <svg viewBox="0 0 64 64" class="w-16 h-16 mx-auto" aria-hidden="true">
+                                        <rect x="16" y="14" width="32" height="42" rx="4" fill="#1D6B45"/>
+                                        <rect x="13" y="8" width="38" height="9" rx="3" fill="#133A26"/>
+                                        <path d="M24 30h16M24 38h16M24 46h16" stroke="#E6F4EC" stroke-width="3" stroke-linecap="round"/>
+                                    </svg>
+                                    <figcaption class="mt-2 text-sm font-bold text-[#1F2421]">Kontainer tertutup</figcaption>
+                                    <span class="text-xs text-[#4A554E]">Baterai &amp; e-waste</span>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- 3 peran pengguna --}}
+                <div class="mt-10 pt-8 border-t border-[#D6DDD7] grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-white/90 rounded-2xl p-5 border border-[#D6DDD7]">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-[#B3261E]">Penghasil / Warga</span>
+                            <span class="text-xs font-semibold text-[#4A554E]">Klinik &amp; rumah</span>
+                        </div>
+                        <p class="text-sm text-[#454F49] leading-relaxed">Segel limbah infeksius, benda tajam, dan farmasi terpisah. Pantau status angkut hingga selesai.</p>
+                    </div>
+                    <div class="bg-white/90 rounded-2xl p-5 border border-[#D6DDD7]">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-[#133A26]">Fasilitas Berizin</span>
+                            <span class="text-xs font-semibold text-[#4A554E]">1 akun · 1 unit</span>
+                        </div>
+                        <p class="text-sm text-[#454F49] leading-relaxed">Pastikan izin pengelolaan limbah medis aktif, timbang berat aktual, dan jaga kuota penyimpanan tetap aman.</p>
+                    </div>
+                    <div class="bg-white/90 rounded-2xl p-5 border border-[#D6DDD7]">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold uppercase tracking-wider text-[#854D0E]">Kurir Khusus B3</span>
+                            <span class="text-xs font-semibold text-[#4A554E]">Bukti foto</span>
+                        </div>
+                        <p class="text-sm text-[#454F49] leading-relaxed">Jemput kemasan tertutup dari lokasi, unggah bukti pengangkutan, dan serahkan ke fasilitas tujuan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- STANDAR KEMASAN: fokus pada aturan teknis (jenis limbahnya sudah digambarkan di hero) --}}
+        <section id="standar-kemasan" class="on-dark scroll-mt-20 py-12 sm:py-14 bg-[#1F2421] text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#F2C230] block mb-1">Protokol K3 &amp; pemilahan sumber</span>
+                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-white">
+                            Aturan pengemasan sebelum penyerahan
+                        </h2>
+                    </div>
+                    <p class="text-sm text-[#D5DBD7] max-w-md">
+                        Kurir maupun fasilitas berizin berhak menolak setoran bila kemasan bocor atau benda tajam tidak berada di wadah tahan tusuk.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="rounded-2xl bg-[#2A302C] border border-white/10 p-5 flex flex-col gap-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-1 mb-3 rounded-lg bg-[#F2C230] text-[#1F2421] font-display font-extrabold text-xs uppercase">Kantong kuning</span>
+                            <h3 class="font-display font-bold text-base text-white mb-2">Infeksius</h3>
+                            <ul class="space-y-1.5 text-sm text-[#D5DBD7] leading-relaxed list-disc pl-4 marker:text-[#F2C230]">
+                                <li>Isi maksimal 3/4 kantong, lalu ikat rapat.</li>
+                                <li>Jangan dipadatkan atau ditekan dengan tangan.</li>
+                                <li>Kantong bocor atau robek akan ditolak.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-t border-white/10 text-xs text-[#F2C230] font-semibold">Wajib izin limbah medis</div>
+                    </div>
+
+                    <div class="rounded-2xl bg-[#2A302C] border border-[#F2C230]/40 p-5 flex flex-col gap-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-1 mb-3 rounded-lg bg-[#F2C230] text-[#1F2421] font-display font-extrabold text-xs uppercase">Safety box</span>
+                            <h3 class="font-display font-bold text-base text-white mb-2">Benda tajam</h3>
+                            <ul class="space-y-1.5 text-sm text-[#D5DBD7] leading-relaxed list-disc pl-4 marker:text-[#F2C230]">
+                                <li>Wadah keras, tahan tusuk, dan anti-bocor.</li>
+                                <li>Jangan mematahkan atau menutup ulang jarum.</li>
+                                <li>Tutup rapat saat terisi 3/4, jangan dibuka lagi.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-t border-white/10 text-xs text-[#F2C230] font-semibold">Tanpa wadah tahan tusuk = ditolak</div>
+                    </div>
+
+                    <div class="rounded-2xl bg-[#2A302C] border border-white/10 p-5 flex flex-col gap-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-1 mb-3 rounded-lg bg-[#92400E] text-white font-display font-extrabold text-xs uppercase">Kemasan cokelat</span>
+                            <h3 class="font-display font-bold text-base text-white mb-2">Farmasi &amp; kimia</h3>
+                            <ul class="space-y-1.5 text-sm text-[#D5DBD7] leading-relaxed list-disc pl-4 marker:text-[#FDE68A]">
+                                <li>Botol dan blister dalam keadaan tertutup.</li>
+                                <li>Jangan buang sisa cairan ke saluran air.</li>
+                                <li>Jangan dicampur dengan sampah domestik.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-t border-white/10 text-xs text-[#FDE68A] font-semibold">Pisahkan dari sampah rumah tangga</div>
+                    </div>
+
+                    <div class="rounded-2xl bg-[#2A302C] border border-white/10 p-5 flex flex-col gap-4">
+                        <div>
+                            <span class="inline-block px-2.5 py-1 mb-3 rounded-lg bg-[#1D6B45] text-white font-display font-extrabold text-xs uppercase">Kontainer B3</span>
+                            <h3 class="font-display font-bold text-base text-white mb-2">B3 &amp; elektronik</h3>
+                            <ul class="space-y-1.5 text-sm text-[#D5DBD7] leading-relaxed list-disc pl-4 marker:text-[#86EFAC]">
+                                <li>Lampu neon dibungkus kardus agar tidak pecah.</li>
+                                <li>Baterai dan aki ditaruh tegak, tidak bocor.</li>
+                                <li>Elektronik rusak dimasukkan utuh, jangan dibongkar.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-auto pt-3 border-t border-white/10 text-xs text-[#86EFAC] font-semibold">Dapat poin setoran per kg</div>
+                    </div>
+                </div>
+
+                <p class="mt-6 text-xs text-[#B9C3BD] max-w-3xl">
+                    Warna wadah mengikuti praktik umum fasilitas pelayanan kesehatan di Indonesia. Ikuti juga ketentuan fasilitas penerima yang Anda pilih, karena label dan jenis wadah dapat berbeda antar-fasilitas.
+                </p>
+            </div>
+        </section>
+
+        {{-- KATALOG JENIS LIMBAH --}}
+        @php
+            $grupKat = ['medis' => 'medis', 'b3' => 'b3', 'elektronik' => 'ewaste', 'anorganik' => 'daur', 'organik' => 'daur'];
+            $labelGrup = ['medis' => 'Limbah Medis', 'b3' => 'Limbah B3', 'ewaste' => 'E-Waste', 'daur' => 'Daur Ulang'];
+
+            $jumlahGrup = [];
+            foreach ($jenisSampah as $js) {
+                $g = $grupKat[$js->kategori] ?? 'daur';
+                $jumlahGrup[$g] = ($jumlahGrup[$g] ?? 0) + 1;
+            }
+
+            // Tab hanya ditampilkan untuk kategori yang benar-benar punya data
+            $daftarTab = ['semua' => 'Semua (' . $jenisSampah->count() . ')'];
+            foreach ($labelGrup as $kodeGrup => $namaGrup) {
+                if (! empty($jumlahGrup[$kodeGrup])) {
+                    $daftarTab[$kodeGrup] = $namaGrup . ' (' . $jumlahGrup[$kodeGrup] . ')';
+                }
+            }
+            $tampilkanTab = count($daftarTab) > 2;
+
+            $badgeMap = [
+                'medis'      => ['bg' => 'bg-[#FCE8E6]', 'text' => 'text-[#B3261E]', 'label' => 'Limbah medis'],
+                'b3'         => ['bg' => 'bg-[#FEF3C7]', 'text' => 'text-[#854D0E]', 'label' => 'Limbah B3'],
+                'elektronik' => ['bg' => 'bg-[#E8F1FA]', 'text' => 'text-[#164C78]', 'label' => 'E-waste'],
+                'anorganik'  => ['bg' => 'bg-[#E6F4EC]', 'text' => 'text-[#135433]', 'label' => 'Daur ulang anorganik'],
+                'organik'    => ['bg' => 'bg-[#F1F5E6]', 'text' => 'text-[#3F5E14]', 'label' => 'Organik terpilah'],
+            ];
+        @endphp
+        <section id="katalog-limbah" class="scroll-mt-20 py-14 sm:py-16 border-b border-[#D6DDD7] bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#B3261E] block mb-1">Katalog klasifikasi limbah</span>
+                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-[#1F2421]">
+                            Jenis limbah yang diterima &amp; ketentuannya
+                        </h2>
+                        <p class="text-base text-[#535E57] mt-2 max-w-2xl">
+                            Limbah <strong>medis</strong> hanya dimusnahkan oleh fasilitas berizin (tanpa poin). Limbah B3, elektronik, dan daur ulang memberi poin insentif per item yang diserahkan.
+                        </p>
+                    </div>
+
+                    @if($tampilkanTab)
+                        <div role="tablist" aria-label="Filter kategori limbah" id="daftar-tab-limbah" class="flex flex-wrap gap-2">
+                            @foreach($daftarTab as $kodeTab => $labelTab)
+                                <button type="button" role="tab"
+                                        id="tab-{{ $kodeTab }}"
+                                        aria-selected="{{ $loop->first ? 'true' : 'false' }}"
+                                        aria-controls="panel-limbah"
+                                        tabindex="{{ $loop->first ? '0' : '-1' }}"
+                                        data-filter-btn="{{ $kodeTab }}"
+                                        class="px-4 py-2 rounded-xl text-sm font-semibold transition-colors border {{ $loop->first ? 'bg-[#133A26] text-white border-[#133A26]' : 'bg-[#F3F5F2] text-[#37413B] border-[#D6DDD7] hover:bg-[#E4EAE5]' }}">
+                                    {{ $labelTab }}
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+
+                <div id="panel-limbah" @if($tampilkanTab) role="tabpanel" aria-labelledby="tab-semua" @endif class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach($jenisSampah as $jenis)
+                        @php
+                            $katInfo = $badgeMap[$jenis->kategori] ?? $badgeMap['anorganik'];
+                            $grupCard = $grupKat[$jenis->kategori] ?? 'daur';
+                        @endphp
+                        <article
+                            data-kategori-card="{{ $grupCard }}"
+                            class="rounded-2xl border {{ $jenis->kategori === 'medis' ? 'border-[#F2B8B5] bg-[#FFFBFB]' : ($jenis->kategori === 'b3' ? 'border-[#FDE68A] bg-[#FFFDF5]' : 'border-[#D6DDD7] bg-[#F9FAF9]') }} p-5 flex flex-col justify-between gap-4">
+                            <div>
+                                <div class="flex items-start justify-between gap-3 mb-3">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold {{ $katInfo['bg'] }} {{ $katInfo['text'] }}">
+                                        {{ $katInfo['label'] }}
+                                    </span>
+                                    @if($jenis->poin_per_kg > 0)
+                                        <span class="inline-flex items-baseline gap-1 px-2.5 py-1 rounded-lg bg-[#133A26] text-white font-display font-bold text-sm angka-tabular shrink-0">
+                                            +{{ $jenis->poin_per_kg }} <span class="text-xs font-normal text-[#D5E6DB]">poin/item</span>
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#B3261E] text-white font-semibold text-xs shrink-0">
+                                            Pemusnahan aman
+                                        </span>
+                                    @endif
+                                </div>
+
+                                <h3 class="font-display font-bold text-base text-[#1F2421] mb-1">{{ $jenis->nama }}</h3>
+                                <p class="text-sm text-[#535E57] leading-relaxed">
+                                    {{ $jenis->deskripsi ?: 'Dikemas terpisah sesuai protokol penanganan limbah.' }}
+                                </p>
+                            </div>
+
+                            <div class="pt-3 border-t border-[#E2E8E4] text-sm">
+                                @if($jenis->kategori === 'medis')
+                                    <span class="inline-flex items-center gap-1.5 font-semibold text-[#B3261E]">
+                                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495ZM10 5a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 10 5Zm0 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd"/></svg>
+                                        <span>Wajib fasilitas berizin limbah medis</span>
+                                    </span>
+                                @elseif($jenis->perlu_penanganan_khusus)
+                                    <span class="inline-flex items-center gap-1.5 font-semibold text-[#854D0E]">
+                                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z" clip-rule="evenodd"/></svg>
+                                        <span>Penanganan khusus: kemasan kedap</span>
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center gap-1.5 text-[#1D6B45] font-medium">
+                                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd"/></svg>
+                                        <span>Diterima di seluruh fasilitas terverifikasi</span>
+                                    </span>
+                                @endif
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- FASILITAS BERIZIN --}}
+        <section id="fasilitas-berizin" class="scroll-mt-20 py-14 sm:py-16 border-b border-[#D6DDD7] bg-[#F3F5F2]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="mb-8 max-w-3xl">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#1D6B45] block mb-1">Rekomendasi &amp; kuota penyimpanan</span>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-[#1F2421]">
+                        Fasilitas penampungan berizin limbah medis &amp; B3
+                    </h2>
+                    <p class="text-base text-[#535E57] mt-2">
+                        Sistem rekomendasi fasilitas memprioritaskan lokasi terdekat yang memiliki izin pengelolaan limbah medis aktif dan ruang penyimpanan yang cukup.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    @forelse($daftarTps as $tps)
+                        @php
+                            $totalKg = max(1, (float) $tps->kapasitas_total_kg);
+                            $terpakaiKg = (float) $tps->kapasitas_terpakai_kg;
+                            $sisaKg = max(0, $totalKg - $terpakaiKg);
+                            $persen = min(100, round(($terpakaiKg / $totalKg) * 100, 1));
+                            $warnaBar = $persen >= 90 ? 'bg-[#B3261E]' : ($persen >= 75 ? 'bg-[#B45309]' : 'bg-[#1D6B45]');
+                        @endphp
+                        <div class="bg-white rounded-2xl border {{ $tps->izin_limbah_medis ? 'border-[#1D6B45]' : 'border-[#D6DDD7]' }} p-6 flex flex-col justify-between gap-5">
+                            <div>
+                                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        @if($tps->status === 'buka')
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#E6F4EC] text-[#135433] text-xs font-bold uppercase">
+                                                <span class="w-2 h-2 rounded-full bg-[#1D6B45]" aria-hidden="true"></span>
+                                                Menerima manifes
+                                            </span>
+                                        @elseif($tps->status === 'penuh')
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#FCE8E6] text-[#B3261E] text-xs font-bold uppercase">Kuota penuh</span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#E4EAE5] text-[#454F49] text-xs font-bold uppercase">Tutup</span>
+                                        @endif
+
+                                        @if($tps->izin_limbah_medis)
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#FCE8E6] text-[#B3261E] border border-[#F2B8B5] text-xs font-bold">
+                                                Berizin limbah medis &amp; B3
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-[#F3F5F2] text-[#4A554E] text-xs font-medium">
+                                                Non-medis (B3 rumah tangga &amp; daur ulang)
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <span class="text-xs text-[#4A554E] angka-tabular">No. izin: {{ $tps->no_izin ?: 'Terverifikasi' }}</span>
+                                </div>
+
+                                <h3 class="font-display text-xl font-bold text-[#1F2421]">{{ $tps->nama_tps }}</h3>
+                                <p class="text-sm text-[#535E57] mt-1">{{ $tps->alamat }}</p>
+                            </div>
+
+                            <div class="bg-[#F9FAF9] rounded-xl p-4 border border-[#E2E8E4] space-y-2.5">
+                                <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-sm angka-tabular">
+                                    <span class="font-semibold text-[#37413B]">Terisi {{ number_format($terpakaiKg, 2, ',', '.') }} kg ({{ $persen }}%)</span>
+                                    <span class="font-bold text-[#1D6B45]">Tersedia {{ number_format($sisaKg, 2, ',', '.') }} kg</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-[#E2E8E4] rounded-full overflow-hidden" role="progressbar" aria-valuenow="{{ $persen }}" aria-valuemin="0" aria-valuemax="100" aria-label="Kapasitas terpakai {{ $tps->nama_tps }}">
+                                    <div class="h-full {{ $warnaBar }} rounded-full" style="width: {{ max(3, $persen) }}%"></div>
+                                </div>
+                                <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs text-[#4A554E] angka-tabular">
+                                    <span>Jam penerimaan: <strong>{{ substr((string) $tps->jam_buka, 0, 5) }} – {{ substr((string) $tps->jam_tutup, 0, 5) }} WIB</strong></span>
+                                    <span>Total kuota: <strong>{{ number_format($totalKg, 0, ',', '.') }} kg</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="lg:col-span-2 bg-white rounded-2xl border border-[#D6DDD7] p-8 text-center text-sm text-[#535E57]">
+                            Belum ada fasilitas berizin yang terdaftar.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        {{-- DATA NASIONAL --}}
+        {{-- Angka dapat diganti dari controller lewat variabel $dataNasional dengan kunci yang sama seperti default di bawah. --}}
+        @php
+            $dn = $dataNasional ?? [
+                'tahun'              => 2025,
+                'total_fasyankes'    => 146751,
+                'lapor_speed'        => 10958,
+                'belum_lapor'        => 135793,
+                'potensi_ton'        => 190656.61,
+                'tercatat_ton'       => 60457.45,
+                'belum_terlapor_ton' => 130199.16,
+            ];
+
+            $pctLapor      = round($dn['lapor_speed'] / $dn['total_fasyankes'] * 100, 2);
+            $pctBelumLapor = round($dn['belum_lapor'] / $dn['total_fasyankes'] * 100, 2);
+            $pctTercatat   = round($dn['tercatat_ton'] / $dn['potensi_ton'] * 100, 2);
+            $pctBelumTon   = round($dn['belum_terlapor_ton'] / $dn['potensi_ton'] * 100, 2);
+
+            $fmt   = fn ($n, $d = 0) => number_format((float) $n, $d, ',', '.');
+            $lebar = fn ($n) => number_format((float) $n, 2, '.', '');
+
+            // Komposisi limbah fasyankes (Kemenkes, 2017)
+            $komposisi = [
+                ['label' => 'Limbah domestik (non-medis)', 'persen' => 80, 'warna' => '#6B766F'],
+                ['label' => 'Infeksius & patologis',       'persen' => 15, 'warna' => '#B3261E'],
+                ['label' => 'Kimia & farmasi',             'persen' => 3,  'warna' => '#B45309'],
+                ['label' => 'Termometer & tabung',         'persen' => 1,  'warna' => '#0369A1'],
+                ['label' => 'Benda tajam',                 'persen' => 1,  'warna' => '#7A1712'],
+            ];
+
+            // Kapasitas pengolahan limbah medis per hari (UGM / Kemenkes, 2019)
+            $kapasitasOlahan = [
+                ['label' => '10 jasa pengolah berizin',         'ton' => 170, 'warna' => '#1D6B45'],
+                ['label' => '87 RS dengan insinerator sendiri', 'ton' => 60,  'warna' => '#B45309'],
+                ['label' => 'Tidak terkelola',                  'ton' => 74,  'warna' => '#B3261E'],
+            ];
+            $totalOlahan = array_sum(array_column($kapasitasOlahan, 'ton'));
+        @endphp
+
+        <section id="data-nasional" class="scroll-mt-20 py-14 sm:py-16 border-b border-[#D6DDD7] bg-[#EBF0EC]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="mb-8 max-w-3xl">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#B3261E] block mb-1">Data nasional</span>
+                    <h2 class="font-display text-2xl sm:text-3xl font-bold text-[#1F2421]">
+                        Sebagian besar limbah medis Indonesia belum terpantau
+                    </h2>
+                </div>
+
+                {{-- Angka utama --}}
+                <div class="on-dark bg-[#133A26] text-white rounded-2xl p-6 sm:p-8">
+                    <p class="text-sm text-[#D5E6DB]">Pelaporan limbah B3 medis lewat SPEED, {{ $dn['tahun'] }}</p>
+
+                    <div class="mt-2 flex flex-wrap items-end gap-x-4 gap-y-1">
+                        <p class="font-display text-5xl sm:text-6xl font-extrabold text-[#F2C230] angka-tabular leading-none">{{ $fmt($pctTercatat, 1) }}%</p>
+                        <p class="text-base sm:text-lg text-white max-w-md pb-1">tonase limbah B3 medis yang tercatat di SPEED</p>
+                    </div>
+
+                    <div class="mt-5 flex h-3.5 w-full overflow-hidden rounded-full bg-[#0E2B1C]" role="img"
+                         aria-label="{{ $fmt($pctTercatat, 2) }} persen tonase tercatat di SPEED, {{ $fmt($pctBelumTon, 2) }} persen belum terlapor atau belum jelas">
+                        <div class="h-full bg-[#F2C230]" style="width: {{ $lebar($pctTercatat) }}%"></div>
+                        <div class="h-full bg-[#E5584D]" style="width: {{ $lebar($pctBelumTon) }}%"></div>
+                    </div>
+                    <dl class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm angka-tabular">
+                        <div>
+                            <dt class="flex items-center gap-2 text-[#D5E6DB]"><span class="w-3 h-3 rounded-sm bg-[#F2C230]" aria-hidden="true"></span>Tercatat di SPEED</dt>
+                            <dd class="font-bold mt-0.5">{{ $fmt($dn['tercatat_ton'], 2) }} ton</dd>
+                        </div>
+                        <div>
+                            <dt class="flex items-center gap-2 text-[#D5E6DB]"><span class="w-3 h-3 rounded-sm bg-[#E5584D]" aria-hidden="true"></span>Belum terlapor / belum jelas</dt>
+                            <dd class="font-bold mt-0.5">{{ $fmt($dn['belum_terlapor_ton'], 2) }} ton ({{ $fmt($pctBelumTon, 2) }}%)</dd>
+                        </div>
+                    </dl>
+
+                    <div class="mt-6 pt-5 border-t border-white/15">
+                        <p class="text-base">
+                            Hanya <strong class="text-[#F2C230] angka-tabular">{{ $fmt($pctLapor, 2) }}%</strong> fasyankes yang sudah melapor
+                            <span class="text-[#D5E6DB] angka-tabular">({{ $fmt($dn['lapor_speed']) }} dari {{ $fmt($dn['total_fasyankes']) }} unit)</span>.
+                        </p>
+                        <div class="mt-3 flex h-3.5 w-full overflow-hidden rounded-full bg-[#0E2B1C]" role="img"
+                             aria-label="{{ $fmt($pctLapor, 2) }} persen fasyankes sudah melapor, {{ $fmt($pctBelumLapor, 2) }} persen belum">
+                            <div class="h-full bg-[#F2C230]" style="width: {{ $lebar(max(1.5, $pctLapor)) }}%"></div>
+                            <div class="h-full bg-[#E5584D]" style="width: {{ $lebar($pctBelumLapor) }}%"></div>
+                        </div>
+                        <p class="mt-2 text-sm text-[#D5E6DB] angka-tabular">Belum melapor: {{ $fmt($pctBelumLapor, 2) }}% ({{ $fmt($dn['belum_lapor']) }} unit)</p>
+                    </div>
+
+                    <p class="mt-6 text-sm text-[#D5E6DB] leading-relaxed max-w-3xl">
+                        Limbah yang belum terlapor belum tentu dibuang sembarangan, tetapi tidak dapat dipastikan bahwa limbah itu diangkut dan dimusnahkan oleh pihak berizin. Sumber: KLH/BPLH, Agustus 2026.
+                    </p>
+                </div>
+
+                {{-- Konteks tambahan (dilipat agar halaman tidak padat) --}}
+                <div class="mt-5 space-y-3">
+                    <details class="bg-white rounded-2xl border border-[#D6DDD7]">
+                        <summary class="flex items-center justify-between gap-3 p-5 cursor-pointer rounded-2xl">
+                            <span class="font-display font-bold text-base text-[#1F2421]">Kapasitas pengolahan belum menutup timbulan</span>
+                            <svg class="ikon-buka w-5 h-5 shrink-0 text-[#4A554E] transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-4">
+                            <p class="text-sm text-[#454F49] leading-relaxed max-w-3xl">
+                                Paparan Kemenkes tahun 2019 memperkirakan limbah medis dari sekitar 2.820 rumah sakit dan 9.884 puskesmas mencapai kurang lebih <strong class="angka-tabular">290 ton per hari</strong>, belum termasuk klinik, unit transfusi darah, dan apotek.
+                            </p>
+                            <ul class="space-y-3">
+                                @foreach($kapasitasOlahan as $ko)
+                                    <li>
+                                        <div class="flex justify-between gap-3 text-sm mb-1 angka-tabular">
+                                            <span class="text-[#37413B]">{{ $ko['label'] }}</span>
+                                            <span class="font-bold text-[#1F2421] shrink-0">±{{ $ko['ton'] }} ton/hari</span>
+                                        </div>
+                                        <div class="h-2.5 w-full bg-[#E2E8E4] rounded-full overflow-hidden" aria-hidden="true">
+                                            <div class="h-full rounded-full" style="width: {{ $lebar($ko['ton'] / $totalOlahan * 100) }}%; background: {{ $ko['warna'] }}"></div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <p class="text-xs text-[#4A554E]">Sumber: Humas UGM (2019), paparan Kemenkes.</p>
+                        </div>
+                    </details>
+
+                    <details class="bg-white rounded-2xl border border-[#D6DDD7]">
+                        <summary class="flex items-center justify-between gap-3 p-5 cursor-pointer rounded-2xl">
+                            <span class="font-display font-bold text-base text-[#1F2421]">Hanya sebagian kecil limbah fasyankes yang berbahaya</span>
+                            <svg class="ikon-buka w-5 h-5 shrink-0 text-[#4A554E] transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-4">
+                            <p class="text-sm text-[#454F49] leading-relaxed max-w-3xl">
+                                Menurut pengelompokan Kemenkes (data 2017), sebagian besar sampah fasyankes sebenarnya limbah domestik. Pemilahan di sumber menjaga limbah infeksius tidak bercampur dengan sampah biasa.
+                            </p>
+                            <ul class="space-y-3" aria-label="Komposisi limbah fasyankes">
+                                @foreach($komposisi as $k)
+                                    <li>
+                                        <div class="flex justify-between gap-3 text-sm mb-1 angka-tabular">
+                                            <span class="text-[#37413B]">{{ $k['label'] }}</span>
+                                            <span class="font-bold text-[#1F2421]">{{ $k['persen'] }}%</span>
+                                        </div>
+                                        <div class="h-2.5 w-full bg-[#E2E8E4] rounded-full overflow-hidden" aria-hidden="true">
+                                            <div class="h-full rounded-full" style="width: {{ $k['persen'] }}%; min-width: 4px; background: {{ $k['warna'] }}"></div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <p class="text-xs text-[#4A554E]">Sumber: Kemenkes (2017), dikutip Mongabay Indonesia (2020).</p>
+                        </div>
+                    </details>
+
+                    <details class="bg-white rounded-2xl border border-[#D6DDD7]">
+                        <summary class="flex items-center justify-between gap-3 p-5 cursor-pointer rounded-2xl">
+                            <span class="font-display font-bold text-base text-[#1F2421]">Pandemi menambah beban</span>
+                            <svg class="ikon-buka w-5 h-5 shrink-0 text-[#4A554E] transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="px-5 pb-5 space-y-3">
+                            <p class="text-sm text-[#454F49] leading-relaxed max-w-3xl">
+                                KLHK mencatat rekapitulasi limbah medis selama pandemi Covid-19 sebesar <strong class="angka-tabular">7.502,79 ton</strong> sejak awal pandemi hingga 9 Februari 2021, berdasarkan laporan yang masuk.
+                            </p>
+                            <p class="text-sm text-[#454F49] leading-relaxed max-w-3xl">
+                                Pada waktu yang sama, <strong class="angka-tabular">124 rumah sakit</strong> tercatat berizin memusnahkan limbah medis: 119 dengan insinerator dan 5 dengan autoklaf. Selama masa darurat, insinerator yang belum berizin sempat diizinkan beroperasi dengan syarat suhu minimal 800 °C dan pengawasan KLHK.
+                            </p>
+                            <p class="text-xs text-[#4A554E]">Sumber: KLHK, dikutip Republika (16 Februari 2021); Kementerian LHK, dikutip Pajak.com.</p>
+                        </div>
+                    </details>
+
+                    <details class="bg-white rounded-2xl border border-[#D6DDD7]">
+                        <summary class="flex items-center justify-between gap-3 p-5 cursor-pointer rounded-2xl">
+                            <span class="font-display font-bold text-base text-[#1F2421]">Dasar aturan &amp; apa artinya bagi penghasil limbah</span>
+                            <svg class="ikon-buka w-5 h-5 shrink-0 text-[#4A554E] transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/></svg>
+                        </summary>
+                        <div class="px-5 pb-5 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-display font-bold text-sm text-[#1F2421] mb-2">Dasar aturan</h3>
+                                <ul class="space-y-2.5 text-sm text-[#454F49] leading-relaxed">
+                                    <li class="pl-3 border-l-4 border-[#1D6B45]"><strong>PP Nomor 22 Tahun 2021</strong> tentang Penyelenggaraan Perlindungan dan Pengelolaan Lingkungan Hidup menjadi dasar kewajiban pengelolaan limbah B3 dari fasyankes.</li>
+                                    <li class="pl-3 border-l-4 border-[#1D6B45]">Pelaporan dilakukan melalui <strong>SPEED</strong>, sistem digital KLH/BPLH untuk memantau dan mengevaluasi pengelolaan limbah B3.</li>
+                                    <li class="pl-3 border-l-4 border-[#1D6B45]">Pengawasan lingkungan hidup mengacu pada <strong>PermenLH Nomor 6 Tahun 2026</strong>.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-display font-bold text-sm text-[#1F2421] mb-2">Yang perlu Anda lakukan</h3>
+                                <ul class="space-y-2.5 text-sm text-[#454F49] leading-relaxed">
+                                    <li class="pl-3 border-l-4 border-[#B45309]">Pisahkan limbah infeksius, benda tajam, dan farmasi dari sampah domestik sejak dari sumbernya.</li>
+                                    <li class="pl-3 border-l-4 border-[#B45309]">Serahkan hanya ke fasilitas berizin. Manifes timbangan di platform ini membuat setiap kilogram limbah punya jejak yang bisa ditelusuri.</li>
+                                    <li class="pl-3 border-l-4 border-[#B45309]">Fasyankes: pastikan unit Anda sudah melapor di SPEED agar limbah Anda ikut terhitung dalam data nasional.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                {{-- Catatan metodologi & sumber --}}
+                <div class="mt-8 text-xs text-[#4A554E] leading-relaxed max-w-4xl">
+                    <p class="mb-2">
+                        <strong>Catatan:</strong> angka antar-tahun berasal dari sumber, cakupan, dan satuan yang berbeda (ton per hari dan ton per tahun), sehingga tidak dapat dibandingkan langsung. Data {{ $dn['tahun'] }} adalah potensi timbulan dan laporan yang masuk ke SPEED, bukan hasil pengukuran seluruh fasyankes.
+                    </p>
+                    <p class="flex flex-wrap gap-x-4 gap-y-1">
+                        <span class="font-semibold">Sumber:</span>
+                        <a class="underline hover:text-[#1D6B45]" href="https://www.kemenlh.go.id/news/detail/tingkatkan-kepatuhan-klhbplh-dorong-fasilitas-pelayanan-kesehatan-optimalisasi-pelaporan-limbah-b3" target="_blank" rel="noopener noreferrer">KLH/BPLH, 13 Agustus 2026</a>
+                        <a class="underline hover:text-[#1D6B45]" href="https://ugm.ac.id/?p=9575" target="_blank" rel="noopener noreferrer">UGM, 2019</a>
+                        <a class="underline hover:text-[#1D6B45]" href="https://news.republika.co.id/berita/qom2oi409/ribuan-ton-limbah-medis-dan-saran-daur-ulang-dari-lipi" target="_blank" rel="noopener noreferrer">Republika, 16 Februari 2021</a>
+                        <a class="underline hover:text-[#1D6B45]" href="https://mongabay.co.id/2020/10/05/dampak-limbah-medis-saat-pandemi/" target="_blank" rel="noopener noreferrer">Mongabay Indonesia, 5 Oktober 2020</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        {{-- PANDUAN K3 (dari tabel konten): dibaca sebagai buku di dalam halaman (StPageFlip), bukan popup --}}
+        @if($kontenEdukasi->isNotEmpty())
+            @php
+                $dataEdukasi = $kontenEdukasi->map(function ($a) {
+                    $halamanList = method_exists($a, 'daftarHalaman')
+                        ? $a->daftarHalaman()
+                        : array_values(array_filter(array_map('trim', explode('[[halaman-baru]]', (string) ($a->isi ?? $a->ringkasan ?? '')))));
+                    if (empty($halamanList)) {
+                        $halamanList = [trim((string) ($a->ringkasan ?? ''))];
+                    }
+                    $isiBersih = method_exists($a, 'isiPolos')
+                        ? $a->isiPolos()
+                        : trim(str_replace('[[halaman-baru]]', "\n\n", (string) ($a->isi ?? $a->ringkasan ?? '')));
+
+                    return [
+                        'judul'     => $a->judul,
+                        'jenis'     => $a->jenis,
+                        'tanggal'   => $a->published_at ? \Carbon\Carbon::parse($a->published_at)->translatedFormat('d M Y') : '',
+                        'ringkasan' => $a->ringkasan ?? '',
+                        'isi'       => $isiBersih,
+                        'halaman'   => $halamanList,
+                    ];
+                })->values();
+            @endphp
+
+            <section id="edukasi" class="scroll-mt-20 py-14 sm:py-16 bg-white border-b border-[#D6DDD7]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="mb-8">
+                        <span class="text-xs font-bold uppercase tracking-wider text-[#B3261E] block mb-1">Protokol K3 &amp; sosialisasi</span>
+                        <h2 class="font-display text-2xl sm:text-3xl font-bold text-[#1F2421]">
+                            Panduan penanganan limbah medis &amp; B3
+                        </h2>
+                        <p class="text-base text-[#535E57] mt-2">Pilih salah satu kartu untuk membuka bukunya.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        @foreach($dataEdukasi as $i => $artikel)
+                            <button type="button"
+                                    data-edukasi-idx="{{ $i }}"
+                                    aria-controls="ruang-buku"
+                                    aria-expanded="false"
+                                    class="group text-left bg-[#F9FAF9] hover:bg-white rounded-2xl border border-[#D6DDD7] hover:border-[#1D6B45] p-5 flex flex-col justify-between gap-4 transition-colors">
+                                <span class="block">
+                                    <span class="flex items-center justify-between gap-2 mb-3">
+                                        <span class="px-2.5 py-1 rounded-lg bg-[#FCE8E6] text-[#B3261E] text-xs font-semibold uppercase">{{ $artikel['jenis'] }}</span>
+                                        @if($artikel['tanggal'])
+                                            <time class="text-xs text-[#4A554E] angka-tabular">{{ $artikel['tanggal'] }}</time>
+                                        @endif
+                                    </span>
+                                    <span class="block font-display font-bold text-base text-[#1F2421] group-hover:text-[#1D6B45] transition-colors mb-2">{{ $artikel['judul'] }}</span>
+                                    <span class="block text-sm text-[#535E57] leading-relaxed line-clamp-3">
+                                        {{ $artikel['ringkasan'] ?: \Illuminate\Support\Str::limit($artikel['isi'], 140) }}
+                                    </span>
+                                </span>
+                                <span class="pt-3 border-t border-[#E2E8E4] flex items-center justify-between text-sm font-semibold text-[#1D6B45]">
+                                    <span>Buka buku ({{ count($artikel['halaman']) }} halaman)</span>
+                                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5v-15ZM20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5v-15Z"/></svg>
+                                </span>
+                            </button>
+                        @endforeach
+                    </div>
+
+                    {{-- Ruang baca buku interaktif (StPageFlip) --}}
+                    <div id="ruang-buku" role="region" aria-label="Pembaca buku panduan K3" tabindex="-1"
+                         class="on-dark hidden mt-10 scroll-mt-24 rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-8 text-white relative">
+
+                        {{-- Header bilah baca --}}
+                        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-4 border-b border-white/15">
+                            <div class="min-w-0 max-w-2xl">
+                                <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                                    <span id="buku-jenis" class="px-2.5 py-0.5 rounded-md bg-[#F2C230] text-[#1F2421] text-[11px] font-extrabold uppercase tracking-wider font-display"></span>
+                                    <span class="text-xs text-[#A3BFB0] flex items-center gap-1.5">
+                                        <svg class="w-3.5 h-3.5 text-[#F2C230]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.8L20.2 19H3.8L12 5.8zM11 10h2v4h-2zm0 6h2v2h-2z"/></svg>
+                                        Buku Saku Kepatuhan SOP &amp; B3
+                                    </span>
+                                </div>
+                                <h3 id="buku-judul" class="font-display text-xl sm:text-2xl font-bold text-white leading-tight"></h3>
+                            </div>
+                            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                                <span class="hidden md:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/10 border border-white/15 text-xs text-[#D5E6DB]">
+                                    <kbd class="font-mono text-[11px] bg-black/40 px-1.5 py-0.5 rounded border border-white/20">ESC</kbd> tutup
+                                </span>
+                                <button type="button" id="buku-tutup" aria-label="Tutup buku panduan"
+                                        class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm font-semibold transition-all flex items-center gap-2 active:scale-95">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                                    <span>Tutup</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- Arena buku dengan floating desktop navigation chevrons --}}
+                        <div class="relative flex items-center justify-center my-4 sm:my-6 min-h-[380px] sm:min-h-[480px]">
+                            {{-- Tombol navigasi melayang kiri (Desktop) --}}
+                            <button type="button" id="buku-nav-prev" aria-label="Balik ke halaman sebelumnya"
+                                    class="hidden lg:flex absolute -left-3 xl:-left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#133A26]/95 hover:bg-[#1D6B45] text-white border border-white/25 shadow-xl items-center justify-center transition-all disabled:opacity-0 disabled:pointer-events-none active:scale-90">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                            </button>
+
+                            {{-- Wadah utama buku StPageFlip --}}
+                            <div id="area-buku" class="flex justify-center items-center w-full overflow-visible"></div>
+
+                            {{-- Tombol navigasi melayang kanan (Desktop) --}}
+                            <button type="button" id="buku-nav-next" aria-label="Balik ke halaman berikutnya"
+                                    class="hidden lg:flex absolute -right-3 xl:-right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#133A26]/95 hover:bg-[#1D6B45] text-white border border-white/25 shadow-xl items-center justify-center transition-all disabled:opacity-0 disabled:pointer-events-none active:scale-90">
+                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+
+                        {{-- Bilah kendali bawah & indikator progres baca --}}
+                        <div class="mt-4 pt-4 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <button type="button" id="buku-sebelumnya"
+                                    class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                                <span>Sebelumnya</span>
+                            </button>
+
+                            <div class="flex flex-col items-center gap-1.5">
+                                <p id="buku-status" aria-live="polite" class="text-sm font-medium text-[#D5E6DB] angka-tabular"></p>
+                                <div class="w-32 sm:w-44 h-1.5 bg-white/15 rounded-full overflow-hidden">
+                                    <div id="buku-progress-bar" class="h-full bg-[#F2C230] transition-all duration-300 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <button type="button" id="buku-berikutnya"
+                                    class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-[#F2C230] hover:bg-[#E0B020] text-[#1F2421] text-sm font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed active:scale-95 shadow-md">
+                                <span>Berikutnya</span>
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                            </button>
+                        </div>
+
+                        <div class="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-[#A3BFB0] text-center">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                                Klik sudut halaman atau seret untuk membalik
+                            </span>
+                            <span class="hidden sm:inline">·</span>
+                            <span class="hidden sm:flex items-center gap-1">
+                                <kbd class="px-1.5 py-0.5 rounded bg-white/10 font-mono text-[10px]">←</kbd>
+                                <kbd class="px-1.5 py-0.5 rounded bg-white/10 font-mono text-[10px]">→</kbd>
+                                tombol panah keyboard
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <script type="application/json" id="data-edukasi">{!! json_encode($dataEdukasi, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) !!}</script>
         @endif
-    </body>
+
+        {{-- AJAKAN AKHIR --}}
+        <section class="on-dark py-14 sm:py-16 bg-[#133A26] text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7 space-y-3">
+                        <span class="inline-block px-3 py-1 rounded-lg bg-[#F2C230] text-[#1F2421] font-display font-bold text-xs uppercase tracking-wider">
+                            Kepatuhan &amp; keselamatan lingkungan
+                        </span>
+                        <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-white">
+                            Salurkan limbah medis &amp; B3 ke jalur resmi sekarang.
+                        </h2>
+                        <p class="text-base text-[#D5E6DB] max-w-2xl leading-relaxed">
+                            Daftar sebagai <strong>Penghasil / Warga</strong> untuk membuat manifes setoran, <strong>Pengelola Fasilitas</strong> (1 akun mengelola 1 fasilitas berizin), atau <strong>Kurir Penjemputan</strong>.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-5 flex flex-wrap lg:justify-end gap-3">
+                        <a href="{{ route('register') }}" class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#F2C230] hover:bg-[#E0B020] text-[#1F2421] font-display font-bold text-base transition-colors">
+                            Daftar Akun Baru
+                        </a>
+                        <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/25 font-semibold text-base transition-colors">
+                            Masuk ke Akun
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {{-- Footer --}}
+    <footer class="on-dark bg-[#1F2421] text-[#D5DBD7] py-10 text-sm border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center">
+                <img src="{{ asset('images/logo-kemadwast.png') }}" alt="KemaDwast" class="w-36 sm:w-44 h-auto rounded bg-white px-2 py-1">
+            </div>
+            <nav aria-label="Tautan footer" class="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <a href="#standar-kemasan" class="hover:text-white transition-colors">SOP Kemasan</a>
+                <a href="#katalog-limbah" class="hover:text-white transition-colors">Jenis Limbah</a>
+                <a href="#fasilitas-berizin" class="hover:text-white transition-colors">Fasilitas Berizin</a>
+                <a href="#data-nasional" class="hover:text-white transition-colors">Data Nasional</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            /* ---------- Menu mobile ---------- */
+            const tombolMenu = document.getElementById('tombol-menu');
+            const menuMobile = document.getElementById('menu-mobile');
+            const ikonBuka = document.getElementById('ikon-menu-buka');
+            const ikonTutup = document.getElementById('ikon-menu-tutup');
+
+            function aturMenu(buka) {
+                if (!tombolMenu || !menuMobile) return;
+                menuMobile.classList.toggle('hidden', !buka);
+                ikonBuka.classList.toggle('hidden', buka);
+                ikonTutup.classList.toggle('hidden', !buka);
+                tombolMenu.setAttribute('aria-expanded', buka ? 'true' : 'false');
+                tombolMenu.setAttribute('aria-label', buka ? 'Tutup menu navigasi' : 'Buka menu navigasi');
+            }
+
+            if (tombolMenu && menuMobile) {
+                tombolMenu.addEventListener('click', () => aturMenu(menuMobile.classList.contains('hidden')));
+                menuMobile.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => aturMenu(false)));
+                window.matchMedia('(min-width: 768px)').addEventListener('change', (e) => { if (e.matches) aturMenu(false); });
+            }
+
+            /* ---------- Tab filter katalog limbah ---------- */
+            const tabs = Array.from(document.querySelectorAll('[data-filter-btn]'));
+            const kartu = Array.from(document.querySelectorAll('[data-kategori-card]'));
+            const panel = document.getElementById('panel-limbah');
+
+            const gayaAktif = ['bg-[#133A26]', 'text-white', 'border-[#133A26]'];
+            const gayaNonaktif = ['bg-[#F3F5F2]', 'text-[#37413B]', 'border-[#D6DDD7]', 'hover:bg-[#E4EAE5]'];
+
+            function pilihTab(tab, fokus) {
+                const kode = tab.getAttribute('data-filter-btn');
+                tabs.forEach((t) => {
+                    const aktif = t === tab;
+                    t.setAttribute('aria-selected', aktif ? 'true' : 'false');
+                    t.setAttribute('tabindex', aktif ? '0' : '-1');
+                    gayaAktif.forEach((c) => t.classList.toggle(c, aktif));
+                    gayaNonaktif.forEach((c) => t.classList.toggle(c, !aktif));
+                });
+                if (panel) panel.setAttribute('aria-labelledby', tab.id);
+                kartu.forEach((k) => {
+                    const cocok = kode === 'semua' || k.getAttribute('data-kategori-card') === kode;
+                    k.classList.toggle('hidden', !cocok);
+                });
+                if (fokus) tab.focus();
+            }
+
+            tabs.forEach((tab, i) => {
+                tab.addEventListener('click', () => pilihTab(tab, false));
+                tab.addEventListener('keydown', (e) => {
+                    let target = null;
+                    if (e.key === 'ArrowRight') target = tabs[(i + 1) % tabs.length];
+                    if (e.key === 'ArrowLeft') target = tabs[(i - 1 + tabs.length) % tabs.length];
+                    if (e.key === 'Home') target = tabs[0];
+                    if (e.key === 'End') target = tabs[tabs.length - 1];
+                    if (target) { e.preventDefault(); pilihTab(target, true); }
+                });
+            });
+
+            /* ---------- Buku panduan K3 (StPageFlip) ---------- */
+            const ruang = document.getElementById('ruang-buku');
+            const sumberData = document.getElementById('data-edukasi');
+            if (!ruang || !sumberData) return;
+
+            const dataEdukasi = JSON.parse(sumberData.textContent);
+            const areaBuku = document.getElementById('area-buku');
+            const elJudul = document.getElementById('buku-judul');
+            const elJenis = document.getElementById('buku-jenis');
+            const elStatus = document.getElementById('buku-status');
+            const elProgress = document.getElementById('buku-progress-bar');
+            const tombolSebelumnya = document.getElementById('buku-sebelumnya');
+            const tombolBerikutnya = document.getElementById('buku-berikutnya');
+            const tombolNavPrev = document.getElementById('buku-nav-prev');
+            const tombolNavNext = document.getElementById('buku-nav-next');
+            const tombolTutupBuku = document.getElementById('buku-tutup');
+            const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            let buku = null;
+            let pemicu = null;
+            let idxAktif = -1;
+            let ukuranAktif = null;
+            let tokenBuka = 0;
+            let timerUkuran = null;
+
+            function buatEl(tag, kelas, teks) {
+                const e = document.createElement(tag);
+                if (kelas) e.className = kelas;
+                if (teks !== undefined) e.textContent = teks;
+                return e;
+            }
+
+            // Menghitung ukuran halaman yang adaptif untuk ponsel, tablet, dan desktop
+            function ukuranHalaman() {
+                const paddingW = window.innerWidth < 640 ? 40 : 80;
+                const lebarWadah = areaBuku.clientWidth || Math.min(window.innerWidth - paddingW, 960);
+                const tinggiLayar = window.innerHeight || 800;
+
+                // Mode 2 halaman (spread) aktif jika lebar panggung buku >= 800px
+                const dua = lebarWadah >= 800;
+
+                let w, h;
+                if (dua) {
+                    const batasLebar = Math.min(lebarWadah - 40, 860);
+                    w = Math.floor(batasLebar / 2);
+                    w = Math.max(Math.min(w, 420), 290);
+                    const batasTinggi = Math.min(Math.floor(tinggiLayar * 0.70), 620);
+                    h = Math.min(Math.round(w * 1.38), Math.max(batasTinggi, 440));
+                } else {
+                    const batasLebar = Math.min(lebarWadah - 16, 420);
+                    w = Math.max(Math.min(batasLebar, 390), 280);
+                    const batasTinggi = Math.min(Math.floor(tinggiLayar * 0.62), 560);
+                    h = Math.min(Math.round(w * 1.40), Math.max(batasTinggi, 400));
+                }
+
+                return { w: Math.round(w), h: Math.round(h), dua: dua };
+            }
+
+            // Menyusun halaman buku berdasarkan daftar halaman dari admin (atau membagi otomatis bila belum diatur).
+            function bagiHalaman(d, w, h) {
+                const adaRingkasan = !!(d.ringkasan && d.ringkasan !== d.isi);
+
+                if (Array.isArray(d.halaman) && d.halaman.length > 0) {
+                    return d.halaman.map((teksHalaman, idx) => {
+                        const par = String(teksHalaman || '')
+                            .split(/\n+/)
+                            .map((s) => s.trim())
+                            .filter(Boolean);
+                        return {
+                            ringkasan: idx === 0 && adaRingkasan,
+                            paragraf: par.length ? par : ['']
+                        };
+                    });
+                }
+
+                const paragraf = String(d.isi || d.ringkasan || '').split(/\n+/).map((s) => s.trim()).filter(Boolean);
+
+                const ukur = buatEl('div', 'ukur-buku');
+                ukur.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;overflow:hidden;display:flow-root;'
+                    + 'width:' + (w - 44) + 'px;height:' + (h - 114) + 'px;';
+                document.body.appendChild(ukur);
+
+                const hasil = [];
+                let isi = [];
+                const muat = () => ukur.scrollHeight <= ukur.clientHeight;
+
+                function mulai() {
+                    ukur.innerHTML = '';
+                    isi = [];
+                    if (hasil.length === 0 && adaRingkasan) ukur.appendChild(buatEl('div', 'ringkasan-buku', d.ringkasan));
+                }
+                function tutupHalaman() {
+                    hasil.push({ ringkasan: hasil.length === 0 && adaRingkasan, paragraf: isi });
+                    mulai();
+                }
+
+                mulai();
+                paragraf.forEach((par) => {
+                    const utuh = buatEl('p', '', par);
+                    ukur.appendChild(utuh);
+                    if (muat()) { isi.push(par); return; }
+                    ukur.removeChild(utuh);
+
+                    let sisa = par.split(/\s+/).filter(Boolean);
+                    while (sisa.length) {
+                        const p = buatEl('p');
+                        ukur.appendChild(p);
+                        let n = 0;
+                        while (n < sisa.length) {
+                            p.textContent = sisa.slice(0, n + 1).join(' ');
+                            if (!muat()) break;
+                            n++;
+                        }
+                        if (n === 0) {
+                            ukur.removeChild(p);
+                            if (isi.length === 0) isi.push(sisa.shift());
+                            tutupHalaman();
+                            continue;
+                        }
+                        p.textContent = sisa.slice(0, n).join(' ');
+                        isi.push(sisa.slice(0, n).join(' '));
+                        sisa = sisa.slice(n);
+                        if (sisa.length) tutupHalaman();
+                    }
+                });
+                if (isi.length || hasil.length === 0) tutupHalaman();
+
+                document.body.removeChild(ukur);
+                return hasil;
+            }
+
+            function buatSampulDepan(d) {
+                const halaman = buatEl('div', 'halaman-buku sampul-depan');
+                halaman.dataset.density = 'hard';
+                const dalam = buatEl('div', 'sampul-isi');
+
+                // Header sampul
+                const header = buatEl('div', 'flex items-center justify-between gap-2');
+                header.appendChild(buatEl('span', 'sampul-badge', d.jenis || 'EDUKASI'));
+                header.appendChild(buatEl('span', 'text-[10px] font-bold text-[#F2C230] uppercase tracking-wider', 'SOP RESMI K3'));
+                dalam.appendChild(header);
+
+                // Konten tengah sampul
+                const tengah = buatEl('div', 'my-auto');
+                const lambang = buatEl('div', 'w-10 h-10 mb-3 rounded-lg bg-[#F2C230]/15 border border-[#F2C230]/30 flex items-center justify-center text-[#F2C230]');
+                lambang.innerHTML = '<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>';
+                tengah.appendChild(lambang);
+                tengah.appendChild(buatEl('h4', 'sampul-judul', d.judul));
+                tengah.appendChild(buatEl('p', 'sampul-sub', 'Pedoman teknis pemilahan, penampungan berizin & kepatuhan limbah medis dan B3.'));
+                dalam.appendChild(tengah);
+
+                // Footer sampul
+                const bawah = buatEl('div', 'mt-auto');
+                if (d.tanggal) bawah.appendChild(buatEl('time', 'sampul-tanggal block mb-1', 'Diterbitkan: ' + d.tanggal));
+                bawah.appendChild(buatEl('div', 'sampul-garis'));
+                bawah.appendChild(buatEl('p', 'sampul-merek', 'Kemedcar'));
+                dalam.appendChild(bawah);
+
+                halaman.appendChild(dalam);
+                return halaman;
+            }
+
+            function buatSampulBelakang() {
+                const halaman = buatEl('div', 'halaman-buku sampul-belakang');
+                halaman.dataset.density = 'hard';
+                const dalam = buatEl('div', 'sampul-isi');
+
+                const header = buatEl('div', 'flex items-center justify-between gap-2');
+                header.appendChild(buatEl('span', 'sampul-badge', 'LEMBAR PENUTUP'));
+                dalam.appendChild(header);
+
+                const tengah = buatEl('div', 'my-auto text-left');
+                const badge = buatEl('div', 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 text-xs text-[#D5E6DB] mb-3');
+                badge.innerHTML = '<svg class="w-3.5 h-3.5 text-[#F2C230]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> <span>Kepatuhan UU No. 32/2009</span>';
+                tengah.appendChild(badge);
+                tengah.appendChild(buatEl('h4', 'sampul-judul text-lg sm:text-xl', 'Salurkan Limbah ke Fasilitas & Penampungan Berizin'));
+                tengah.appendChild(buatEl('p', 'sampul-sub mt-2', 'Jangan buang limbah medis atau B3 sembarangan. Pastikan setiap penyerahan tercatat pada manifes timbangan resmi.'));
+                dalam.appendChild(tengah);
+
+                const bawah = buatEl('div', 'mt-auto');
+                bawah.appendChild(buatEl('div', 'sampul-garis'));
+                bawah.appendChild(buatEl('p', 'sampul-merek', 'Bank Sampah & Drop Point Terpadu'));
+                dalam.appendChild(bawah);
+
+                halaman.appendChild(dalam);
+                return halaman;
+            }
+
+            function buatHalamanIsi(info, nomor, totalHalaman, d) {
+                const halaman = buatEl('div', 'halaman-buku');
+                halaman.dataset.density = 'soft';
+                const dalam = buatEl('div', 'halaman-isi');
+
+                // Running Header
+                const header = buatEl('div', 'halaman-header');
+                header.appendChild(buatEl('span', 'header-kiri', (d.jenis || 'PANDUAN') + ' · K3 RESMI'));
+                header.appendChild(buatEl('span', 'header-kanan', d.judul));
+                dalam.appendChild(header);
+
+                // Body
+                const teks = buatEl('div', 'teks-buku');
+                if (info.ringkasan && d.ringkasan) {
+                    const ringkasanBox = buatEl('div', 'ringkasan-buku');
+                    ringkasanBox.innerHTML = '<strong class="block text-xs uppercase tracking-wider text-[#1D6B45] mb-1">Intisari Panduan:</strong>' + d.ringkasan;
+                    teks.appendChild(ringkasanBox);
+                }
+                info.paragraf.forEach((p) => teks.appendChild(buatEl('p', '', p)));
+                dalam.appendChild(teks);
+
+                // Running Footer
+                const footer = buatEl('div', 'halaman-footer');
+                footer.appendChild(buatEl('span', 'footer-kiri', 'SOP Pengelolaan Berizin'));
+                footer.appendChild(buatEl('span', 'footer-nomor', '— ' + nomor + ' —'));
+                footer.appendChild(buatEl('span', 'footer-kanan', 'Hal. ' + nomor + ' / ' + totalHalaman));
+                dalam.appendChild(footer);
+
+                halaman.appendChild(dalam);
+                return halaman;
+            }
+
+            function perbaruiStatus(idx) {
+                if (!buku) return;
+                const total = buku.getPageCount();
+                const lanskap = buku.getOrientation() === 'landscape';
+                let teks;
+                if (idx <= 0) {
+                    teks = 'Sampul depan';
+                } else if (idx >= total - 1) {
+                    teks = 'Sampul belakang';
+                } else {
+                    const halTampil = lanskap && idx < total - 1 ? idx + ' - ' + Math.min(idx + 1, total - 2) : idx;
+                    teks = 'Halaman ' + halTampil + ' dari ' + (total - 2);
+                }
+                elStatus.textContent = teks;
+
+                if (elProgress) {
+                    const persen = total > 1 ? Math.min(Math.round((idx / (total - 1)) * 100), 100) : 0;
+                    elProgress.style.width = persen + '%';
+                }
+
+                const nonaktifPrev = idx <= 0;
+                const nonaktifNext = (idx + (lanskap ? 1 : 0)) >= total - 1;
+
+                tombolSebelumnya.disabled = nonaktifPrev;
+                tombolBerikutnya.disabled = nonaktifNext;
+                if (tombolNavPrev) tombolNavPrev.disabled = nonaktifPrev;
+                if (tombolNavNext) tombolNavNext.disabled = nonaktifNext;
+            }
+
+            function bersihkanBuku() {
+                if (buku) {
+                    try { buku.destroy(); } catch (err) { /* sudah dilepas */ }
+                    buku = null;
+                }
+                areaBuku.innerHTML = '';
+            }
+
+            function tandaiKartu(idx) {
+                document.querySelectorAll('[data-edukasi-idx]').forEach((k) => {
+                    const aktif = idx >= 0 && parseInt(k.getAttribute('data-edukasi-idx'), 10) === idx;
+                    k.setAttribute('aria-expanded', aktif ? 'true' : 'false');
+                });
+            }
+
+            async function bukaBuku(idx, pemicuEl, dariUkuran) {
+                const d = dataEdukasi[idx];
+                if (!d) return;
+                const token = ++tokenBuka;
+
+                bersihkanBuku();
+                pemicu = pemicuEl || pemicu;
+                idxAktif = idx;
+                elJudul.textContent = d.judul;
+                elJenis.textContent = d.jenis;
+                elStatus.textContent = 'Menyiapkan buku…';
+                if (elProgress) elProgress.style.width = '0%';
+                tombolSebelumnya.disabled = true;
+                tombolBerikutnya.disabled = true;
+                if (tombolNavPrev) tombolNavPrev.disabled = true;
+                if (tombolNavNext) tombolNavNext.disabled = true;
+                tandaiKartu(idx);
+                ruang.classList.remove('hidden');
+
+                if (!window.St || !window.St.PageFlip) {
+                    areaBuku.appendChild(buatEl('p', 'text-sm text-[#D5E6DB] py-10', 'Pembaca buku belum termuat. Muat ulang halaman, lalu coba lagi.'));
+                    elStatus.textContent = '';
+                    return;
+                }
+
+                if (document.fonts && document.fonts.ready) {
+                    try { await document.fonts.ready; } catch (err) { /* abaikan */ }
+                }
+                if (token !== tokenBuka) return;
+
+                const u = ukuranHalaman();
+                ukuranAktif = u;
+                const info = bagiHalaman(d, u.w, u.h);
+                const totalHalamanIsi = info.length;
+
+                const halaman = [buatSampulDepan(d)];
+                info.forEach((p, i) => halaman.push(buatHalamanIsi(p, i + 1, totalHalamanIsi, d)));
+                halaman.push(buatSampulBelakang());
+
+                const wadah = buatEl('div');
+                wadah.style.width = (u.dua ? u.w * 2 : u.w) + 'px';
+                wadah.style.height = u.h + 'px';
+                wadah.style.margin = '0 auto';
+                areaBuku.innerHTML = '';
+                areaBuku.appendChild(wadah);
+
+                buku = new window.St.PageFlip(wadah, {
+                    width: u.w,
+                    height: u.h,
+                    size: 'fixed',
+                    showCover: true,
+                    usePortrait: !u.dua,
+                    drawShadow: true,
+                    maxShadowOpacity: 0.45,
+                    flippingTime: kurangiGerak ? 50 : 600,
+                    mobileScrollSupport: false,
+                    swipeDistance: 25,
+                    startPage: 0
+                });
+
+                buku.loadFromHTML(halaman);
+                buku.on('flip', (e) => perbaruiStatus(e.data));
+                buku.on('changeOrientation', () => perbaruiStatus(buku.getCurrentPageIndex()));
+                perbaruiStatus(0);
+
+                if (!dariUkuran) {
+                    ruang.scrollIntoView({ behavior: kurangiGerak ? 'auto' : 'smooth', block: 'start' });
+                    ruang.focus({ preventScroll: true });
+                }
+            }
+
+            function tutupBuku(kembali) {
+                tokenBuka++;
+                bersihkanBuku();
+                ruang.classList.add('hidden');
+                idxAktif = -1;
+                tandaiKartu(-1);
+                if (kembali && pemicu) pemicu.focus();
+            }
+
+            document.querySelectorAll('[data-edukasi-idx]').forEach((el) => {
+                el.addEventListener('click', () => {
+                    const idx = parseInt(el.getAttribute('data-edukasi-idx'), 10);
+                    if (idx === idxAktif && !ruang.classList.contains('hidden')) {
+                        ruang.scrollIntoView({ behavior: kurangiGerak ? 'auto' : 'smooth', block: 'start' });
+                        return;
+                    }
+                    bukaBuku(idx, el, false);
+                });
+            });
+
+            tombolTutupBuku.addEventListener('click', () => tutupBuku(true));
+            tombolSebelumnya.addEventListener('click', () => { if (buku) buku.flipPrev(); });
+            tombolBerikutnya.addEventListener('click', () => { if (buku) buku.flipNext(); });
+            if (tombolNavPrev) tombolNavPrev.addEventListener('click', () => { if (buku) buku.flipPrev(); });
+            if (tombolNavNext) tombolNavNext.addEventListener('click', () => { if (buku) buku.flipNext(); });
+
+            document.addEventListener('keydown', (e) => {
+                if (ruang.classList.contains('hidden')) return;
+                if (e.key === 'Escape') { tutupBuku(true); return; }
+                if (!buku) return;
+                const tag = (e.target && e.target.tagName) || '';
+                if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+                if (e.key === 'ArrowRight') buku.flipNext();
+                else if (e.key === 'ArrowLeft') buku.flipPrev();
+            });
+
+            // Susun ulang buku bila ukuran layar berubah (misalnya ponsel diputar atau resize window)
+            window.addEventListener('resize', () => {
+                if (ruang.classList.contains('hidden') || idxAktif < 0) return;
+                clearTimeout(timerUkuran);
+                timerUkuran = setTimeout(() => {
+                    const u = ukuranHalaman();
+                    if (!ukuranAktif || Math.abs(u.w - ukuranAktif.w) > 15 || Math.abs(u.h - ukuranAktif.h) > 15 || u.dua !== ukuranAktif.dua) {
+                        bukaBuku(idxAktif, null, true);
+                    }
+                }, 300);
+            });
+        })();
+    </script>
+</body>
 </html>

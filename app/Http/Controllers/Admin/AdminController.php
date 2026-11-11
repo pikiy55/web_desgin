@@ -132,6 +132,14 @@ class AdminController extends Controller
                 'judul' => 'Akun Anda telah diverifikasi',
                 'pesan' => 'Selamat, akun '.$user->role.' Anda telah disetujui admin dan siap digunakan.',
             ]);
+        } elseif ($data['status'] === 'ditolak') {
+            $alasan = ! empty($data['catatan']) ? ' Alasan: '.$data['catatan'] : '';
+            Notifikasi::create([
+                'penerima_id' => $user->user_id,
+                'tipe' => 'akun_diverifikasi',
+                'judul' => 'Pendaftaran akun belum disetujui',
+                'pesan' => 'Pengajuan akun '.$user->role.' Anda ditolak oleh admin.'.$alasan,
+            ]);
         }
 
         $aksi = match ($data['status']) {
@@ -233,6 +241,7 @@ class AdminController extends Controller
             'is_verified' => ['required', 'boolean'],
             'izin_limbah_medis' => ['nullable', 'boolean'],
             'status' => ['nullable', Rule::in(['buka', 'tutup', 'penuh'])],
+            'catatan' => ['nullable', 'string', 'max:255'],
         ]);
 
         $tps->update([
@@ -243,8 +252,10 @@ class AdminController extends Controller
 
         $this->catatLog($request, $tps->is_verified ? 'verifikasi_tps' : 'batalkan_verifikasi_tps', 'tps', $tps->tps_id, [
             'nama_tps' => $tps->nama_tps,
+            'no_izin' => $tps->no_izin,
             'is_verified' => $tps->is_verified,
             'status' => $tps->status,
+            'catatan' => $data['catatan'] ?? null,
         ]);
 
         return back()->with('sukses', "Data verifikasi {$tps->nama_tps} berhasil diperbarui.");
@@ -327,15 +338,46 @@ class AdminController extends Controller
         return view('admin.konten', compact('daftarKonten'));
     }
 
+    /**
+     * Validasi isi buku: admin mengirim `halaman[]` (satu textarea per halaman).
+     * Hasilnya digabung ke kolom `isi` dengan penanda Konten::PEMISAH_HALAMAN.
+     */
+    private function isiDariHalaman(Request $request): string
+    {
+        if (! $request->has('halaman') && $request->filled('isi')) {
+            return trim((string) $request->input('isi'));
+        }
+
+        $request->validate([
+            'halaman' => ['required', 'array', 'min:1', 'max:60'],
+            'halaman.*' => ['nullable', 'string', 'max:20000'],
+        ], [
+            'halaman.required' => 'Isi buku minimal satu halaman.',
+            'halaman.max' => 'Buku maksimal 60 halaman.',
+            'halaman.*.max' => 'Teks satu halaman terlalu panjang (maks. 20.000 karakter).',
+        ]);
+
+        $isi = Konten::gabungHalaman($request->input('halaman', []));
+
+        if ($isi === '') {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'halaman' => 'Isi minimal satu halaman dengan teks.',
+            ]);
+        }
+
+        return $isi;
+    }
+
     public function storeKonten(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'judul' => ['required', 'string', 'max:200'],
             'jenis' => ['required', Rule::in(['artikel', 'edukasi', 'pengumuman', 'banner'])],
             'ringkasan' => ['nullable', 'string', 'max:300'],
-            'isi' => ['required', 'string'],
             'status' => ['required', Rule::in(['draft', 'terbit'])],
         ]);
+        $data['isi'] = $this->isiDariHalaman($request);
+        $isiPolos = str_replace(Konten::PEMISAH_HALAMAN, ' ', $data['isi']);
 
         $slugDasar = Str::slug($data['judul']);
         $slug = $slugDasar;
@@ -351,7 +393,7 @@ class AdminController extends Controller
             'judul' => $data['judul'],
             'slug' => $slug,
             'jenis' => $data['jenis'],
-            'ringkasan' => $data['ringkasan'] ?? Str::limit(strip_tags($data['isi']), 160),
+            'ringkasan' => $data['ringkasan'] ?? Str::limit(strip_tags($isiPolos), 160),
             'isi' => $data['isi'],
             'status' => $data['status'],
             'published_at' => $terbit ? now() : null,
@@ -383,6 +425,62 @@ class AdminController extends Controller
         ]);
 
         return back()->with('sukses', "Status konten '{$konten->judul}' diubah menjadi {$konten->status}.");
+    }
+
+    public function updateKonten(Request $request, Konten $konten): RedirectResponse
+    {
+        $data = $request->validate([
+            'judul' => ['required', 'string', 'max:200'],
+            'jenis' => ['required', Rule::in(['artikel', 'edukasi', 'pengumuman', 'banner'])],
+            'ringkasan' => ['nullable', 'string', 'max:300'],
+            'status' => ['required', Rule::in(['draft', 'terbit', 'arsip'])],
+        ]);
+        $data['isi'] = $this->isiDariHalaman($request);
+        $isiPolos = str_replace(Konten::PEMISAH_HALAMAN, ' ', $data['isi']);
+
+        $slug = $konten->slug;
+        if ($data['judul'] !== $konten->judul) {
+            $slugDasar = Str::slug($data['judul']);
+            $slug = $slugDasar;
+            $i = 2;
+            while (Konten::where('slug', $slug)->where('konten_id', '!=', $konten->konten_id)->exists()) {
+                $slug = $slugDasar.'-'.$i++;
+            }
+        }
+
+        $terbit = $data['status'] === 'terbit';
+
+        $konten->update([
+            'judul' => $data['judul'],
+            'slug' => $slug,
+            'jenis' => $data['jenis'],
+            'ringkasan' => $data['ringkasan'] ?: Str::limit(strip_tags($isiPolos), 160),
+            'isi' => $data['isi'],
+            'status' => $data['status'],
+            'published_at' => $terbit ? ($konten->published_at ?? now()) : $konten->published_at,
+        ]);
+
+        $this->catatLog($request, 'ubah_konten', 'konten', $konten->konten_id, [
+            'judul' => $konten->judul,
+            'jenis' => $konten->jenis,
+            'status' => $konten->status,
+        ]);
+
+        return back()->with('sukses', "Konten '{$konten->judul}' berhasil diperbarui.");
+    }
+
+    public function destroyKonten(Request $request, Konten $konten): RedirectResponse
+    {
+        $judul = $konten->judul;
+        $idKonten = $konten->konten_id;
+
+        $konten->delete();
+
+        $this->catatLog($request, 'hapus_konten', 'konten', $idKonten, [
+            'judul' => $judul,
+        ]);
+
+        return back()->with('sukses', "Konten '{$judul}' berhasil dihapus.");
     }
 
     private function catatLog(Request $request, string $aksi, string $tabel, int $idTarget, array $detail = []): void

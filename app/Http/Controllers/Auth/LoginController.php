@@ -13,8 +13,14 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    public function create(): View
+    public function create(Request $request): View
     {
+        if (Auth::check()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
         return view('auth.login');
     }
 
@@ -55,14 +61,18 @@ class LoginController extends Controller
         $user->forceFill(['last_login_at' => now()])->save();
 
         if ($user->isAdmin()) {
-            return redirect()->intended(route('admin.dashboard'));
+            return redirect()->route('admin.dashboard');
         }
 
         if ($user->isPengelolaTps()) {
-            return redirect()->intended(route('pengelola.dashboard'));
+            return redirect()->route('pengelola.dashboard');
         }
 
-        return redirect()->intended(route('dashboard'));
+        if ($user->isKurir()) {
+            return redirect()->route('kurir.dashboard');
+        }
+
+        return redirect()->route('pengguna.dashboard');
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -72,7 +82,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('welcome');
     }
 }
 

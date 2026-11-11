@@ -1,8 +1,8 @@
 @extends('layouts.pengelola')
 
-@section('title', 'Petak & Kapasitas TPS')
-@section('heading', $tps ? 'Petak & Kapasitas · '.$tps->nama_tps : 'Kapasitas TPS')
-@section('subheading', 'Atur daya tampung maksimum per jenis sampah dan kosongkan muatan saat diangkut ke TPA.')
+@section('title', 'Kuota Simpan Medis & B3')
+@section('heading', $tps ? 'Ruang Simpan & Kuota Limbah · '.$tps->nama_tps : 'Kapasitas Fasilitas')
+@section('subheading', 'Atur batas daya tampung aman per klasifikasi limbah (Medis Infeksius, Benda Tajam, Farmasi, B3) dan kosongkan saat diangkut ke pengolahan akhir.')
 
 @section('content')
 

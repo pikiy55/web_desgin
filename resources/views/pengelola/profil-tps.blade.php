@@ -1,8 +1,8 @@
 @extends('layouts.pengelola')
 
-@section('title', 'Operasional & Lokasi TPS')
-@section('heading', $tps ? 'Operasional · '.$tps->nama_tps : 'Daftarkan Lokasi TPS Anda')
-@section('subheading', $tps ? 'Atur status gerbang (buka/tutup/penuh), jam operasional, dan koordinat TPS Anda.' : '1 akun pengelola TPS terhubung ke 1 lokasi TPS.')
+@section('title', 'Izin & Profil Fasilitas Medis/B3')
+@section('heading', $tps ? 'Izin & Operasional · '.$tps->nama_tps : 'Daftarkan Fasilitas Penampungan Anda')
+@section('subheading', $tps ? 'Atur status penerimaan manifes (buka/tutup/penuh), nomor izin operasional DLHKP, dan koordinat fasilitas.' : '1 akun pengelola terhubung secara eksklusif ke 1 unit fasilitas penampungan.')
 
 @section('content')
 

@@ -1,8 +1,8 @@
 @extends('layouts.pengelola')
 
-@section('title', 'Meja Timbang & Setoran Masuk')
-@section('heading', $tps ? 'Meja Timbang · '.$tps->nama_tps : 'Pos Pengelola TPS')
-@section('subheading', $tps ? $tps->alamat : 'Daftarkan lokasi TPS Anda untuk mulai menerima setoran warga.')
+@section('title', 'Meja Timbang & Manifes Masuk')
+@section('heading', $tps ? 'Meja Timbang Manifes · '.$tps->nama_tps : 'Pos Pengelola Fasilitas Medis & B3')
+@section('subheading', $tps ? $tps->alamat.($tps->izin_limbah_medis ? ' · Berizin Resmi Limbah Medis & B3' : ' · Fasilitas Limbah B3 & Daur Ulang') : 'Daftarkan fasilitas penampungan Anda untuk mulai menerima manifes limbah.')
 
 @section('content')
 
@@ -86,8 +86,8 @@
             <section class="lg:col-span-2 space-y-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-base font-bold text-[#1F2421]">Antrean Setoran Masuk & Meja Timbang</h2>
-                        <p class="text-xs text-stone-500">Isi berat aktual (kg) hasil timbangan untuk menghitung poin warga secara otomatis.</p>
+                        <h2 class="text-base font-bold text-[#1F2421]">Antrean Manifes Masuk &amp; Meja Timbang Limbah Medis / B3</h2>
+                        <p class="text-xs text-stone-500">Periksa keutuhan segel kemasan K3 (Safety Box / Kantong Biohazard), lalu isi berat aktual (kg) hasil timbangan.</p>
                     </div>
                 </div>
 
@@ -165,10 +165,10 @@
                                     <table class="w-full text-left border-collapse text-sm">
                                         <thead>
                                             <tr class="bg-stone-100 border-b border-stone-200 text-xs font-semibold text-stone-600">
-                                                <th class="py-2.5 px-3">Jenis Sampah</th>
+                                                <th class="py-2.5 px-3">Jenis Limbah</th>
                                                 <th class="py-2.5 px-3 text-right">Tarif Poin</th>
                                                 <th class="py-2.5 px-3 text-right">Estimasi Warga</th>
-                                                <th class="py-2.5 px-3 text-right w-44">Berat Aktual Timbangan (kg)</th>
+                                                <th class="py-2.5 px-3 text-right w-44">Jumlah Aktual (item)</th>
                                                 <th class="py-2.5 px-3 text-right">Poin</th>
                                             </tr>
                                         </thead>
@@ -176,7 +176,7 @@
                                             @foreach ($s->detail as $d)
                                                 @php
                                                     $poinPerKg = $d->jenisSampah?->poin_per_kg ?? 0;
-                                                    $nilaiAwalKg = old("berat_aktual.{$d->detail_id}", $d->berat_aktual_kg ?? $d->berat_estimasi_kg);
+                                                    $nilaiAwalKg = old("berat_aktual.{$d->detail_id}", (float) ($d->berat_aktual_kg ?? $d->berat_estimasi_kg));
                                                     $poinItem = (int) floor(((float) $nilaiAwalKg) * $poinPerKg);
                                                 @endphp
                                                 <tr>
@@ -185,25 +185,25 @@
                                                         <div class="text-xs text-stone-500 uppercase">{{ $d->jenisSampah?->kategori }}</div>
                                                     </td>
                                                     <td class="py-2.5 px-3 text-right text-xs text-stone-600">
-                                                        {{ $poinPerKg }} pts/kg
+                                                        {{ $poinPerKg }} pts/item
                                                     </td>
                                                     <td class="py-2.5 px-3 text-right text-xs text-stone-600">
-                                                        {{ number_format($d->berat_estimasi_kg, 2, ',', '.') }} kg
+                                                        {{ number_format($d->berat_estimasi_kg, 0, ',', '.') }} item
                                                     </td>
                                                     <td class="py-2.5 px-3 text-right">
                                                         <div class="inline-flex items-center justify-end gap-1.5">
                                                             <input type="number"
                                                                    name="berat_aktual[{{ $d->detail_id }}]"
-                                                                   step="0.05"
+                                                                   step="any"
                                                                    min="0.01"
                                                                    max="99999"
                                                                    required
                                                                    value="{{ $nilaiAwalKg }}"
                                                                    data-input-berat
                                                                    data-poin-per-kg="{{ $poinPerKg }}"
-                                                                   aria-label="Berat aktual (kg) {{ $d->jenisSampah?->nama }}"
+                                                                   aria-label="Jumlah aktual (item) {{ $d->jenisSampah?->nama }}"
                                                                    class="w-24 px-2.5 py-1.5 rounded-lg border border-stone-300 focus:border-[#1D6B45] bg-white text-sm font-bold text-right text-[#1F2421]">
-                                                            <span class="text-xs font-semibold text-stone-600">kg</span>
+                                                            <span class="text-xs font-semibold text-stone-600">item</span>
                                                         </div>
                                                     </td>
                                                     <td class="py-2.5 px-3 text-right font-semibold text-[#1D6B45]" data-poin-item>
@@ -214,12 +214,12 @@
                                         </tbody>
                                         <tfoot>
                                             <tr class="bg-stone-50 border-t border-stone-200 font-bold text-sm angka-tabular">
-                                                <td colspan="2" class="py-2.5 px-3 text-xs uppercase text-stone-600">Total Hasil Timbangan</td>
+                                                <td colspan="2" class="py-2.5 px-3 text-xs uppercase text-stone-600">Total Item Diterima</td>
                                                 <td class="py-2.5 px-3 text-right text-xs text-stone-500">
-                                                    Est: {{ number_format($totalEstimasi, 2, ',', '.') }} kg
+                                                    Est: {{ number_format($totalEstimasi, 0, ',', '.') }} item
                                                 </td>
                                                 <td class="py-2.5 px-3 text-right text-[#1F2421]" data-total-berat>
-                                                    {{ number_format($totalEstimasi, 2, ',', '.') }} kg
+                                                    {{ number_format($totalEstimasi, 0, ',', '.') }} item
                                                 </td>
                                                 <td class="py-2.5 px-3 text-right text-[#1D6B45]" data-total-poin>
                                                     +{{ $estimasiPoin }} pts
@@ -385,9 +385,8 @@
 
                 if (elTotalBerat) {
                     elTotalBerat.textContent = totalBerat.toLocaleString('id-ID', {
-                        minimumFractionDigits: 2,
                         maximumFractionDigits: 2
-                    }) + ' kg';
+                    }) + ' item';
                 }
                 if (elTotalPoin) {
                     elTotalPoin.textContent = '+' + Math.floor(totalPoin) + ' pts';

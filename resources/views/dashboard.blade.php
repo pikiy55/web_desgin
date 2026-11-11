@@ -1,41 +1,33 @@
-@extends('layouts.akun')
+@extends('layouts.pengguna')
 
-@section('title', 'Dashboard')
+@section('title', 'Ikhtisar & Manifes Aktif')
+@section('heading', 'Halo, '.(auth()->user()->nama ?? 'Pengguna'))
+@section('subheading', 'Kelola penyetoran limbah medis, B3, dan daur ulang Anda ke fasilitas penampungan berizin.')
 
-@php
-    $user = auth()->user();
-    $namaPeran = [
-        'admin' => 'Admin',
-        'pengguna' => 'Pengguna',
-        'pengelola_tps' => 'Pengelola TPS',
-        'kurir' => 'Kurir',
-    ][$user->role] ?? $user->role;
-@endphp
-
-@section('body')
-<main class="dasbor">
-    <div class="dasbor__atas">
-        @include('auth.partials.merek')
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="tombol tombol--garis">Keluar</button>
-        </form>
-    </div>
-
-    <h1>Halo, {{ $user->nama }}</h1>
-    <p class="pengantar">Anda masuk sebagai {{ $namaPeran }}. Halaman dashboard masih kosong dan siap diisi.</p>
-
-    <dl>
-        <dt>Email</dt>
-        <dd>{{ $user->email }}</dd>
-        <dt>Nomor HP</dt>
-        <dd>{{ $user->no_hp }}</dd>
-        <dt>Peran</dt>
-        <dd>{{ $namaPeran }}</dd>
-        <dt>Terakhir masuk</dt>
-        <dd>{{ $user->last_login_at?->translatedFormat('d M Y, H:i') ?? 'Baru mendaftar' }}</dd>
-    </dl>
-</main>
+@section('header_actions')
+    <a href="{{ route('pengguna.setoran.create') }}"
+       class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1D6B45] hover:bg-[#13502F] text-white text-xs sm:text-sm font-semibold shadow-2xs transition cursor-pointer">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>Buat Manifes Setoran Baru</span>
+    </a>
 @endsection
 
+@section('content')
+    <div class="bg-white border border-stone-200 rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+            <h2 class="flex flex-wrap items-center gap-x-2 font-judul font-bold text-base text-[#1F2421]">
+                <span>Portal</span>
+                <img src="{{ asset('images/logo-kemadwast.png') }}" alt="KemaDwast" class="w-24 h-auto">
+                <span>· Limbah Medis &amp; B3</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-stone-600 mt-1">
+                Gunakan menu navigasi di samping (atau di atas pada tampilan HP) untuk membuat manifes setoran, melihat riwayat timbangan, menukar poin K3, atau mengatur titik jemput.
+            </p>
+        </div>
+        <a href="{{ route('pengguna.dashboard') }}" class="px-4 py-2.5 rounded-xl bg-[#1D6B45] hover:bg-[#13502F] text-white text-xs sm:text-sm font-semibold shrink-0">
+            Buka Ikhtisar Lengkap →
+        </a>
+    </div>
+@endsection

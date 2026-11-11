@@ -1,8 +1,8 @@
 @extends('layouts.admin')
 
-@section('title', 'Data & Kapasitas TPS')
-@section('heading', 'Data & Kapasitas TPS')
-@section('subheading', 'Verifikasi izin TPS, pantau keterisian kapasitas (kg), dan tambahkan lokasi TPS baru.')
+@section('title', 'Fasilitas & Izin Limbah Medis/B3')
+@section('heading', 'Fasilitas Penampungan & Verifikasi Izin Medis/B3')
+@section('subheading', 'Verifikasi izin operasional limbah medis (izin_limbah_medis), pantau kuota penyimpanan (kg), dan tambahkan fasilitas baru.')
 
 @section('content')
 

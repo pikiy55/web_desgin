@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Panel Admin') · Setoran Sampah</title>
+    <title>@yield('title', 'Panel Regulator Admin') · Kemedcar</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,31 +58,31 @@
         $menuList = [
             [
                 'route' => 'admin.dashboard',
-                'label' => 'Ikhtisar & Verifikasi',
+                'label' => 'Ikhtisar & Verifikasi Izin',
                 'badge' => $jmlAkunPending + $jmlTpsPending,
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>',
             ],
             [
                 'route' => 'admin.akun',
-                'label' => 'Akun & Peran',
+                'label' => 'Akun & Verifikasi Peran',
                 'badge' => $jmlAkunPending,
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>',
             ],
             [
                 'route' => 'admin.tps',
-                'label' => 'Data & Kapasitas TPS',
+                'label' => 'Fasilitas & Izin Medis/B3',
                 'badge' => $jmlTpsPending,
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>',
             ],
             [
                 'route' => 'admin.jenis-sampah',
-                'label' => 'Jenis Sampah & Poin',
+                'label' => 'Klasifikasi Limbah & Poin',
                 'badge' => 0,
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>',
             ],
             [
                 'route' => 'admin.konten',
-                'label' => 'Konten & Pengumuman',
+                'label' => 'Protokol K3 & Edukasi',
                 'badge' => 0,
                 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>',
             ],
@@ -91,24 +91,18 @@
 
     {{-- Sidebar Navigasi --}}
     <aside class="w-full lg:w-64 lg:min-h-dvh bg-[#133A26] text-white flex flex-col shrink-0 border-b lg:border-b-0 lg:border-r border-[#0e2c1d]">
-        <div class="px-5 py-4 flex items-center justify-between border-b border-white/10">
-            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2.5 font-judul font-bold text-base tracking-tight text-white">
-                <svg class="w-6 h-6 shrink-0" viewBox="0 0 26 26" aria-hidden="true">
-                    <rect x="4" y="5" width="18" height="3" rx="1" fill="#F2C230"/>
-                    <rect x="10" y="2.5" width="6" height="2.5" rx="1" fill="#F2C230"/>
-                    <path d="M6 9.5h14l-1.4 13a1.5 1.5 0 0 1-1.5 1.3H8.9a1.5 1.5 0 0 1-1.5-1.3L6 9.5Z" fill="#FFFFFF"/>
-                    <path d="M10.5 12.5v8M15.5 12.5v8" stroke="#133A26" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-                <span>Setoran Sampah</span>
+        <div class="px-5 py-4 flex items-center justify-between gap-2 border-b border-white/10">
+            <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2.5 font-judul font-bold text-base tracking-tight text-white min-w-0">
+                <img src="{{ asset('images/logo-kemadwast.png') }}" alt="KemaDwast" class="h-7 w-auto max-w-[140px] shrink-0 rounded bg-white px-1.5 py-1 object-contain">
             </a>
-            <span class="px-2 py-0.5 text-xs font-semibold rounded bg-[#F2C230] text-[#1F2421]">ADMIN</span>
+            <span class="px-2 py-0.5 text-xs font-bold rounded bg-[#F2C230] text-[#1F2421] shrink-0">ADMIN</span>
         </div>
 
-        <nav aria-label="Menu Admin" class="p-3 flex lg:flex-col gap-1 overflow-x-auto">
+        <nav aria-label="Menu Admin" class="p-3 flex flex-col gap-1">
             @foreach ($menuList as $item)
                 @php $aktif = request()->routeIs($item['route']); @endphp
                 <a href="{{ route($item['route']) }}"
-                   class="flex items-center justify-between gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap transition-colors {{ $aktif ? 'bg-[#1D6B45] text-white' : 'text-emerald-100/85 hover:bg-white/10 hover:text-white' }}">
+                   class="w-full flex items-center justify-between gap-2.5 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ $aktif ? 'bg-[#1D6B45] text-white' : 'text-emerald-100/85 hover:bg-white/10 hover:text-white' }}">
                     <span class="inline-flex items-center gap-2.5">
                         <svg class="w-5 h-5 shrink-0 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             {!! $item['icon'] !!}
@@ -188,4 +182,3 @@
 
 </body>
 </html>
-

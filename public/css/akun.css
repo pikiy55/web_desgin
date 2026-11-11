@@ -1,5 +1,5 @@
 /* =====================================================================
-   Halaman akun (masuk & daftar) — Sistem Pengelolaan Sampah
+   Halaman akun (masuk & daftar) — Sistem Pengelolaan Sampah Medis & B3
    Warna diambil dari benda di lapangan: tong sampah hijau, aspal jalan,
    beton TPS, rompi kuning petugas, dan label merah limbah B3.
    ===================================================================== */
@@ -8,25 +8,25 @@
     /* warna */
     --aspal: #1F2421;          /* teks utama */
     --aspal-2: #4A524C;        /* teks sekunder */
-    --beton: #F3F5F2;          /* latar halaman lebih bersih & nyaman di mata */
+    --beton: #F3F5F2;          /* latar halaman */
     --putih: #FFFFFF;          /* permukaan form */
-    --garis: #CBD5CC;          /* tepi input lebih halus */
-    --garis-tipis: #E2E8E3;
+    --garis: #8A968E;          /* tepi input memenuhi kontras WCAG >= 3:1 */
+    --garis-tipis: #D6DDD7;
     --hijau-tong: #1D6B45;     /* aksi utama */
-    --hijau-tong-gelap: #13502F;
+    --hijau-tong-gelap: #133A26;
     --hijau-muda: #E3EFE7;
     --kuning-rompi: #F2C230;   /* penanda kecil: stempel nota */
     --merah-b3: #B3261E;       /* galat */
     --merah-muda: #FBEAE8;
-    --kertas-nota: #FBFBF7;
+    --kertas-nota: #F9FAF9;
 
     /* tipografi */
     --font-judul: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
     --font-isi: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    --teks-kecil: 0.8125rem;
-    --teks-isi: 0.9375rem;
-    --teks-label: 0.875rem;
-    --teks-judul: clamp(1.75rem, 1.4rem + 1.6vw, 2.375rem);
+    --teks-kecil: 0.8125rem;   /* 13px */
+    --teks-isi: 0.9375rem;     /* 15px */
+    --teks-label: 0.875rem;    /* 14px */
+    --teks-judul: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem);
 
     /* jarak */
     --s1: 0.25rem;
@@ -37,7 +37,7 @@
     --s6: 2rem;
     --s7: 3rem;
 
-    /* bentuk: lebih ramah dan halus (tidak tajam/kaku) */
+    /* bentuk */
     --radius-input: 8px;
     --radius-panel: 14px;
     --radius-tombol: 8px;
@@ -84,12 +84,13 @@ a:hover { color: var(--hijau-tong-gelap); }
 }
 
 @media (min-width: 960px) {
-    .akun { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+    .akun { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); }
 }
 
 .akun__form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     padding: var(--s5) var(--s4) var(--s6);
 }
 
@@ -97,25 +98,27 @@ a:hover { color: var(--hijau-tong-gelap); }
     .akun__form { padding: var(--s6) var(--s7) var(--s7); }
 }
 
+/* Logo sejajar rata kiri persis dengan form di dalam .akun__isi */
 .merek {
     display: inline-flex;
     align-items: center;
-    gap: var(--s2);
-    font-family: var(--font-judul);
-    font-weight: 700;
-    font-stretch: 85%;
-    font-size: 1.0625rem;
+    gap: 0.625rem;
+    margin-bottom: var(--s6);
     color: var(--aspal);
     text-decoration: none;
-    align-self: flex-start;
 }
 
-.merek svg { width: 26px; height: 26px; flex: none; }
+.merek__logo {
+    display: block;
+    width: 190px;
+    max-width: 100%;
+    height: auto;
+}
 
 .akun__isi {
     width: 100%;
-    max-width: 30rem;
-    margin: var(--s7) auto 0;
+    max-width: 28rem;
+    margin: 0 auto;
 }
 
 .akun__isi--lebar { max-width: 36rem; }
@@ -126,12 +129,13 @@ h1 {
     font-size: var(--teks-judul);
     line-height: 1.2;
     margin: 0 0 var(--s2);
+    text-wrap: balance;
 }
 
 .pengantar {
-    margin: 0 0 var(--s6);
+    margin: 0 0 var(--s5);
     color: var(--aspal-2);
-    max-width: 34ch;
+    text-wrap: pretty;
 }
 
 /* ---------------------------------------------------------------- form */
@@ -144,6 +148,25 @@ h1 {
     font-weight: 600;
     font-size: var(--teks-label);
     margin-bottom: var(--s1);
+}
+
+.label-baris {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s2);
+    margin-bottom: var(--s1);
+}
+
+.label-baris label {
+    margin-bottom: 0;
+}
+
+.tautan-kecil {
+    font-size: var(--teks-kecil);
+    font-weight: 600;
+    color: var(--hijau-tong);
 }
 
 .isian .opsional {
@@ -165,11 +188,11 @@ h1 {
     background: var(--putih);
     border: var(--tebal-garis) solid var(--garis);
     border-radius: var(--radius-input);
-    transition: border-color var(--durasi) ease;
+    transition: border-color var(--durasi) ease, box-shadow var(--durasi) ease;
 }
 
 .isian input:hover,
-.isian select:hover { border-color: var(--aspal-2); }
+.isian select:hover { border-color: var(--aspal); }
 
 .isian input:focus-visible,
 .isian select:focus-visible {
@@ -180,6 +203,40 @@ h1 {
 
 .isian input[aria-invalid="true"],
 .isian select[aria-invalid="true"] { border-color: var(--merah-b3); }
+
+/* Bungkus input kata sandi + tombol lihat/sembunyikan */
+.sandi-bungkus {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.sandi-bungkus input {
+    padding-right: 5.5rem;
+}
+
+.sandi-lihat {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    min-height: 34px;
+    padding: 0 0.65rem;
+    font-family: var(--font-isi);
+    font-size: var(--teks-kecil);
+    font-weight: 600;
+    color: var(--hijau-tong-gelap);
+    background: var(--beton);
+    border: 1px solid var(--garis-tipis);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color var(--durasi) ease, border-color var(--durasi) ease;
+}
+
+.sandi-lihat:hover {
+    background: var(--hijau-muda);
+    border-color: var(--hijau-tong);
+}
 
 .bantuan {
     margin: var(--s1) 0 0;
@@ -243,15 +300,20 @@ h1 {
     border: var(--tebal-garis) solid var(--hijau-tong);
     border-radius: var(--radius-tombol);
     cursor: pointer;
-    transition: background-color var(--durasi) ease, border-color var(--durasi) ease;
+    transition: background-color var(--durasi) ease, border-color var(--durasi) ease, opacity var(--durasi) ease;
 }
 
-.tombol:hover {
+.tombol:hover:not(:disabled) {
     background: var(--hijau-tong-gelap);
     border-color: var(--hijau-tong-gelap);
 }
 
-.tombol:active { transform: translateY(1px); }
+.tombol:active:not(:disabled) { transform: translateY(1px); }
+
+.tombol:disabled {
+    opacity: 0.72;
+    cursor: wait;
+}
 
 .tombol--garis {
     width: auto;
@@ -260,7 +322,7 @@ h1 {
     border-color: var(--aspal);
 }
 
-.tombol--garis:hover {
+.tombol--garis:hover:not(:disabled) {
     color: var(--putih);
     background: var(--aspal);
     border-color: var(--aspal);
@@ -272,6 +334,7 @@ h1 {
     border-top: 1px solid var(--garis-tipis);
     color: var(--aspal-2);
     font-size: var(--teks-label);
+    text-wrap: pretty;
 }
 
 .alih a { font-weight: 600; }
@@ -327,7 +390,7 @@ h1 {
     transition: border-color var(--durasi) ease, background-color var(--durasi) ease;
 }
 
-.peran__opsi:hover { border-color: var(--aspal-2); }
+.peran__opsi:hover { border-color: var(--aspal); }
 
 .peran__opsi input {
     position: absolute;
@@ -344,7 +407,6 @@ h1 {
     font-size: var(--teks-label);
 }
 
-/* lingkaran radio buatan */
 .peran__nama::before {
     content: "";
     flex: none;
@@ -378,7 +440,6 @@ h1 {
     outline-offset: 2px;
 }
 
-/* data kendaraan hanya untuk kurir (tanpa JS) */
 .khusus-kurir {
     display: none;
     margin: 0 0 var(--s5);
@@ -402,7 +463,7 @@ form:has(input[name="role"][value="kurir"]:checked) .khusus-kurir { display: blo
 form:has(input[name="role"][value="kurir"]:checked) .catatan-verifikasi,
 form:has(input[name="role"][value="pengelola_tps"]:checked) .catatan-verifikasi { display: block; }
 
-/* ---------------------------------------------------------------- panel nota (tanda khas) */
+/* ---------------------------------------------------------------- panel nota (kanan / bawah) */
 
 .akun__nota {
     position: relative;
@@ -410,52 +471,83 @@ form:has(input[name="role"][value="pengelola_tps"]:checked) .catatan-verifikasi 
     align-items: center;
     justify-content: center;
     padding: var(--s6) var(--s4);
-    background-color: #FFFFFF;
-    background-image: url('../images/auth-bg.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    /* Blok warna solid hijau K3 tanpa kolase gambar generik yang terpotong */
+    background-color: #133A26;
+    background-image: radial-gradient(circle at 85% 15%, rgba(29, 107, 69, 0.45) 0%, transparent 55%),
+                      radial-gradient(circle at 15% 85%, rgba(242, 194, 48, 0.12) 0%, transparent 50%);
     color: var(--aspal);
     border-top: 1px solid var(--garis-tipis);
 }
 
 @media (min-width: 960px) {
     .akun__nota {
+        padding: var(--s7) var(--s6);
         border-top: 0;
-        border-left: 1px solid var(--garis-tipis);
+        border-left: 1px solid #0E2B1C;
     }
 }
 
-@media (max-width: 959px) {
-    .akun__nota { padding: var(--s6) var(--s4) var(--s7); }
-}
-
+/* Kartu pembungkus putih solid 100% (tanpa tembus pandang) */
 .nota-wrap {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     width: 100%;
-    max-width: 21rem;
+    max-width: 25rem;
+    padding: var(--s5);
+    background: #FFFFFF;
+    border: 1px solid #D6DDD7;
+    border-radius: 18px;
+    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.24);
+}
+
+.nota-wrap__lencana {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--s2);
+    margin-bottom: var(--s3);
+}
+
+.lencana-contoh {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: #5D4037;
+    background: #FFF8E1;
+    border: 1px solid #F2C230;
+    border-radius: 999px;
+}
+
+.lencana-k3 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--hijau-tong);
 }
 
 .nota-wrap__judul {
     margin: 0 0 var(--s4);
     font-family: var(--font-judul);
     font-weight: 700;
-    font-size: 1.25rem;
-    line-height: 1.3;
+    font-size: 1.1875rem;
+    line-height: 1.32;
     color: #133A26;
+    text-wrap: balance;
 }
 
 .nota {
     position: relative;
-    padding: var(--s5) var(--s4) var(--s5);
-    background: #FFFFFF;
+    padding: var(--s4);
+    background: var(--kertas-nota);
     color: var(--aspal);
     font-size: var(--teks-kecil);
     font-variant-numeric: tabular-nums;
-    border: 1px solid #DCE3DC;
-    border-radius: var(--radius-panel);
-    box-shadow: 0 12px 30px rgba(19, 58, 38, 0.12);
+    border: 1px solid #CFD8D1;
+    border-radius: 12px;
 }
 
 .nota__kepala {
@@ -463,56 +555,175 @@ form:has(input[name="role"][value="pengelola_tps"]:checked) .catatan-verifikasi 
     border-bottom: 1px dashed var(--garis);
 }
 
-.nota__tps { font-weight: 700; font-size: var(--teks-label); }
+/* Bungkus baris judul nota dengan flex agar stempel tidak pernah menabrak judul */
+.nota__kepala-atas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--s2);
+    margin-bottom: 4px;
+}
 
-.nota__kode { color: var(--aspal-2); }
+.nota__tps {
+    flex: 1;
+    min-width: 0;
+    font-weight: 700;
+    font-size: var(--teks-label);
+    color: var(--aspal);
+}
+
+.stempel {
+    flex-shrink: 0;
+    margin-left: 12px;
+    padding: 2px 8px;
+    font-family: var(--font-judul);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--aspal);
+    background: var(--kuning-rompi);
+    border-radius: 6px;
+    transform: rotate(-2deg);
+}
+
+.nota__kode {
+    color: var(--aspal-2);
+    font-size: 0.75rem;
+}
+
+.nota__daftar {
+    padding-top: var(--s1);
+}
 
 .nota__baris {
     display: flex;
     align-items: baseline;
     gap: var(--s2);
-    padding: var(--s2) 0 0;
+    padding: 6px 0 0;
+}
+
+.nota__item {
+    min-width: 0;
+    color: var(--aspal);
 }
 
 /* garis titik penuntun seperti di nota timbang */
 .nota__baris .penuntun {
     flex: 1;
-    min-width: var(--s4);
+    min-width: 1rem;
     border-bottom: 1px dotted var(--garis);
-    transform: translateY(-4px);
+    transform: translateY(-3px);
 }
 
-.nota__berat { white-space: nowrap; }
+.nota__berat {
+    white-space: nowrap;
+    font-weight: 600;
+}
 
 .nota__total {
     margin-top: var(--s3);
-    padding-top: var(--s3);
+    padding-top: var(--s2);
     border-top: 1px dashed var(--garis);
     font-weight: 700;
 }
 
-.stempel {
-    position: absolute;
-    right: var(--s4);
-    top: var(--s4);
-    padding: 3px var(--s2);
-    font-family: var(--font-judul);
+.nota__poin .nota__berat {
+    color: var(--hijau-tong);
     font-weight: 700;
-    font-size: var(--teks-label);
-    letter-spacing: 0.04em;
+}
+
+/* Grid 4 wadah standar K3 limbah medis & B3 */
+.wadah-k3 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s2);
+    margin-top: var(--s4);
+    padding-top: var(--s4);
+    border-top: 1px solid var(--garis-tipis);
+}
+
+.wadah-k3__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: var(--kertas-nota);
+    border: 1px solid var(--garis-tipis);
+    border-radius: 8px;
+}
+
+.wadah-k3__ikon {
+    width: 28px;
+    height: 28px;
+    flex: none;
+}
+
+.wadah-k3__nama {
+    font-size: 0.75rem;
+    font-weight: 700;
     color: var(--aspal);
-    background: var(--kuning-rompi);
-    border-radius: 6px;
-    transform: rotate(-3deg);
+    line-height: 1.2;
+}
+
+.wadah-k3__ket {
+    font-size: 0.6875rem;
+    color: var(--aspal-2);
+    line-height: 1.25;
 }
 
 .nota-wrap__ket {
-    margin: var(--s5) 0 0;
+    margin: var(--s4) 0 0;
     font-size: var(--teks-kecil);
+    color: var(--aspal-2);
+    line-height: 1.45;
+    text-wrap: pretty;
+}
+
+/* ---------------------------------------------------------------- dialog bantuan lupa sandi */
+
+.dialog-bantuan {
+    max-width: 26rem;
+    width: calc(100% - 2rem);
+    padding: 0;
+    border: 1px solid var(--garis-tipis);
+    border-radius: 16px;
+    background: var(--putih);
+    color: var(--aspal);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+}
+
+.dialog-bantuan::backdrop {
+    background: rgba(19, 58, 38, 0.55);
+}
+
+.dialog-bantuan__isi {
+    padding: var(--s5);
+}
+
+.dialog-bantuan__judul {
+    margin: 0 0 var(--s2);
+    font-family: var(--font-judul);
+    font-size: 1.25rem;
+    color: #133A26;
+}
+
+.dialog-bantuan__teks {
+    margin: 0 0 var(--s3);
+    font-size: var(--teks-label);
     color: var(--aspal-2);
 }
 
-.nota-wrap__ket strong { color: #133A26; }
+.dialog-bantuan__daftar {
+    margin: 0 0 var(--s5);
+    padding-left: 1.25rem;
+    font-size: var(--teks-label);
+    color: var(--aspal);
+}
+
+.dialog-bantuan__daftar li + li {
+    margin-top: var(--s2);
+}
 
 /* ---------------------------------------------------------------- dashboard sederhana */
 
@@ -551,4 +762,3 @@ form:has(input[name="role"][value="pengelola_tps"]:checked) .catatan-verifikasi 
         animation-duration: 0.01ms !important;
     }
 }
-

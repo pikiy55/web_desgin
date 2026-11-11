@@ -1,8 +1,8 @@
 @extends('layouts.kurir')
 
-@section('title', 'Riwayat Pengantaran')
-@section('heading', 'Riwayat Pengantaran Sampah')
-@section('subheading', 'Daftar penjemputan sampah warga yang telah diantar ke pos penimbangan TPS.')
+@section('title', 'Riwayat Manifes Pengantaran')
+@section('heading', 'Riwayat Manifes Pengangkutan Limbah Medis & B3')
+@section('subheading', 'Daftar manifes penjemputan limbah medis, B3, dan daur ulang yang telah diserahkan ke fasilitas berizin.')
 
 @section('content')
 

@@ -1,8 +1,8 @@
 @extends('layouts.kurir')
 
-@section('title', 'Profil Kurir & Kendaraan')
-@section('heading', 'Profil Kurir & Kendaraan Operasional')
-@section('subheading', 'Kelola data diri, nomor kontak operasional, serta spesifikasi kendaraan angkut sampah Anda.')
+@section('title', 'Profil Kurir & Armada B3')
+@section('heading', 'Profil Kurir & Spesifikasi Armada Medis / B3')
+@section('subheading', 'Kelola identitas operasional, nomor kontak darurat, serta kapasitas angkut kendaraan limbah medis & B3.')
 
 @section('content')
 
@@ -173,20 +173,20 @@
                 </div>
             </section>
 
-            {{-- Kartu Panduan Operasional Kurir Ramah Lingkungan --}}
+            {{-- Kartu Panduan Operasional Kurir K3 Limbah Medis & B3 --}}
             <section class="bg-emerald-50/60 border border-emerald-200 rounded-xl p-5 space-y-3 text-xs text-emerald-950">
                 <div class="flex items-center gap-2 font-bold text-sm text-emerald-900">
                     <svg class="w-5 h-5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <span>Standar Operasional Kurir</span>
+                    <span>Protokol K3 Kurir Medis &amp; B3</span>
                 </div>
 
                 <ul class="space-y-2 list-disc list-inside text-stone-700">
-                    <li>Gunakan perlengkapan keselamatan kerja (helm, sarung tangan tebal, dan masker).</li>
-                    <li>Pastikan sampah yang diangkut tertutup terpal agar tidak berceceran di jalan raya.</li>
-                    <li>Periksa kembali pemilahan sampah warga sebelum dimuat ke atas kendaraan.</li>
-                    <li>Segera serahkan muatan ke pos timbang TPS agar warga segera menerima poin setoran.</li>
+                    <li>Wajib mengenakan APD lengkap (sarung tangan tebal/nitrile, masker medis, dan sepatu tertutup).</li>
+                    <li>Pastikan jarum suntik/benda tajam berada di dalam <strong>Safety Box</strong> tahan tusuk sebelum diangkut.</li>
+                    <li>Jangan mencampur kantong kuning infeksius dengan limbah B3 atau daur ulang biasa.</li>
+                    <li>Serahkan manifes muatan langsung ke petugas timbang di fasilitas berizin tujuan.</li>
                 </ul>
             </section>
         </div>

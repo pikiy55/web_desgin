@@ -5,18 +5,18 @@
 @php
     $peranTerpilih = old('role', 'pengguna');
     $daftarPeran = [
-        'pengguna' => ['Pengguna', 'Setor sampah dari rumah dan kumpulkan poin. Akun langsung aktif.'],
-        'pengelola_tps' => ['Pengelola TPS', 'Terima dan timbang setoran di TPS Anda.'],
-        'kurir' => ['Kurir', 'Jemput sampah pengguna dan antar ke TPS.'],
+        'pengguna' => ['Penghasil / Pengguna', 'Salurkan sampah medis (infeksius, benda tajam, obat) & limbah B3 ke fasilitas berizin. Akun langsung aktif.'],
+        'pengelola_tps' => ['Pengelola Fasilitas / TPS', 'Kelola 1 fasilitas penampungan berizin medis/B3 & timbang manifes masuk.'],
+        'kurir' => ['Kurir Angkut Medis & B3', 'Jemput kemasan limbah medis/B3 bersegel dan serahkan ke fasilitas tujuan.'],
     ];
 @endphp
 
 @section('body')
 <main class="akun">
     <section class="akun__form">
-        @include('auth.partials.merek')
-
         <div class="akun__isi akun__isi--lebar">
+            @include('auth.partials.merek')
+
             <h1>Buat akun</h1>
             <p class="pengantar">Pilih peran Anda dulu. Data yang diminta menyesuaikan peran.</p>
 
@@ -39,12 +39,12 @@
                         @endforeach
                     </div>
                     @error('role')
-                        <p class="galat">{{ $message }}</p>
+                        <p class="galat" role="alert">{{ $message }}</p>
                     @enderror
                 </fieldset>
 
                 <p class="catatan-verifikasi" role="note">
-                    Akun pengelola TPS dan kurir aktif setelah diverifikasi admin. Anda akan bisa masuk begitu disetujui.
+                    Akun pengelola fasilitas/TPS dan kurir angkut B3 aktif setelah izinnya diverifikasi admin. Anda akan bisa masuk begitu disetujui.
                 </p>
 
                 <div class="isian">
@@ -53,7 +53,7 @@
                            autocomplete="name" required
                            @error('nama') aria-invalid="true" aria-describedby="nama-galat" @enderror>
                     @error('nama')
-                        <p class="galat" id="nama-galat">{{ $message }}</p>
+                        <p class="galat" id="nama-galat" role="alert">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -64,7 +64,7 @@
                                autocomplete="email" required
                                @error('email') aria-invalid="true" aria-describedby="email-galat" @enderror>
                         @error('email')
-                            <p class="galat" id="email-galat">{{ $message }}</p>
+                            <p class="galat" id="email-galat" role="alert">{{ $message }}</p>
                         @enderror
                     </div>
 
@@ -76,7 +76,7 @@
                                @error('no_hp') aria-invalid="true" @enderror>
                         <p class="bantuan" id="no_hp-bantuan">Untuk notifikasi penjemputan.</p>
                         @error('no_hp')
-                            <p class="galat" id="no_hp-galat">{{ $message }}</p>
+                            <p class="galat" id="no_hp-galat" role="alert">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
@@ -84,19 +84,31 @@
                 <div class="baris-2">
                     <div class="isian">
                         <label for="password">Kata sandi</label>
-                        <input id="password" name="password" type="password" autocomplete="new-password" required
-                               aria-describedby="password-bantuan @error('password') password-galat @enderror"
-                               @error('password') aria-invalid="true" @enderror>
+                        <div class="sandi-bungkus">
+                            <input id="password" name="password" type="password" autocomplete="new-password" required
+                                   aria-describedby="password-bantuan @error('password') password-galat @enderror"
+                                   @error('password') aria-invalid="true" @enderror>
+                            <button type="button" class="sandi-lihat" data-toggle-password="password"
+                                    aria-label="Tampilkan kata sandi" aria-pressed="false">
+                                <span class="sandi-lihat__teks">Lihat</span>
+                            </button>
+                        </div>
                         <p class="bantuan" id="password-bantuan">Minimal 8 karakter.</p>
                         @error('password')
-                            <p class="galat" id="password-galat">{{ $message }}</p>
+                            <p class="galat" id="password-galat" role="alert">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <div class="isian">
                         <label for="password_confirmation">Ulangi kata sandi</label>
-                        <input id="password_confirmation" name="password_confirmation" type="password"
-                               autocomplete="new-password" required>
+                        <div class="sandi-bungkus">
+                            <input id="password_confirmation" name="password_confirmation" type="password"
+                                   autocomplete="new-password" required>
+                            <button type="button" class="sandi-lihat" data-toggle-password="password_confirmation"
+                                    aria-label="Tampilkan konfirmasi kata sandi" aria-pressed="false">
+                                <span class="sandi-lihat__teks">Lihat</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -114,7 +126,7 @@
                                 @endforeach
                             </select>
                             @error('jenis_kendaraan')
-                                <p class="galat" id="jenis_kendaraan-galat">{{ $message }}</p>
+                                <p class="galat" id="jenis_kendaraan-galat" role="alert">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -124,7 +136,7 @@
                                    maxlength="15" placeholder="AG 1234 XY" autocapitalize="characters"
                                    @error('plat_nomor') aria-invalid="true" aria-describedby="plat_nomor-galat" @enderror>
                             @error('plat_nomor')
-                                <p class="galat" id="plat_nomor-galat">{{ $message }}</p>
+                                <p class="galat" id="plat_nomor-galat" role="alert">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -135,7 +147,7 @@
                             <input id="no_sim" name="no_sim" type="text" value="{{ old('no_sim') }}" maxlength="30"
                                    @error('no_sim') aria-invalid="true" aria-describedby="no_sim-galat" @enderror>
                             @error('no_sim')
-                                <p class="galat" id="no_sim-galat">{{ $message }}</p>
+                                <p class="galat" id="no_sim-galat" role="alert">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -145,7 +157,7 @@
                                    value="{{ old('kapasitas_angkut_kg') }}" inputmode="decimal" placeholder="50"
                                    @error('kapasitas_angkut_kg') aria-invalid="true" aria-describedby="kapasitas-galat" @enderror>
                             @error('kapasitas_angkut_kg')
-                                <p class="galat" id="kapasitas-galat">{{ $message }}</p>
+                                <p class="galat" id="kapasitas-galat" role="alert">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -161,9 +173,8 @@
     </section>
 
     @include('auth.partials.nota', [
-        'judul' => 'Pilah di rumah, setor ke TPS terdekat, poin dihitung dari berat timbangan.',
-        'keterangan' => 'Plastik 20 poin/kg, kertas dan kardus 15 poin/kg, logam 30 poin/kg. <strong>Nota di atas hanya contoh.</strong>',
+        'judul' => 'Kemas limbah medis & B3 sesuai standar K3, salurkan ke fasilitas berizin terdekat.',
+        'keterangan' => 'Limbah medis wajib melalui fasilitas berizin resmi. Setiap setoran yang telah ditimbang tercatat digital beserta poin insentifnya.',
     ])
 </main>
 @endsection
-

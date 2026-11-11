@@ -37,7 +37,7 @@ class AkunSeeder extends Seeder
         $pengguna = $this->akun([
             'role' => User::ROLE_PENGGUNA,
             'nama' => 'Siti Rahmawati',
-            'email' => 'php artisan migrate:fresh --seed',
+            'email' => 'pengguna@example.com',
             'no_hp' => '081200000002',
         ]);
 
@@ -71,7 +71,7 @@ class AkunSeeder extends Seeder
                 'jam_buka' => '07:00',
                 'jam_tutup' => '17:00',
                 'no_izin' => 'IZN-DLHKP/2026/014',
-                'izin_limbah_medis' => false,
+                'izin_limbah_medis' => true,
                 'status' => 'buka',
                 'is_verified' => true,
             ]
@@ -85,7 +85,7 @@ class AkunSeeder extends Seeder
             'no_hp' => '081200000006',
         ]);
 
-        Tps::updateOrCreate(
+        $tps2 = Tps::updateOrCreate(
             ['nama_tps' => 'TPS Terpadu Mojoroto'],
             [
                 'pengelola_id' => $pengelola2->user_id,
@@ -103,12 +103,19 @@ class AkunSeeder extends Seeder
             ]
         );
 
-        $jenisNonMedis = JenisSampah::where('kategori', '!=', 'medis')->get()->keyBy('nama');
-        foreach ($jenisNonMedis as $j) {
+        $jenisMedis = JenisSampah::where('kategori', 'medis')->get();
+        foreach ($jenisMedis as $j) {
             $tps1->jenisSampah()->syncWithoutDetaching([
                 $j->jenis_id => [
-                    'kapasitas_maks_kg' => 250,
-                    'terpakai_kg' => $j->nama === 'Plastik' ? 180 : ($j->nama === 'Kertas dan kardus' ? 140 : 25),
+                    'kapasitas_maks_kg' => 300,
+                    'terpakai_kg' => str_contains($j->nama, 'Infeksius') ? 42 : (str_contains($j->nama, 'Sharps') ? 15 : 0),
+                    'diterima' => true,
+                ],
+            ]);
+            $tps2->jenisSampah()->syncWithoutDetaching([
+                $j->jenis_id => [
+                    'kapasitas_maks_kg' => 400,
+                    'terpakai_kg' => 0,
                     'diterima' => true,
                 ],
             ]);
@@ -157,27 +164,39 @@ class AkunSeeder extends Seeder
         );
 
         // ---- 6. Contoh Setoran Masuk di TPS Kenanga (Siap Ditimbang Pengelola TPS) ----
-        if (! Setoran::where('kode_setoran', 'STR-20261106-0001')->exists() && $jenisNonMedis->isNotEmpty()) {
+        if (! Setoran::where('kode_setoran', 'STR-20261106-0001')->exists() && $jenisMedis->isNotEmpty()) {
             $s1 = Setoran::create([
                 'kode_setoran' => 'STR-20261106-0001',
                 'pengguna_id' => $pengguna->user_id,
                 'tps_id' => $tps1->tps_id,
                 'metode' => 'dijemput',
-                'catatan_pengguna' => 'Sudah dipilah dalam 3 karung terpisah di teras depan.',
+                'catatan_pengguna' => 'Safety box jarum suntik tersegel rapi + 1 kantong biohazard kuning.',
             ]);
 
-            foreach ([
-                'Plastik' => 2.40,
-                'Kertas dan kardus' => 3.10,
-                'Logam' => 0.80,
-            ] as $namaJenis => $estimasiKg) {
-                if (isset($jenisNonMedis[$namaJenis])) {
-                    SetoranDetail::create([
-                        'setoran_id' => $s1->setoran_id,
-                        'jenis_id' => $jenisNonMedis[$namaJenis]->jenis_id,
-                        'berat_estimasi_kg' => $estimasiKg,
-                    ]);
-                }
+            $medis1 = $jenisMedis->first(fn ($item) => str_contains($item->nama, 'Infeksius')) ?? $jenisMedis->first();
+            $medis2 = $jenisMedis->first(fn ($item) => str_contains($item->nama, 'Sharps')) ?? $jenisMedis->skip(1)->first();
+            $medis3 = $jenisMedis->first(fn ($item) => str_contains($item->nama, 'Farmasi')) ?? $jenisMedis->skip(2)->first();
+
+            if ($medis1) {
+                SetoranDetail::create([
+                    'setoran_id' => $s1->setoran_id,
+                    'jenis_id' => $medis1->jenis_id,
+                    'berat_estimasi_kg' => 2.40,
+                ]);
+            }
+            if ($medis2) {
+                SetoranDetail::create([
+                    'setoran_id' => $s1->setoran_id,
+                    'jenis_id' => $medis2->jenis_id,
+                    'berat_estimasi_kg' => 1.50,
+                ]);
+            }
+            if ($medis3) {
+                SetoranDetail::create([
+                    'setoran_id' => $s1->setoran_id,
+                    'jenis_id' => $medis3->jenis_id,
+                    'berat_estimasi_kg' => 0.80,
+                ]);
             }
 
             Penjemputan::create([
@@ -194,27 +213,32 @@ class AkunSeeder extends Seeder
             $s1->update(['status' => 'tiba_di_tps']);
         }
 
-        if (! Setoran::where('kode_setoran', 'STR-20261106-0002')->exists() && $jenisNonMedis->isNotEmpty()) {
+        if (! Setoran::where('kode_setoran', 'STR-20261106-0002')->exists() && $jenisMedis->isNotEmpty()) {
             $s2 = Setoran::create([
                 'kode_setoran' => 'STR-20261106-0002',
                 'pengguna_id' => $pengguna->user_id,
                 'tps_id' => $tps1->tps_id,
                 'metode' => 'antar_sendiri',
                 'estimasi_tiba' => now()->addMinutes(25),
-                'catatan_pengguna' => 'Botol kaca dikemas dalam kardus tebal.',
+                'catatan_pengguna' => 'Limbah kemasan jarum dan ampul medis dikemas dalam safety box berlabel biohazard.',
             ]);
 
-            foreach ([
-                'Kaca' => 4.50,
-                'Elektronik bekas' => 1.20,
-            ] as $namaJenis => $estimasiKg) {
-                if (isset($jenisNonMedis[$namaJenis])) {
-                    SetoranDetail::create([
-                        'setoran_id' => $s2->setoran_id,
-                        'jenis_id' => $jenisNonMedis[$namaJenis]->jenis_id,
-                        'berat_estimasi_kg' => $estimasiKg,
-                    ]);
-                }
+            $medisTajam = $jenisMedis->first(fn ($item) => str_contains($item->nama, 'Sharps')) ?? $jenisMedis->first();
+            $medisKimia = $jenisMedis->first(fn ($item) => str_contains($item->nama, 'Kimiawi')) ?? $jenisMedis->last();
+
+            if ($medisTajam) {
+                SetoranDetail::create([
+                    'setoran_id' => $s2->setoran_id,
+                    'jenis_id' => $medisTajam->jenis_id,
+                    'berat_estimasi_kg' => 4.50,
+                ]);
+            }
+            if ($medisKimia) {
+                SetoranDetail::create([
+                    'setoran_id' => $s2->setoran_id,
+                    'jenis_id' => $medisKimia->jenis_id,
+                    'berat_estimasi_kg' => 1.20,
+                ]);
             }
         }
 
